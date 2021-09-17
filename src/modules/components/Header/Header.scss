@@ -1,0 +1,31 @@
+.header {
+  width: 100%;
+  box-shadow: 2px 2px 50px #cac8c8;
+  height: 60px;
+  background-color: #f0f5f1;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  z-index: 1;
+
+  &__button {
+    background: transparent;
+    padding: 0;
+    margin: 0 10px;
+    color: #000000;
+    font-weight: 600;
+    text-decoration: none;
+
+    &:focus {
+      background: transparent;
+      color: #0b58ab;
+      outline: none;
+    }
+
+    &:hover {
+      background: transparent;
+      color: #0b58ab;
+      outline: none;
+    }
+  }
+}
