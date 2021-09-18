@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/cards-nya/static/css/main.e8d41e77.chunk.css",
-    "main.js": "/cards-nya/static/js/main.a002d0ee.chunk.js",
-    "main.js.map": "/cards-nya/static/js/main.a002d0ee.chunk.js.map",
+    "main.css": "/cards-nya/static/css/main.9edccfe2.chunk.css",
+    "main.js": "/cards-nya/static/js/main.9f465440.chunk.js",
+    "main.js.map": "/cards-nya/static/js/main.9f465440.chunk.js.map",
     "runtime-main.js": "/cards-nya/static/js/runtime-main.0d705695.js",
     "runtime-main.js.map": "/cards-nya/static/js/runtime-main.0d705695.js.map",
     "static/js/2.f9b13e86.chunk.js": "/cards-nya/static/js/2.f9b13e86.chunk.js",
@@ -10,13 +10,13 @@
     "static/js/3.194104ac.chunk.js": "/cards-nya/static/js/3.194104ac.chunk.js",
     "static/js/3.194104ac.chunk.js.map": "/cards-nya/static/js/3.194104ac.chunk.js.map",
     "index.html": "/cards-nya/index.html",
-    "static/css/main.e8d41e77.chunk.css.map": "/cards-nya/static/css/main.e8d41e77.chunk.css.map",
+    "static/css/main.9edccfe2.chunk.css.map": "/cards-nya/static/css/main.9edccfe2.chunk.css.map",
     "static/js/2.f9b13e86.chunk.js.LICENSE.txt": "/cards-nya/static/js/2.f9b13e86.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.0d705695.js",
     "static/js/2.f9b13e86.chunk.js",
-    "static/css/main.e8d41e77.chunk.css",
-    "static/js/main.a002d0ee.chunk.js"
+    "static/css/main.9edccfe2.chunk.css",
+    "static/js/main.9f465440.chunk.js"
   ]
 }
