@@ -3,7 +3,7 @@
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  height: 93vh;
+  min-height: 93vh;
 
   &__components {
     display: flex;
