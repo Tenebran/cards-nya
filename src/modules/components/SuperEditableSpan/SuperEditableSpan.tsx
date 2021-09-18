@@ -58,9 +58,23 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
           {...restProps} // отдаём инпуту остальные пропсы если они есть (value например там внутри)
         />
       ) : (
-        <span onDoubleClick={onDoubleClickCallBack} className={spanClassName} {...restSpanProps}>
-          {/*если нет захардкодженного текста для спана, то значение инпута*/}
-          {children || restProps.value}
+        // <span onClick={onDoubleClickCallBack} className={spanClassName} {...restSpanProps}>
+        //   {/*если нет захардкодженного текста для спана, то значение инпута*/}
+        //   {children || restProps.value}
+        // </span>
+
+        <span className="span__group field" onClick={onDoubleClickCallBack} {...restSpanProps}>
+          <input
+            type="input"
+            className="span__field"
+            placeholder="Name"
+            name="name"
+            id="name"
+            required
+          />
+          <label htmlFor="name" className="form__label">
+            {children || restProps.value}
+          </label>
         </span>
       )}
     </>
