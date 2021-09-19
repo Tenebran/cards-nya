@@ -1,9 +1,10 @@
 import React from 'react';
+import './PageNotFound.scss';
 
 export const PageNotFound = () => {
   return (
     <div>
-      <h1>PageNotFound</h1>
+      <h1 className="name">PageNotFound</h1>
     </div>
   );
 };
