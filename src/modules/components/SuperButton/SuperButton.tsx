@@ -8,22 +8,25 @@ type DefaultButtonPropsType = DetailedHTMLProps<
 >;
 
 type SuperButtonPropsType = DefaultButtonPropsType & {
-  red?: boolean;
+  color?: string;
   error?: string;
+  name?: string;
+  buttonWidth?: string;
 };
 
 const SuperButton: React.FC<SuperButtonPropsType> = ({
-  red,
+  color,
   className,
+  name,
+  buttonWidth,
   ...restProps // все остальные пропсы попадут в объект restProps, там же будет children
 }) => {
-  const finalClassName = `${red ? 'superButton__red' : 'superButton__default'} ${className}`;
+  const finalClassName = `${color ? `superButton__${color}` : 'superButton__default'} ${className}`;
 
   return (
-    <button
-      className={finalClassName}
-      {...restProps} // отдаём кнопке остальные пропсы если они есть (children там внутри)
-    />
+    <button className={finalClassName} style={{ minWidth: buttonWidth }}>
+      {name}
+    </button>
   );
 };
 

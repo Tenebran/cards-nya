@@ -37,6 +37,13 @@ export const Header = () => {
       >
         Sing Up
       </NavLink>
+      <NavLink
+        to={PATH.RESET_PASSWORD}
+        activeClassName={'header__button_active'}
+        className={'header__button'}
+      >
+        Forgot Password
+      </NavLink>
     </header>
   );
 };

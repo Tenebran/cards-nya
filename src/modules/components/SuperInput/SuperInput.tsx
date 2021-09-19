@@ -15,10 +15,11 @@ type SuperInputTextPropsType = DefaultInputPropsType & {
   onEnter?: () => void;
   error?: string;
   spanClassName?: string;
+  inputName?: string;
+  type?: string;
 };
 
 const SuperInput: React.FC<SuperInputTextPropsType> = ({
-  type = 'text',
   onChange,
   onChangeText,
   onKeyPress,
@@ -26,6 +27,8 @@ const SuperInput: React.FC<SuperInputTextPropsType> = ({
   error,
   className,
   spanClassName,
+  inputName,
+  type,
 
   ...restProps // все остальные пропсы попадут в объект restProps
 }) => {
@@ -49,25 +52,23 @@ const SuperInput: React.FC<SuperInputTextPropsType> = ({
   }`;
 
   return (
-    <>
-      <div className="form__group field">
+    <div className="wrapper__input">
+      <span className="form__group field">
         <input
           className="form__field"
-          placeholder="Name"
-          name="name"
-          required
           type={type}
+          name={type}
+          required
           onChange={onChangeCallback}
           onKeyPress={onKeyPressCallback}
           {...restProps}
         />
         <label htmlFor="name" className="form__label">
-          {type}
+          {inputName}
         </label>
-      </div>
-      <span className={finalSpanClassName}>Error</span>
-      {error && <span className={finalSpanClassName}>{error}</span>}
-    </>
+      </span>
+      {error && <span className={finalInputClassName}>{error}</span>}
+    </div>
   );
 };
 

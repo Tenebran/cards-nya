@@ -18,7 +18,8 @@ type SuperEditableSpanType = DefaultInputPropsType & {
   onEnter?: () => void;
   error?: string;
   spanClassName?: string;
-
+  inputName?: string;
+  type?: string;
   spanProps?: DefaultSpanPropsType; // пропсы для спана
 };
 
@@ -27,6 +28,9 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
   onBlur,
   onEnter,
   spanProps,
+  inputName,
+  error,
+  type,
 
   ...restProps // все остальные пропсы попадут в объект restProps
 }) => {
@@ -55,22 +59,20 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
           autoFocus // пропсу с булевым значением не обязательно указывать true
           onBlur={onBlurCallback}
           onEnter={onEnterCallback}
+          inputName={inputName}
+          error={error}
+          type={type}
           {...restProps} // отдаём инпуту остальные пропсы если они есть (value например там внутри)
         />
       ) : (
-        <span className="span__group field" onClick={onDoubleClickCallBack} {...restSpanProps}>
-          <input
-            type="input"
-            className="span__field"
-            placeholder="Name"
-            name="name"
-            id="name"
-            required
-          />
-          <label htmlFor="name" className="form__label">
-            {children || restProps.value}
-          </label>
-        </span>
+        <div className="wrapper__input">
+          <span className="span__group " onClick={onDoubleClickCallBack} {...restSpanProps}>
+            <input type={type} className="span__field" name={type} required />
+            <label htmlFor="name" className="span__label">
+              {children || restProps.value}
+            </label>
+          </span>
+        </div>
       )}
     </>
   );

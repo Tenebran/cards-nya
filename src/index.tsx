@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import store from './modules/redux/store';
+import './modules/assets/fonts/fonts.scss';
 
 ReactDOM.render(
   <React.StrictMode>
