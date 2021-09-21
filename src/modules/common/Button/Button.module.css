@@ -1,0 +1,37 @@
+.btn {
+    font-size: 14px;
+    font-weight: 500;
+    color: #ffffff;
+    height: 36px;
+    background: #21268F;
+    box-shadow: 0 4px 10px rgb(86, 84, 84), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    border-radius: 30px;
+    border: none;
+    padding: 0 50px;
+    cursor: pointer;
+    transition: 100ms linear;
+}
+
+.btn:hover {
+    background: #393da8;
+    transition: 100ms linear;
+}
+
+.btn:active {
+    background: #202481;
+    transition: 100ms linear;
+}
+
+.btnDisabled {
+    background: #605f5f;
+    font-size: 14px;
+    font-weight: 500;
+    color: #ffffff;
+    height: 36px;
+    box-shadow: 0 4px 10px rgba(209, 209, 211, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    border-radius: 30px;
+    border: none;
+    padding: 0 50px;
+    cursor: pointer;
+    transition: 100ms linear;
+}
