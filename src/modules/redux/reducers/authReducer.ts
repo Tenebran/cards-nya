@@ -56,12 +56,11 @@ export const setInitializedAC = (initialized: boolean) => ({
 export const loginTC = (email: string, password: string, rememberMe: boolean) => async (dispatch: Dispatch<ActionType>) => {
     dispatch(entityStatusAC())
     try {
-        debugger
         dispatch(setInitializedAC(true))
         await authApi.login(email, password, rememberMe)
         dispatch(setInitializedAC(false))
+        dispatch(loginAC(true))
     } catch (e: any) {
-        debugger
         dispatch(setInitializedAC(false))
         const error = e.response ? e.response.data.error : (e.message + ", more details in the console")
         alert(error)

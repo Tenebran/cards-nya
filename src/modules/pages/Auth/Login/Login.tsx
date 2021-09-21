@@ -48,7 +48,7 @@ export const Login = () => {
         setDisabledBtn(true)
     }
 
-    if (!authMe) {
+    if (authMe) {
         return <Redirect to={PATH.PROFILE}/>
     }
 

@@ -8,10 +8,10 @@ import {authMe, loginAC} from "./modules/redux/reducers/authReducer";
 import {useDispatch} from "react-redux";
 
 function App() {
-    const dispatch = useDispatch()
+    /*const dispatch = useDispatch()
     useEffect(() => {
         dispatch(authMe())
-    }, [])
+    }, [])*/
   return (
     <div className="App">
       <HashRouter>
