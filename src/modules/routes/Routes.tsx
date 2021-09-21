@@ -1,6 +1,8 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { Login } from '../pages/Auth/Login/Login';
+import { CheckEmail } from '../pages/Auth/LostPassword/CheckEmail/CheckEmail';
+import { CreateNewPassword } from '../pages/Auth/LostPassword/CreateNewPassword/CreateNewPassword';
 import { LostPassword } from '../pages/Auth/LostPassword/LostPassword';
 import { NewPassword } from '../pages/Auth/NewPassword/NewPassword';
 import { Registration } from '../pages/Auth/Registration/Registration';
@@ -15,6 +17,8 @@ export enum PATH {
   REGISTRATION = '/registration',
   RESET_PASSWORD = '/resetpass',
   NEW_PASS = '/newpass',
+  CHECK_EMAIL = '/checkemail',
+  CREATE_NEW_PASSWORD = '/newpassword',
 }
 
 export const Routes = () => {
@@ -27,6 +31,9 @@ export const Routes = () => {
       <Route path={PATH.REGISTRATION} component={Registration} />
       <Route path={PATH.RESET_PASSWORD} component={LostPassword} />
       <Route path={PATH.NEW_PASS} component={NewPassword} />
+      <Route path={PATH.NEW_PASS} component={NewPassword} />
+      <Route path={PATH.CHECK_EMAIL} component={CheckEmail} />
+      <Route path={PATH.CREATE_NEW_PASSWORD} component={CreateNewPassword} />
       <Route component={PageNotFound} />
     </Switch>
   );

@@ -1,25 +1,18 @@
-.isEditable {
-  display: inline-block;
-  padding: 12px 20px;
-  margin: 8px 0;
-  box-sizing: border-box;
-  font: 300 20px 'Roboto Mono';
-}
-
 $primary: #11998e;
 $secondary: #38ef7d;
 $white: #fff;
 $gray: #9b9b9b;
+
 .span__group {
   position: relative;
   padding: 15px 0 0;
-  margin-top: 10px;
-  min-width: 300px;
+  width: 347px;
+  height: 33px;
 }
 
 .span__field {
-  font-family: inherit;
-  min-width: 300px;
+  font-family: 'SF UI Regular';
+  min-width: 347px;
   border: 0;
   border-bottom: 2px solid $gray;
   outline: 0;
@@ -42,10 +35,10 @@ $gray: #9b9b9b;
 
 .span__label {
   position: absolute;
-  top: 0;
+  top: 25px;
   display: block;
   transition: 0.2s;
-  font-size: 1rem;
+  font-size: 16px;
   color: $gray;
 }
 
@@ -55,4 +48,8 @@ $gray: #9b9b9b;
   &:invalid {
     box-shadow: none;
   }
+}
+
+.wrapper__input {
+  display: flex;
 }

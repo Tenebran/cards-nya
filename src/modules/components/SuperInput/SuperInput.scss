@@ -1,34 +1,17 @@
-.superInput {
-  padding: 12px 20px;
-  margin: 8px 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  outline: none;
-  font: 300 20px 'Roboto Mono';
-  &__errorInput {
-    border-color: #e3291b;
-  }
-
-  &__error {
-    color: #e3291b;
-  }
-}
-
-$primary: #11998e;
-$secondary: #38ef7d;
-$white: #fff;
+$primary: #9890c7;
+$secondary: #e6d4de;
+$white: #2d2e46;
 $gray: #222020;
 .form__group {
   position: relative;
   padding: 15px 0 0;
-  margin-top: 10px;
-  width: 300px;
+  width: 347px;
+  height: 33px;
 }
 
 .form__field {
-  font-family: inherit;
-  width: 300px;
+  font-family: 'SF UI Regular';
+  width: 347px;
   border: 0;
   border-bottom: 2px solid $gray;
   outline: 0;
@@ -54,7 +37,7 @@ $gray: #222020;
   top: 0;
   display: block;
   transition: 0.2s;
-  font-size: 1rem;
+  font-size: 16px;
   color: $gray;
 }
 
@@ -67,10 +50,11 @@ $gray: #222020;
     font-size: 1rem;
     color: $primary;
     font-weight: 700;
+    // height: 33px;
   }
-  padding-bottom: 6px;
+  // padding-bottom: 6px;
   font-weight: 700;
-  border-width: 3px;
+  // border-width: 3px;
   border-image: linear-gradient(to right, $primary, $secondary);
   border-image-slice: 1;
 }

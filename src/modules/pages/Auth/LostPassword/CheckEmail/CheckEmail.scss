@@ -1,4 +1,4 @@
-.forgot {
+.Check {
   height: 92vh;
   display: flex;
   justify-content: center;
@@ -25,27 +25,14 @@
     font-family: 'Poppins';
     display: inline-block;
     font-size: 22px;
-    margin: 0 0 50px 0;
+    margin: 24px 0 0px 0;
   }
 
   &__info {
     max-width: 347px;
     color: #2d2e46;
-    opacity: 0.5;
-    margin: 30px 0 90px 0;
-  }
-
-  &__remember {
-    max-width: 347px;
-    color: #2d2e46;
-    opacity: 0.5;
-    margin: 30px 0 11px 0;
-  }
-
-  &__tryloggin {
-    text-decoration: none;
-    font-family: 'SF UI Semibold';
-    font-size: 16px;
-    color: #21268f;
+    opacity: 0.7;
+    margin: 21px 0 118px 0;
+    text-align: center;
   }
 }
