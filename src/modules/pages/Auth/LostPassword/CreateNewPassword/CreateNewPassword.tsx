@@ -24,7 +24,7 @@ export const CreateNewPassword = () => {
           Create new password and we will send you further instructions to email
         </div>
 
-        <SuperButton name="Send Instructions" buttonWidth="266px" />
+        <SuperButton name="Create new password" buttonWidth="266px" />
       </div>
     </div>
   );
