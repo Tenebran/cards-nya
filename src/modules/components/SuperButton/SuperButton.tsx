@@ -12,6 +12,10 @@ type SuperButtonPropsType = DefaultButtonPropsType & {
   error?: string;
   name?: string;
   buttonWidth?: string;
+  onClickHandler?: () => void;
+  disabledBtn?: boolean;
+  entityStatus?: boolean;
+  backColor?: string;
 };
 
 const SuperButton: React.FC<SuperButtonPropsType> = ({
@@ -19,12 +23,19 @@ const SuperButton: React.FC<SuperButtonPropsType> = ({
   className,
   name,
   buttonWidth,
-  ...restProps // все остальные пропсы попадут в объект restProps, там же будет children
+  onClickHandler,
+  disabledBtn,
+  entityStatus,
 }) => {
   const finalClassName = `${color ? `superButton__${color}` : 'superButton__default'} ${className}`;
 
   return (
-    <button className={finalClassName} style={{ minWidth: buttonWidth }}>
+    <button
+      className={finalClassName}
+      style={{ minWidth: buttonWidth }}
+      onClick={onClickHandler}
+      disabled={disabledBtn}
+    >
       {name}
     </button>
   );

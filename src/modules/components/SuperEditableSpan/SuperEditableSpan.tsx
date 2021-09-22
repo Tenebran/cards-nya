@@ -1,4 +1,10 @@
-import React, { DetailedHTMLProps, InputHTMLAttributes, HTMLAttributes, useState } from 'react';
+import React, {
+  DetailedHTMLProps,
+  InputHTMLAttributes,
+  HTMLAttributes,
+  useState,
+  ChangeEvent,
+} from 'react';
 import SuperInput from '../SuperInput/SuperInput';
 import './SuperEditableSpan.scss';
 
@@ -21,6 +27,9 @@ type SuperEditableSpanType = DefaultInputPropsType & {
   inputName?: string;
   type?: string;
   spanProps?: DefaultSpanPropsType; // пропсы для спана
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  valuepass?: string;
+  value: string;
 };
 
 const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
@@ -31,22 +40,25 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
   inputName,
   error,
   type,
+  onChange,
+  valuepass,
+  value,
 
-  ...restProps // все остальные пропсы попадут в объект restProps
+  ...restProps
 }) => {
   const [editMode, setEditMode] = useState<boolean>(false);
   const { children, onDoubleClick, className, ...restSpanProps } = spanProps || {};
 
   const onEnterCallback = () => {
-    setEditMode(false); // выключить editMode при нажатии Enter
+    setEditMode(false);
     onEnter && onEnter();
   };
   const onBlurCallback = (e: React.FocusEvent<HTMLInputElement>) => {
-    setEditMode(false); // выключить editMode при нажатии за пределами инпута
+    setEditMode(false);
     onBlur && onBlur(e);
   };
   const onDoubleClickCallBack = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
-    setEditMode(true); // включить editMode при двойном клике
+    setEditMode(true);
     onDoubleClick && onDoubleClick(e);
   };
 
@@ -56,20 +68,32 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
     <>
       {editMode ? (
         <SuperInput
-          autoFocus // пропсу с булевым значением не обязательно указывать true
+          autoFocus
           onBlur={onBlurCallback}
           onEnter={onEnterCallback}
           inputName={inputName}
           error={error}
           type={type}
-          {...restProps} // отдаём инпуту остальные пропсы если они есть (value например там внутри)
+          onChange={onChange}
+          value={value}
+          {...restProps}
         />
       ) : (
         <div className="wrapper__input">
           <span className="span__group " onClick={onDoubleClickCallBack} {...restSpanProps}>
-            <input type={type} className="span__field" name={type} required />
+            <input className="span__field" name={type} />
             <label htmlFor="name" className="span__label">
-              {children || restProps.value}
+              {type === 'Password' && valuepass && value
+                ? valuepass.replace(/[^\s]/g, '*')
+                : type
+                ? value || children
+                : ''}
+
+              {/* {type === 'Password' && valuepass && restProps.value
+                ? valuepass.replace(/[^\s]/g, '*')
+                : ''} */}
+
+              {/* {type ? value || children : ''} */}
             </label>
           </span>
         </div>

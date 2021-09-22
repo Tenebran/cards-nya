@@ -24,7 +24,7 @@ export enum PATH {
 export const Routes = () => {
   return (
     <Switch>
-      <Route exact path={'/'} render={() => <Redirect to={PATH.TEST} />} />
+      <Route exact path={'/'} render={() => <Redirect to={PATH.LOGIN} />} />
       <Route path={PATH.TEST} component={TestPage} />
       <Route path={PATH.PROFILE} component={Profile} />
       <Route path={PATH.LOGIN} component={Login} />
