@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  // baseURL: 'http://localhost:7542/2.0',
-  baseURL: 'https://neko-back.herokuapp.com/2.0',
+  baseURL: 'http://localhost:7542/2.0',
+  // baseURL: 'https://neko-back.herokuapp.com/2.0',
   withCredentials: true,
 });
 
@@ -70,7 +70,7 @@ export const authApi = {
     return instance.post<LogOutNewPassUser>('/auth/forgot', {
       email,
       messages: `<div style="font-size: 16px">Click the link below and you'll be redirected to a site where you can set a new password</div>
-      <div><a style="${btnStyle}" href='https://m-marc.github.io/cards-nya/#/newpassword/$token$'>Set new password</a></div>`,
+      <div><a style="${btnStyle}" href='https://tenebran.github.io/cards-nya/#/newpassword/$token$'>Set new password</a></div>`,
     });
   },
   newPassword(password: string, resetPasswordToken: string) {
