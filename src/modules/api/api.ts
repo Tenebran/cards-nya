@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { resetPasswordEmailMessages } from './messageStyle';
+import { resetEmailApi } from './messageStyle';
 
 const instance = axios.create({
   // baseURL: 'http://localhost:7542/2.0',
@@ -70,7 +70,7 @@ export const authApi = {
   forgotPassword(email: string) {
     return instance.post<LogOutNewPassUser>('/auth/forgot', {
       email,
-      message: resetPasswordEmailMessages,
+      message: resetEmailApi,
     });
   },
   newPassword(password: string, resetPasswordToken: string) {

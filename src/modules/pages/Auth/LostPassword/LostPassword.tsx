@@ -13,13 +13,13 @@ export const LostPassword = () => {
   const [email, setEmail] = useState<string>('');
   const dispatch = useDispatch();
 
-  const resetPasswordHandler = () => {
-    dispatch(forgotPasswordThunk(email));
-  };
-
   if (statusSend) {
     return <Redirect to={PATH.CHECK_EMAIL} />;
   }
+
+  const resetPasswordHandler = () => {
+    dispatch(forgotPasswordThunk(email));
+  };
 
   return (
     <form className="forgot">
