@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { resetPasswordEmailMessages } from './messageStyle';
 
 const instance = axios.create({
   // baseURL: 'http://localhost:7542/2.0',
@@ -55,7 +56,7 @@ export const authApi = {
     return instance.post<AddUserResponseType>('/auth/register', { email, password });
   },
   // authMe(email: string, password: string, checked: boolean) {
-  //     return instance.post<LoginResponseType>('/auth/me', {email, password, checked});
+  //   return instance.post<LoginResponseType>('/auth/me', { email, password, checked });
   // },
   authMe() {
     return instance.post<LoginResponseType>('/auth/me');
@@ -69,8 +70,7 @@ export const authApi = {
   forgotPassword(email: string) {
     return instance.post<LogOutNewPassUser>('/auth/forgot', {
       email,
-      message: `<div style="font-size: 16px">Click the link below and you'll be redirected to a site where you can set a new password</div>
-      <div><a style="${btnStyle}" href='https://tenebran.github.io/cards-nya/#/newpassword/$token$'>Set new password</a></div>`,
+      message: resetPasswordEmailMessages,
     });
   },
   newPassword(password: string, resetPasswordToken: string) {
