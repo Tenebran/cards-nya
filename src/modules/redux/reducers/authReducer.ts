@@ -111,14 +111,18 @@ export const thunkUpdateUser =
   };
 
 export const forgotPasswordThunk = (email: string) => (dispatch: Dispatch) => {
+  dispatch(setInitializedAC(true));
   authApi.forgotPassword(email).then(resp => {
     dispatch(forgotPasswordAc(email));
+    dispatch(setInitializedAC(false));
   });
 };
 
 export const createNewPasswordThunk = (password: string, token: string) => (dispatch: Dispatch) => {
+  dispatch(setInitializedAC(true));
   authApi.newPassword(password, token).then(resp => {
     dispatch(setPassSuccessAC(true));
+    dispatch(setInitializedAC(false));
   });
 };
 

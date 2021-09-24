@@ -35,19 +35,6 @@ type LogOutNewPassUser = {
   error: string;
 };
 
-const btnStyle = `border-radius: 3px;
-    background: #3aa54c;
-    color: #fff;
-    display: block;
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 1.25em;
-    margin: 24px 0;
-    padding: 10px 18px;
-    text-decoration: none;
-    width: 180px;
-    text-align: center;`;
-
 export const authApi = {
   login(email: string, password: string, rememberMe: boolean) {
     return instance.post<LoginResponseType>('/auth/login', { email, password, rememberMe });
