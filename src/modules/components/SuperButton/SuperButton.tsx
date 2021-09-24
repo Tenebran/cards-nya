@@ -12,7 +12,7 @@ type SuperButtonPropsType = DefaultButtonPropsType & {
   error?: string;
   name?: string;
   buttonWidth?: string;
-  onClickHandler?: () => void;
+  onClickHandler?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   disabledBtn?: boolean;
   entityStatus?: boolean;
   backColor?: string;

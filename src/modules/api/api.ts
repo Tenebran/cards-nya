@@ -1,8 +1,9 @@
 import axios from 'axios';
+import { resetEmailApi } from './messageStyle';
 
 const instance = axios.create({
-  baseURL: 'http://localhost:7542/2.0',
-  // baseURL: 'https://neko-back.herokuapp.com/2.0',
+  // baseURL: 'http://localhost:7542/2.0',
+  baseURL: 'https://neko-back.herokuapp.com/2.0',
   withCredentials: true,
 });
 
@@ -34,19 +35,6 @@ type LogOutNewPassUser = {
   error: string;
 };
 
-const btnStyle = `border-radius: 3px;
-    background: #3aa54c;
-    color: #fff;
-    display: block;
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 1.25em;
-    margin: 24px 0;
-    padding: 10px 18px;
-    text-decoration: none;
-    width: 180px;
-    text-align: center;`;
-
 export const authApi = {
   login(email: string, password: string, rememberMe: boolean) {
     return instance.post<LoginResponseType>('/auth/login', { email, password, rememberMe });
@@ -55,7 +43,7 @@ export const authApi = {
     return instance.post<AddUserResponseType>('/auth/register', { email, password });
   },
   // authMe(email: string, password: string, checked: boolean) {
-  //     return instance.post<LoginResponseType>('/auth/me', {email, password, checked});
+  //   return instance.post<LoginResponseType>('/auth/me', { email, password, checked });
   // },
   authMe() {
     return instance.post<LoginResponseType>('/auth/me');
@@ -69,8 +57,7 @@ export const authApi = {
   forgotPassword(email: string) {
     return instance.post<LogOutNewPassUser>('/auth/forgot', {
       email,
-      messages: `<div style="font-size: 16px">Click the link below and you'll be redirected to a site where you can set a new password</div>
-      <div><a style="${btnStyle}" href='https://m-marc.github.io/cards-nya/#/newpassword/$token$'>Set new password</a></div>`,
+      message: resetEmailApi,
     });
   },
   newPassword(password: string, resetPasswordToken: string) {

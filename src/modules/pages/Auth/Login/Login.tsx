@@ -10,19 +10,17 @@ import {
   passwordErrorMessage,
   validatePasswordStyles,
 } from '../../../common/validation/passwordValidation';
-import { Button } from '../../../common/Button/Button';
-import { NavLink, Redirect, useHistory } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import { PATH } from '../../../routes/Routes';
 import eye from '../../../common/icons/eye.png';
 import closedEye from '../../../common/icons/closedEye.png';
 import { loginTC } from '../../../redux/reducers/authReducer';
-import { Preloader } from '../../../common/preloader/Preloader';
 import { AppStoreType } from '../../../redux/store';
 import SuperEditableSpan from '../../../components/SuperEditableSpan/SuperEditableSpan';
 import SuperButton from '../../../components/SuperButton/SuperButton';
+import { Loader } from '../../../components/Loader/Loader';
 
 export const Login = () => {
-  let history = useHistory();
   const dispatch = useDispatch();
   const authMe = useSelector<AppStoreType, boolean>(state => state.user.authMe);
   const entityStatus = useSelector<AppStoreType, boolean>(state => state.user.entityStatus);
@@ -33,7 +31,6 @@ export const Login = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [disabledBtn, setDisabledBtn] = useState(true);
   const [value, setValue] = useState<string>('');
-  // const [passwordValue, setPassworValue] = useState<string>('')
 
   const changeViewPassword = () => {
     setOpenPassword(!openPassword);
@@ -41,7 +38,6 @@ export const Login = () => {
 
   const emailTarget = (e: ChangeEvent<HTMLInputElement>) => {
     setDisabledBtn(!(validateEmail(e.currentTarget.value) && password.length > 7));
-    // setEmail(e.currentTarget.value);
   };
 
   const passwordTarget = (e: ChangeEvent<HTMLInputElement>) => {
@@ -49,7 +45,8 @@ export const Login = () => {
     setPassword(e.currentTarget.value);
   };
 
-  const loginHandler = () => {
+  const loginHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     dispatch(loginTC(email, password, rememberMe));
     setEmail('');
     setPassword('');
@@ -64,7 +61,7 @@ export const Login = () => {
   return (
     <div className="login">
       {initialized ? (
-        <Preloader />
+        <Loader />
       ) : (
         <form>
           <div className="login__wrapper">
