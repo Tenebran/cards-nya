@@ -69,8 +69,8 @@ export const authApi = {
   forgotPassword(email: string) {
     return instance.post<LogOutNewPassUser>('/auth/forgot', {
       email,
-      messages: `<div style="font-size: 16px">Click the link below and you'll be redirected to a site where you can set a new password</div>
-      <div><a style="${btnStyle}" href='https://tenebran.github.io/cards-nya/#/newpassword/$token$'>Set new password</a></div>`,
+      messages: `<div>Click the link below and you'll be redirected to a site where you can set a new password</div>
+      <div><a href='https://tenebran.github.io/cards-nya/#/newpassword/$token$'>Set new password</a></div>`,
     });
   },
   newPassword(password: string, resetPasswordToken: string) {

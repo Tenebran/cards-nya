@@ -91,13 +91,6 @@ export const Registration = () => {
           <span className="forgot__subtitle">Sign Up</span>
           <div>
             <div style={validateEmailStyles(email)}>
-              {/* <input
-                onChange={emailTarget}
-                value={email}
-                type="text"
-                placeholder="example@ddd.com"
-                autoFocus
-              /> */}
               <SuperEditableSpan
                 value={email}
                 onChangeText={setEmail}
@@ -110,17 +103,6 @@ export const Registration = () => {
             {emailErrorMessage(email)}
           </div>
           <div className="login__password">
-            {/* <p>Password:</p>
-            <div style={validatePasswordStyles(password)}>
-              <input
-                onChange={passwordTarget}
-                value={password}
-                type={openPassword ? 'text' : 'password'}
-                placeholder="****"
-              />
-              <img onClick={changeViewPassword} alt="" src={openPassword ? eye : closedEye} />
-            </div>
-            {passwordErrorMessage(password)} */}
             <img
               onClick={changeViewPassword}
               alt="password"
@@ -155,13 +137,6 @@ export const Registration = () => {
                 valuepass={passwordConfirm}
                 onChange={passwordConfirmTarget}
               />
-              {/* <input
-                onChange={passwordConfirmTarget}
-                value={passwordConfirm}
-                type={openPassword ? 'text' : 'password'}
-                placeholder="****"
-              />
-              <img onClick={changeViewPassword} alt="" src={openPassword ? eye : closedEye} /> */}
             </div>
             {confirmPasswordMessage(password, passwordConfirm)}
           </div>
