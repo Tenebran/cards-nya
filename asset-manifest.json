@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/cards-nya/static/css/main.35da0783.chunk.css",
-    "main.js": "/cards-nya/static/js/main.a0575b6b.chunk.js",
-    "main.js.map": "/cards-nya/static/js/main.a0575b6b.chunk.js.map",
+    "main.js": "/cards-nya/static/js/main.18dd6e20.chunk.js",
+    "main.js.map": "/cards-nya/static/js/main.18dd6e20.chunk.js.map",
     "runtime-main.js": "/cards-nya/static/js/runtime-main.9b0e0a9f.js",
     "runtime-main.js.map": "/cards-nya/static/js/runtime-main.9b0e0a9f.js.map",
     "static/js/2.21bc0209.chunk.js": "/cards-nya/static/js/2.21bc0209.chunk.js",
@@ -18,6 +18,6 @@
     "static/js/runtime-main.9b0e0a9f.js",
     "static/js/2.21bc0209.chunk.js",
     "static/css/main.35da0783.chunk.css",
-    "static/js/main.a0575b6b.chunk.js"
+    "static/js/main.18dd6e20.chunk.js"
   ]
 }
