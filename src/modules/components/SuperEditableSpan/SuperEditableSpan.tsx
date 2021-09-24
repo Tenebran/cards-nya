@@ -62,8 +62,6 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
     onDoubleClick && onDoubleClick(e);
   };
 
-  const spanClassName = `${!editMode ? 'isEditable' : ''} ${className}`;
-
   return (
     <>
       {editMode ? (
@@ -88,12 +86,6 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
                 : type
                 ? value || children
                 : ''}
-
-              {/* {type === 'Password' && valuepass && restProps.value
-                ? valuepass.replace(/[^\s]/g, '*')
-                : ''} */}
-
-              {/* {type ? value || children : ''} */}
             </label>
           </span>
         </div>

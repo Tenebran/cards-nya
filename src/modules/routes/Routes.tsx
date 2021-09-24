@@ -18,7 +18,7 @@ export enum PATH {
   RESET_PASSWORD = '/resetpass',
   NEW_PASS = '/newpass',
   CHECK_EMAIL = '/checkemail',
-  CREATE_NEW_PASSWORD = '/newpassword',
+  CREATE_NEW_PASSWORD = '/newpassword/:token',
 }
 
 export const Routes = () => {
@@ -30,7 +30,6 @@ export const Routes = () => {
       <Route path={PATH.LOGIN} component={Login} />
       <Route path={PATH.REGISTRATION} component={Registration} />
       <Route path={PATH.RESET_PASSWORD} component={LostPassword} />
-      <Route path={PATH.NEW_PASS} component={NewPassword} />
       <Route path={PATH.NEW_PASS} component={NewPassword} />
       <Route path={PATH.CHECK_EMAIL} component={CheckEmail} />
       <Route path={PATH.CREATE_NEW_PASSWORD} component={CreateNewPassword} />

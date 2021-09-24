@@ -1,10 +1,19 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Link, Redirect } from 'react-router-dom';
 import SuperButton from '../../../components/SuperButton/SuperButton';
 import SuperEditableSpan from '../../../components/SuperEditableSpan/SuperEditableSpan';
+import { AppStoreType } from '../../../redux/store';
+import { PATH } from '../../../routes/Routes';
 import './LostPassword.scss';
 
 export const LostPassword = () => {
+  const statusSend = useSelector<AppStoreType, boolean>(state => state.user.statusSend);
   const [value, setValue] = useState<string>('');
+
+  if (statusSend) {
+    return <Redirect to={PATH.CHECK_EMAIL} />;
+  }
 
   return (
     <div className="forgot">
@@ -27,9 +36,9 @@ export const LostPassword = () => {
         <SuperButton name="Send Instructions" buttonWidth="266px" />
 
         <div className="forgot__remember">Did you remember your password?</div>
-        <a className="forgot__tryloggin" href="#">
+        <Link to={PATH.LOGIN} className="forgot__tryloggin">
           Try logging in
-        </a>
+        </Link>
       </div>
     </div>
   );

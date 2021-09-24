@@ -10,8 +10,7 @@ import {
   passwordErrorMessage,
   validatePasswordStyles,
 } from '../../../common/validation/passwordValidation';
-import { Button } from '../../../common/Button/Button';
-import { NavLink, Redirect, useHistory } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import { PATH } from '../../../routes/Routes';
 import eye from '../../../common/icons/eye.png';
 import closedEye from '../../../common/icons/closedEye.png';
@@ -22,7 +21,6 @@ import SuperEditableSpan from '../../../components/SuperEditableSpan/SuperEditab
 import SuperButton from '../../../components/SuperButton/SuperButton';
 
 export const Login = () => {
-  let history = useHistory();
   const dispatch = useDispatch();
   const authMe = useSelector<AppStoreType, boolean>(state => state.user.authMe);
   const entityStatus = useSelector<AppStoreType, boolean>(state => state.user.entityStatus);
@@ -41,7 +39,6 @@ export const Login = () => {
 
   const emailTarget = (e: ChangeEvent<HTMLInputElement>) => {
     setDisabledBtn(!(validateEmail(e.currentTarget.value) && password.length > 7));
-    // setEmail(e.currentTarget.value);
   };
 
   const passwordTarget = (e: ChangeEvent<HTMLInputElement>) => {
