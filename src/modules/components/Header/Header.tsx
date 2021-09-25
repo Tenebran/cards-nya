@@ -7,6 +7,14 @@ export const Header = () => {
   return (
     <header className={'header'}>
       <NavLink
+        to={PATH.CARDS}
+        activeClassName={'header__button_active'}
+        className={'header__button'}
+      >
+        Pack List
+      </NavLink>
+
+      <NavLink
         to={PATH.PROFILE}
         activeClassName={'header__button_active'}
         className={'header__button'}
@@ -14,15 +22,7 @@ export const Header = () => {
         Profile
       </NavLink>
 
-      <NavLink
-        to={PATH.LOGIN}
-        activeClassName={'header__button_active'}
-        className={'header__button'}
-      >
-        Login
-      </NavLink>
-
-      <NavLink
+      {/* <NavLink
         to={PATH.REGISTRATION}
         activeClassName={'header__button_active'}
         className={'header__button'}
@@ -49,7 +49,7 @@ export const Header = () => {
         className={'header__button'}
       >
         Create New Passsword
-      </NavLink>
+      </NavLink> */}
     </header>
   );
 };
