@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import { Cards } from '../components/Cards/Cards';
+import { CardsPack } from '../components/Cards/CardsPack';
 import { Login } from '../pages/Auth/Login/Login';
 import { CheckEmail } from '../pages/Auth/LostPassword/CheckEmail/CheckEmail';
 import { CreateNewPassword } from '../pages/Auth/LostPassword/CreateNewPassword/CreateNewPassword';
@@ -32,7 +32,7 @@ export const Routes = () => {
       <Route path={PATH.RESET_PASSWORD} component={LostPassword} />
       <Route path={PATH.CHECK_EMAIL} component={CheckEmail} />
       <Route path={PATH.CREATE_NEW_PASSWORD} component={CreateNewPassword} />
-      <Route path={PATH.CARDS} component={Cards} />
+      <Route path={PATH.CARDS} component={CardsPack} />
       <Route component={PageNotFound} />
     </Switch>
   );

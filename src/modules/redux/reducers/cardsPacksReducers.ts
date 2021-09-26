@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
 import { cardsPackApi } from '../../api/api';
-import { cardPacksType } from '../../components/Cards/Cards';
+import { cardPacksType } from '../../components/Cards/CardsPack';
 import { AppStoreType } from '../store';
 
 export const label = '';
