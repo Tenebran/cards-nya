@@ -7,9 +7,9 @@ import {
   CardsSettingsType,
 } from '../../redux/reducers/cardsPacksReducers';
 import { AppStoreType } from '../../redux/store';
-import { Header } from '../Header/Header';
-import SuperButton from '../SuperButton/SuperButton';
-import './Cards.scss';
+import { Header } from '../../components/Header/Header';
+import SuperButton from '../../components/SuperButton/SuperButton';
+import './CardsPack.scss';
 
 export type cardPacksType = {
   cardsCount: number;
@@ -40,11 +40,12 @@ export const CardsPack = () => {
   const totalCountCards = useSelector<AppStoreType, number>(
     state => state.cardsPack.cardPacksTotalCount
   );
-  const [page, setPage] = useState<number>();
 
   useEffect(() => {
     dispatch(cardsPackTC());
   }, [cardsSettings]);
+
+  console.log(CardsPack);
 
   // console.log(page);
 

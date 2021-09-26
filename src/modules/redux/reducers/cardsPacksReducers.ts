@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
 import { cardsPackApi } from '../../api/api';
-import { cardPacksType } from '../../components/Cards/CardsPack';
+import { cardPacksType } from '../../pages/CardsPack/CardsPack';
 import { AppStoreType } from '../store';
 
 export const label = '';
@@ -110,4 +110,4 @@ export type CardsSettingsType = {
 
 type ActionType = ReturnType<typeof updateCardsPackAc> | ReturnType<typeof cardsPackChangeSettings>;
 
-export type InitialStateType = typeof initialState;
+type InitialStateType = typeof initialState;

@@ -7,7 +7,7 @@ export const Header = () => {
   return (
     <header className={'header'}>
       <NavLink
-        to={PATH.CARDS}
+        to={PATH.PACK_LIST}
         activeClassName={'header__button_active'}
         className={'header__button'}
       >
@@ -20,6 +20,14 @@ export const Header = () => {
         className={'header__button'}
       >
         Profile
+      </NavLink>
+
+      <NavLink
+        to={PATH.CARDS}
+        activeClassName={'header__button_active'}
+        className={'header__button'}
+      >
+        Cards
       </NavLink>
 
       {/* <NavLink
