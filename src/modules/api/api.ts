@@ -40,9 +40,7 @@ export const authApi = {
 
 export const cardsPackApi = {
   getCardsPack(cardPacks: CardsPackType) {
-    return instance.get<GetCards>(
-      `/cards/pack/?min=${cardPacks.min}&max=${cardPacks.max}&page=${cardPacks.page}&pageCount=${cardPacks.pageCount}`
-    );
+    return instance.get<GetCards>(`/cards/pack/?}`, { params: cardPacks });
   },
   postCardsPack(cardsPack: PostCardsPackType) {
     return instance.post('/cards/pack', cardsPack);
@@ -75,12 +73,21 @@ export const CardsApi = {
 export type GetCards = {
   cardPacks: [
     {
-      _id: string;
-      user_id: string;
-      name: string;
       cardsCount: number;
       created: string;
+      grade: number;
+      more_id: string;
+      name: string;
+      path: string;
+      private: boolean;
+      rating: number;
+      shots: number;
+      type: string;
       updated: string;
+      user_id: string;
+      user_name: string;
+      __v: number;
+      _id: string;
     }
   ];
   cardPacksTotalCount: number;

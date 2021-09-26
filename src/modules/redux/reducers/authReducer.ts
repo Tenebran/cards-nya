@@ -8,7 +8,6 @@ const initialState = {
   statusSend: false,
   userEmail: '',
   newPassSuccess: false,
-  //userData: {} as Usertype,
 };
 
 export const authReducer = (
