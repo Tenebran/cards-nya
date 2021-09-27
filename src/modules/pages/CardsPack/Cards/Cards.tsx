@@ -1,8 +1,14 @@
+import { Pagination } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { cardsApi } from '../../../api/api';
 import { Header } from '../../../components/Header/Header';
-import { cardsTC } from '../../../redux/reducers/cardsReducer';
+import SuperButton from '../../../components/SuperButton/SuperButton';
+import {
+  cardsChangeSettings,
+  CardsSettingsType,
+  cardsTC,
+} from '../../../redux/reducers/cardsReducer';
 import { AppStoreType } from '../../../redux/store';
 import './Cards.scss';
 
@@ -24,31 +30,80 @@ export type CardsType = {
 };
 
 export const Cards = () => {
-  const [ax, setax] = useState<any>();
   const dispatch = useDispatch();
   const cards = useSelector<AppStoreType, Array<CardsType>>(state => state.cards.cards);
-
-  const cardsSettings = {
-    cardsPack_id: '60a4e9e694de4b00046c1e0f',
-    min: 1,
-    max: 999,
-    page: 1,
-    pageCount: 8,
-  };
+  const cardsSettings = useSelector<AppStoreType, CardsSettingsType>(
+    state => state.cards.cardsSettings
+  );
+  const totalCountCards = useSelector<AppStoreType, number>(state => state.cards.cardsTotalCount);
+  console.log(totalCountCards);
 
   useEffect(() => {
-    // cardsApi.getCards(cardsSettings).then(resp => {
-    //   dispatch(setax(resp.data.cards));
-    // });
-    // dispatch(cardsTC());
-  }, []);
+    dispatch(cardsTC());
+  }, [cardsSettings]);
 
-  console.log(ax);
+  console.log(cards);
+
+  const handleChange = (event: object, value: number) => {
+    dispatch(cardsChangeSettings({ ...cardsSettings, page: value }));
+  };
 
   return (
     <>
       <Header />
-      cards
+      <div className="cards-pack">
+        <div className="cards-pack__wrapper">
+          <div className="cards-pack__wrapper_schow">
+            <span className="cards-pack__show_title">Show packs cards</span>
+            <div className="cards-pack__show_button_wrapper">
+              <button className="cards-pack__show_button_white">My</button>
+              <button className="cards-pack__show_button_purpe">All</button>
+            </div>
+            <span className="cards-pack__show_title">Number of cards</span>
+          </div>
+          <div className="cards-pack__wrapper_table">
+            <h1>Packs list</h1>
+            <div className="cards-pack__search">
+              <input placeholder="Search..." className="cards-pack__search__input" />
+              <SuperButton name="Add new pack" buttonWidth="266px" />
+            </div>
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Question</th>
+                  <th>Answer</th>
+                  <th>Last Updated</th>
+                  <th>Grade</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {cards.map(card => {
+                  return (
+                    <tr key={card._id}>
+                      <td>{card.question}</td>
+                      <td>{card.answer}</td>
+                      <td>{card.updated}</td>
+                      <td>
+                        <button>Delete</button>
+                      </td>
+                      <td>
+                        <button>Delete </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+            <Pagination
+              count={Math.ceil(totalCountCards / cardsSettings.pageCount)}
+              shape="rounded"
+              onChange={handleChange}
+              boundaryCount={3}
+            />
+          </div>
+        </div>
+      </div>
     </>
   );
 };

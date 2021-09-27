@@ -6,10 +6,8 @@ import { AppStoreType } from '../store';
 const initialState = {
   cardsSettings: {
     cardsPack_id: '60a4e9e694de4b00046c1e0f',
-    min: 1,
-    max: 999,
     page: 1,
-    pageCount: 8,
+    pageCount: 5,
   },
   cards: [
     {
@@ -46,37 +44,46 @@ export const cardsReducer = (
       return {
         ...state,
         cards: action.cards,
-        // cardsTotalCount: action.cardsTotalCount,
-        // maxGrade: action.maxGrade,
-        // minGrade: action.minGrade,
-        // packUserId: action.packUserId,
-        // page: action.page,
-        // pageCount: action.pageCount,
+        cardsTotalCount: action.cardsTotalCount,
+        maxGrade: action.maxGrade,
+        minGrade: action.minGrade,
+        packUserId: action.packUserId,
+        page: action.page,
+        pageCount: action.pageCount,
+      };
+    case 'CARDS/CARDS_CHANGE_SETTINGS':
+      return {
+        ...state,
+        cardsSettings: action.cardsSettings,
       };
     default:
       return state;
   }
 };
 
-const getCardsAC = (
-  cards: Array<CardsType>
-  // cardsTotalCount: number,
-  // maxGrade: number,
-  // minGrade: number,
-  // packUserId: string,
-  // page: number,
-  // pageCount: number
+export const getCardsAC = (
+  cards: Array<CardsType>,
+  cardsTotalCount: number,
+  maxGrade: number,
+  minGrade: number,
+  packUserId: string,
+  page: number,
+  pageCount: number
 ) => {
   return {
     type: 'CARDS/GET_CARDS',
     cards,
-    // cardsTotalCount,
-    // maxGrade,
-    // minGrade,
-    // packUserId,
-    // page,
-    // pageCount,
+    cardsTotalCount,
+    maxGrade,
+    minGrade,
+    packUserId,
+    page,
+    pageCount,
   } as const;
+};
+
+export const cardsChangeSettings = (cardsSettings: CardsSettingsType) => {
+  return { type: 'CARDS/CARDS_CHANGE_SETTINGS', cardsSettings } as const;
 };
 
 export const cardsTC = () => (dispatch: Dispatch, getState: () => AppStoreType) => {
@@ -85,18 +92,24 @@ export const cardsTC = () => (dispatch: Dispatch, getState: () => AppStoreType) 
   cardsApi.getCards(appstate.cards.cardsSettings).then(resp => {
     dispatch(
       getCardsAC(
-        resp.data.cards
-        // resp.data.cardsTotalCount,
-        // resp.data.maxGrade,
-        // resp.data.minGrade,
-        // resp.data.packUserId,
-        // resp.data.page,
-        // resp.data.pageCount
+        resp.data.cards,
+        resp.data.cardsTotalCount,
+        resp.data.maxGrade,
+        resp.data.minGrade,
+        resp.data.packUserId,
+        resp.data.page,
+        resp.data.pageCount
       )
     );
   });
 };
 
-type ActionType = ReturnType<typeof getCardsAC>;
+export type CardsSettingsType = {
+  cardsPack_id: string;
+  page: number;
+  pageCount: number;
+};
+
+type ActionType = ReturnType<typeof getCardsAC> | ReturnType<typeof cardsChangeSettings>;
 
 export type InitialStateType = typeof initialState;
