@@ -4,6 +4,10 @@
   align-items: center;
   justify-content: center;
 
+  &__list {
+    cursor: pointer;
+  }
+
   &__show {
     &_title {
       display: inline-block;

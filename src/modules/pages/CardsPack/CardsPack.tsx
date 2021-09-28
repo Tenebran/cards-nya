@@ -10,6 +10,8 @@ import { AppStoreType } from '../../redux/store';
 import { Header } from '../../components/Header/Header';
 import SuperButton from '../../components/SuperButton/SuperButton';
 import './CardsPack.scss';
+import { Redirect } from 'react-router';
+import { Link } from 'react-router-dom';
 
 export type cardPacksType = {
   cardsCount: number;
@@ -58,6 +60,11 @@ export const CardsPack = () => {
     dispatch(cardsPackChangeSettings({ ...cardsSettings, page: value }));
   };
 
+  const onLearnClick = (id: string) => {
+    console.log(`button cliked ${id}`);
+    return <Redirect to={`/cards/${id}`} />;
+  };
+
   return (
     <>
       <Header />
@@ -87,21 +94,22 @@ export const CardsPack = () => {
                   <th>Actions</th>
                 </tr>
               </thead>
-              <tbody>
-                {CardsPack.map(CardsPack => {
-                  return (
-                    <tr key={CardsPack._id}>
+
+              {CardsPack.map(CardsPack => {
+                return (
+                  <tbody key={CardsPack._id}>
+                    <tr>
                       <td>{CardsPack.name}</td>
                       <td>{CardsPack.cardsCount}</td>
-                      <td>{CardsPack.updated}</td>
+                      <td>{CardsPack.updated.substr(0, 10)}</td>
                       <td>{CardsPack.user_name}</td>
                       <td>
-                        <button>Delete </button>
+                        <Link to={`/cards/${CardsPack._id}`}>Learn</Link>
                       </td>
                     </tr>
-                  );
-                })}
-              </tbody>
+                  </tbody>
+                );
+              })}
             </table>
             <Pagination
               count={Math.ceil(totalCountCards / cardsSettings.pageCount)}

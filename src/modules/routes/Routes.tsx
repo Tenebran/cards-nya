@@ -9,7 +9,6 @@ import { Registration } from '../pages/Auth/Registration/Registration';
 import { PageNotFound } from '../pages/PageNotFound/PageNotFound';
 import { Profile } from '../pages/Profile/Profile';
 import { TestPage } from '../pages/TestPage/TestPage';
-import { Router } from '@mui/icons-material';
 import { Cards } from '../pages/CardsPack/Cards/Cards';
 
 export enum PATH {
@@ -21,7 +20,7 @@ export enum PATH {
   RESET_PASSWORD = '/resetpass',
   CHECK_EMAIL = '/checkemail',
   CREATE_NEW_PASSWORD = '/newpassword/:token',
-  CARDS = '/cards',
+  CARDS = '/cards/:id',
 }
 
 export const Routes = () => {

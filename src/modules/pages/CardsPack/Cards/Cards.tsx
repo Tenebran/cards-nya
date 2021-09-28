@@ -1,6 +1,7 @@
 import { Pagination } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { cardsApi } from '../../../api/api';
 import { Header } from '../../../components/Header/Header';
 import SuperButton from '../../../components/SuperButton/SuperButton';
@@ -35,18 +36,20 @@ export const Cards = () => {
   const cardsSettings = useSelector<AppStoreType, CardsSettingsType>(
     state => state.cards.cardsSettings
   );
+  const { id } = useParams<{ id: string }>();
   const totalCountCards = useSelector<AppStoreType, number>(state => state.cards.cardsTotalCount);
-  console.log(totalCountCards);
 
   useEffect(() => {
-    dispatch(cardsTC());
-  }, [cardsSettings]);
+    dispatch(cardsChangeSettings({ ...cardsSettings, cardsPack_id: id }));
 
-  console.log(cards);
+    dispatch(cardsTC());
+  }, [cardsSettings.page]);
 
   const handleChange = (event: object, value: number) => {
     dispatch(cardsChangeSettings({ ...cardsSettings, page: value }));
   };
+
+  console.log(cardsSettings);
 
   return (
     <>
@@ -83,7 +86,7 @@ export const Cards = () => {
                     <tr key={card._id}>
                       <td>{card.question}</td>
                       <td>{card.answer}</td>
-                      <td>{card.updated}</td>
+                      <td>{card.updated.substr(0, 10)}</td>
                       <td>
                         <button>Delete</button>
                       </td>

@@ -5,7 +5,7 @@ import { AppStoreType } from '../store';
 
 const initialState = {
   cardsSettings: {
-    cardsPack_id: '60a4e9e694de4b00046c1e0f',
+    cardsPack_id: '',
     page: 1,
     pageCount: 5,
   },
