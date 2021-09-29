@@ -1,4 +1,3 @@
-import stylesContainer from '../../common/styles/Container.module.css'
 import eye from '../../../common/icons/eye.png'
 import closedEye from '../../../common/icons/closedEye.png'
 import React, {ChangeEvent, useState} from 'react';
@@ -27,6 +26,7 @@ export const Registration = () => {
     const [password, setPassword] = useState('')
     const [passwordConfirm, setPasswordConfirm] = useState('')
     const [disabledBtn, setDisabledBtn] = useState(true)
+    const [returnToLogin, setReturnToLogin] = useState(false)
 
 
     const emailTarget = (e: ChangeEvent<HTMLInputElement>) => {
@@ -43,9 +43,8 @@ export const Registration = () => {
         setPasswordConfirm(e.currentTarget.value)
     }
 
-    const changeViewPassword = () => {
-        setOpenPassword(!openPassword)
-    }
+    const changeViewPassword = () => setOpenPassword(!openPassword)
+    const returnToLoginHandler = () => setReturnToLogin(true)
 
     const registerHandler = () => {
         setInitialized(true)
@@ -56,14 +55,7 @@ export const Registration = () => {
         setInitialized(false)
     }
 
-    const clearAllInputs = () => {
-        setEmail("")
-        setPassword("")
-        setPasswordConfirm("")
-        setDisabledBtn(true)
-    }
-
-    if (authoriseMe) {
+    if (authoriseMe || returnToLogin) {
         return <Redirect to={PATH.LOGIN}/>
     }
     return (
@@ -113,7 +105,7 @@ export const Registration = () => {
                     {confirmPasswordMessage(password, passwordConfirm)}
                 </div>
                 <div>
-                    <Button onClickHandler={clearAllInputs} title="Cancel"/>
+                    <Button onClickHandler={returnToLoginHandler} title="Cancel"/>
                     <Button entityStatus={entityStatus}
                             onClickHandler={registerHandler}
                             disabledBtn={disabledBtn} title="Register"/>

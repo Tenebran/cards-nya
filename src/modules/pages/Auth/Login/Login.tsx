@@ -19,7 +19,7 @@ import { Preloader } from '../../../common/preloader/Preloader';
 import { AppStoreType } from '../../../redux/store';
 
 export const Login = () => {
-  let history = useHistory();
+  //let history = useHistory();
 
   const dispatch = useDispatch();
   const authMe = useSelector<AppStoreType, boolean>(state => state.user.authMe);

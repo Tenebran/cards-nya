@@ -1,6 +1,6 @@
 import {applyMiddleware, combineReducers, createStore} from 'redux';
 import { authReducer } from './reducers/authReducer';
-import { profileReducer } from './profile/profileReducer';
+import { profileReducer } from './reducers/profileReducer';
 import thunk from "redux-thunk";
 import {registrationReducer} from "./reducers/registrationReducer";
 
