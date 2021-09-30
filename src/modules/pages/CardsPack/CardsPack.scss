@@ -63,12 +63,39 @@
   }
   &__search {
     margin: 0 0 24px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     &__input {
       width: 461px;
       height: 36px;
     }
+    &__button {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+    }
   }
+  &__input-wrapper {
+    position: relative;
+  }
+
+  &__pagination {
+    display: flex;
+    align-items: center;
+  }
+
+  &__select-title {
+    margin: 0 5px 0 36px;
+    &_end {
+      margin: 0 0 0 5px;
+    }
+  }
+}
+
+.demo-simple-select-label {
+  color: black !important;
 }
 
 .cards-pack__wrapper_table::-webkit-scrollbar {

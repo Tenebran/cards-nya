@@ -153,10 +153,11 @@ type LogOutNewPassUser = {
 };
 
 export type CardsPackType = {
-  min: number;
-  max: number;
-  page: number;
-  pageCount: number;
+  min?: number;
+  max?: number;
+  page?: number;
+  pageCount?: number;
+  packName?: string;
 };
 
 export type PostCardsPackType = {

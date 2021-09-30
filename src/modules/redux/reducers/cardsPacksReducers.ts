@@ -10,7 +10,8 @@ const initialState = {
     min: 1,
     max: 999,
     page: 1,
-    pageCount: 8,
+    pageCount: 5,
+    packName: '',
   },
   cardsPack: [
     {
@@ -106,6 +107,7 @@ export type CardsSettingsType = {
   max: number;
   page: number;
   pageCount: number;
+  packName: string;
 };
 
 type ActionType = ReturnType<typeof updateCardsPackAc> | ReturnType<typeof cardsPackChangeSettings>;

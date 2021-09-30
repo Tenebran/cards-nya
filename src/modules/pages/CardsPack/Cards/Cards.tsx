@@ -2,7 +2,6 @@ import { Pagination } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { cardsApi } from '../../../api/api';
 import { Header } from '../../../components/Header/Header';
 import SuperButton from '../../../components/SuperButton/SuperButton';
 import {

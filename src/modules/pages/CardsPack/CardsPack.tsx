@@ -1,5 +1,12 @@
-import { Pagination } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Pagination,
+  Select,
+  SelectChangeEvent,
+} from '@mui/material';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   cardsPackChangeSettings,
@@ -32,6 +39,8 @@ export type cardPacksType = {
 };
 
 export const CardsPack = () => {
+  const [inputValue, setInputalue] = useState<string>('');
+  const [selectPage, setSelectPage] = useState<number>(5);
   const dispatch = useDispatch();
   const CardsPack = useSelector<AppStoreType, Array<cardPacksType>>(
     state => state.cardsPack.cardsPack
@@ -49,13 +58,6 @@ export const CardsPack = () => {
 
   console.log(CardsPack);
 
-  // console.log(page);
-
-  // const handleChange = () => {
-
-  // }
-  // setPage(Math.ceil(totalCountCards / cardsSettings.pageCount));
-
   const handleChange = (event: object, value: number) => {
     dispatch(cardsPackChangeSettings({ ...cardsSettings, page: value }));
   };
@@ -63,6 +65,22 @@ export const CardsPack = () => {
   const onLearnClick = (id: string) => {
     console.log(`button cliked ${id}`);
     return <Redirect to={`/cards/${id}`} />;
+  };
+
+  const onChangeCallback = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputalue(e.currentTarget.value);
+  };
+
+  const onSearchClick = () => {
+    dispatch(cardsPackChangeSettings({ ...cardsSettings, packName: inputValue }));
+  };
+
+  const handleChangePage = (event: SelectChangeEvent) => {
+    console.log(parseInt(event.target.value));
+    setSelectPage(parseInt(event.target.value));
+    dispatch(
+      cardsPackChangeSettings({ ...cardsSettings, pageCount: parseInt(event.target.value) })
+    );
   };
 
   return (
@@ -81,7 +99,17 @@ export const CardsPack = () => {
           <div className="cards-pack__wrapper_table">
             <h1>Packs list</h1>
             <div className="cards-pack__search">
-              <input placeholder="Search..." className="cards-pack__search__input" />
+              <div className="cards-pack__input-wrapper">
+                <input
+                  placeholder="Search..."
+                  className="cards-pack__search__input"
+                  value={inputValue}
+                  onChange={onChangeCallback}
+                />
+                <button className="cards-pack__search__button" onClick={onSearchClick}>
+                  Search
+                </button>
+              </div>
               <SuperButton name="Add new pack" buttonWidth="266px" />
             </div>
             <table className="table">
@@ -111,12 +139,32 @@ export const CardsPack = () => {
                 );
               })}
             </table>
-            <Pagination
-              count={Math.ceil(totalCountCards / cardsSettings.pageCount)}
-              shape="rounded"
-              onChange={handleChange}
-              boundaryCount={3}
-            />
+            <div className="cards-pack__pagination">
+              <Pagination
+                count={Math.ceil(totalCountCards / cardsSettings.pageCount)}
+                shape="rounded"
+                onChange={handleChange}
+                boundaryCount={2}
+              />
+
+              <span className="cards-pack__select-title">Show</span>
+              <FormControl>
+                <InputLabel id="demo-simple-select-label">Page</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={selectPage.toString()}
+                  label="Page"
+                  onChange={handleChangePage}
+                  size={'small'}
+                >
+                  <MenuItem value={5}>5</MenuItem>
+                  <MenuItem value={8}>8</MenuItem>
+                  <MenuItem value={10}>10</MenuItem>
+                </Select>
+              </FormControl>
+              <span className="cards-pack__select-title_end">Cards per Page</span>
+            </div>
           </div>
         </div>
       </div>
