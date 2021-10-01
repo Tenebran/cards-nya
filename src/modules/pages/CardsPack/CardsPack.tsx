@@ -6,12 +6,14 @@ import {
   Select,
   SelectChangeEvent,
 } from '@mui/material';
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  cardsPackChangeSettings,
+  addPackTC,
+  cardsPackChangePage,
   cardsPackTC,
   CardsSettingsType,
+  changePageCount,
 } from '../../redux/reducers/cardsPacksReducers';
 import { AppStoreType } from '../../redux/store';
 import { Header } from '../../components/Header/Header';
@@ -45,22 +47,34 @@ export const CardsPack = () => {
   const CardsPack = useSelector<AppStoreType, Array<cardPacksType>>(
     state => state.cardsPack.cardsPack
   );
-  const cardsSettings = useSelector<AppStoreType, CardsSettingsType>(
-    state => state.cardsPack.cardsSettings
+  const currentPage = useSelector<AppStoreType, number>(
+    state => state.cardsPack.cardPacksTotalCount
   );
+  const page = useSelector<AppStoreType, number>(state => state.cardsPack.pageCount);
+  const currentPageNumber = useSelector<AppStoreType, number>(state => state.cardsPack.page);
+  // const cardsSettings = useSelector<AppStoreType, CardsSettingsType>(
+  //   state => state.cardsPack.cardsSettings
+  // );
   const totalCountCards = useSelector<AppStoreType, number>(
     state => state.cardsPack.cardPacksTotalCount
   );
 
   useEffect(() => {
     dispatch(cardsPackTC());
-  }, [cardsSettings]);
+    dispatch(changePageCount(selectPage));
+  }, [dispatch]);
 
-  console.log(CardsPack);
+  // console.log(CardsPack);
 
-  const handleChange = (event: object, value: number) => {
-    dispatch(cardsPackChangeSettings({ ...cardsSettings, page: value }));
-  };
+  const handleChange = useCallback(
+    (event: object, value: number) => {
+      dispatch(cardsPackChangePage(value));
+      dispatch(cardsPackTC());
+    },
+    [dispatch]
+  );
+
+  console.log(page);
 
   const onLearnClick = (id: string) => {
     console.log(`button cliked ${id}`);
@@ -72,16 +86,31 @@ export const CardsPack = () => {
   };
 
   const onSearchClick = () => {
-    dispatch(cardsPackChangeSettings({ ...cardsSettings, packName: inputValue }));
+    // dispatch(cardsPackChangeSettings({ ...cardsSettings, packName: inputValue }));
   };
 
-  const handleChangePage = (event: SelectChangeEvent) => {
-    console.log(parseInt(event.target.value));
-    setSelectPage(parseInt(event.target.value));
-    dispatch(
-      cardsPackChangeSettings({ ...cardsSettings, pageCount: parseInt(event.target.value) })
-    );
-  };
+  const handleChangePage = useCallback(
+    (event: SelectChangeEvent) => {
+      setSelectPage(parseInt(event.target.value));
+      dispatch(changePageCount(parseInt(event.target.value)));
+      dispatch(cardsPackTC());
+    },
+    [dispatch, page]
+  );
+
+  // const handleChangePage  =  (event: SelectChangeEvent) => {
+  //   // console.log(parseInt(event.target.value));
+  //   setSelectPage(parseInt(event.target.value));
+  //   // dispatch(
+  //   //   cardsPackChangeSettings({ ...cardsSettings, pageCount: parseInt(event.target.value) })
+  //   // );
+  // };
+
+  const addNewPackHandler = useCallback(() => {
+    const name = 'Hi';
+    dispatch(addPackTC(name));
+    dispatch(cardsPackTC());
+  }, [dispatch]);
 
   return (
     <>
@@ -110,7 +139,11 @@ export const CardsPack = () => {
                   Search
                 </button>
               </div>
-              <SuperButton name="Add new pack" buttonWidth="266px" />
+              <SuperButton
+                name="Add new pack"
+                buttonWidth="266px"
+                onClickHandler={addNewPackHandler}
+              />
             </div>
             <table className="table">
               <thead>
@@ -141,8 +174,9 @@ export const CardsPack = () => {
             </table>
             <div className="cards-pack__pagination">
               <Pagination
-                count={Math.ceil(totalCountCards / cardsSettings.pageCount)}
+                count={Math.ceil(currentPage / page)}
                 shape="rounded"
+                page={currentPageNumber}
                 onChange={handleChange}
                 boundaryCount={2}
               />

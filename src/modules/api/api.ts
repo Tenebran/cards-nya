@@ -39,11 +39,20 @@ export const authApi = {
 };
 
 export const cardsPackApi = {
-  getCardsPack(cardPacks: CardsPackType) {
-    return instance.get<GetPackCards>(`/cards/pack/?`, { params: cardPacks });
+  getCardsPack(
+    currentPage: number,
+    pageCount: number,
+    packName: string,
+    userId: string | null,
+    min: number,
+    max: number
+  ) {
+    return instance.get<GetPackCards>(
+      `cards/pack?pageCount=${pageCount}&page=${currentPage}&packName=${packName}&user_id=${userId}&min=${min}&max=${max}`
+    );
   },
-  postCardsPack(cardsPack: PostCardsPackType) {
-    return instance.post('/cards/pack', cardsPack);
+  postCardsPack(name: string) {
+    return instance.post(`cards/pack`, { cardsPack: { name } });
   },
   deleteCardsPack(id: string) {
     return instance.delete(`/cards/pack/?id=${id}`);
@@ -153,16 +162,18 @@ type LogOutNewPassUser = {
 };
 
 export type CardsPackType = {
-  min?: number;
-  max?: number;
-  page?: number;
-  pageCount?: number;
-  packName?: string;
+  min: number;
+  max: number;
+  page: number;
+  pageCount: number;
+  packName: string;
+  userId: string | null;
 };
 
 export type PostCardsPackType = {
-  name: string;
-  deckCover: string;
+  cardsPack: {
+    name?: string;
+  };
 };
 
 export type UpdateCardsPackType = {

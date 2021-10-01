@@ -1,18 +1,11 @@
 import { Dispatch } from 'redux';
-import { cardsPackApi } from '../../api/api';
+import { cardsPackApi, PostCardsPackType } from '../../api/api';
 import { cardPacksType } from '../../pages/CardsPack/CardsPack';
 import { AppStoreType } from '../store';
 
 export const label = '';
 
 const initialState = {
-  cardsSettings: {
-    min: 1,
-    max: 999,
-    page: 1,
-    pageCount: 5,
-    packName: '',
-  },
   cardsPack: [
     {
       cardsCount: 0,
@@ -37,6 +30,9 @@ const initialState = {
   minCardsCount: 0,
   page: 0,
   pageCount: 0,
+  searchPacks: '',
+  userId: '',
+  packsId: '',
 };
 
 export const cardsPackReducer = (
@@ -54,9 +50,11 @@ export const cardsPackReducer = (
         page: action.page,
         pageCount: action.pageCount,
       };
+    case 'CARDSPACK/CARDS_CHANGE_PAGE':
+      return { ...state, page: action.page };
 
-    case 'CARDSPACK/CARDS_CHANGE_SETTINGS':
-      return { ...state, cardsSettings: action.cardsSettings };
+    case 'CARDSPACK/CHANGE_PAGE_COUNT':
+      return { ...state, pageCount: action.pageCount };
 
     default:
       return state;
@@ -82,13 +80,23 @@ export const updateCardsPackAc = (
   } as const;
 };
 
-export const cardsPackChangeSettings = (cardsSettings: CardsSettingsType) => {
-  return { type: 'CARDSPACK/CARDS_CHANGE_SETTINGS', cardsSettings } as const;
+export const changePageCount = (pageCount: number) => {
+  return { type: 'CARDSPACK/CHANGE_PAGE_COUNT', pageCount } as const;
+};
+
+export const cardsPackChangePage = (page: number) => {
+  return { type: 'CARDSPACK/CARDS_CHANGE_PAGE', page } as const;
 };
 
 export const cardsPackTC = () => (dispatch: Dispatch, getState: () => AppStoreType) => {
-  const appState = getState();
-  cardsPackApi.getCardsPack(appState.cardsPack.cardsSettings).then(resp => {
+  const appState = getState().cardsPack;
+  const currentPage = appState.page;
+  const pageCount = appState.pageCount;
+  const packName = appState.searchPacks;
+  const min = appState.minCardsCount;
+  const max = appState.maxCardsCount;
+
+  cardsPackApi.getCardsPack(currentPage, pageCount, packName, '', min, max).then(resp => {
     dispatch(
       updateCardsPackAc(
         resp.data.cardPacks,
@@ -102,6 +110,23 @@ export const cardsPackTC = () => (dispatch: Dispatch, getState: () => AppStoreTy
   });
 };
 
+export const addPackTC = (name: string) => (dispatch: Dispatch, getState: () => AppStoreType) => {
+  const appState = getState();
+
+  cardsPackApi.postCardsPack(name).then(resp => {
+    // dispatch(
+    //   updateCardsPackAc(
+    //     resp.data.cardPacks,
+    //     resp.data.pageCount,
+    //     resp.data.page,
+    //     resp.data.minCardsCount,
+    //     resp.data.maxCardsCount,
+    //     resp.data.cardPacksTotalCount
+    //   )
+    // );
+  });
+};
+
 export type CardsSettingsType = {
   min: number;
   max: number;
@@ -110,6 +135,9 @@ export type CardsSettingsType = {
   packName: string;
 };
 
-type ActionType = ReturnType<typeof updateCardsPackAc> | ReturnType<typeof cardsPackChangeSettings>;
+type ActionType =
+  | ReturnType<typeof updateCardsPackAc>
+  | ReturnType<typeof cardsPackChangePage>
+  | ReturnType<typeof changePageCount>;
 
 type InitialStateType = typeof initialState;
