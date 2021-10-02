@@ -12,7 +12,6 @@ import {
   addPackTC,
   cardsPackChangePage,
   cardsPackTC,
-  CardsSettingsType,
   changePageCount,
 } from '../../redux/reducers/cardsPacksReducers';
 import { AppStoreType } from '../../redux/store';
@@ -21,6 +20,7 @@ import SuperButton from '../../components/SuperButton/SuperButton';
 import './CardsPack.scss';
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
+import { Table } from '../../components/Table/Table';
 
 export type cardPacksType = {
   cardsCount: number;
@@ -40,6 +40,14 @@ export type cardPacksType = {
   _id: string;
 };
 
+const tableTitle = {
+  table1: 'Name',
+  table2: 'Cards',
+  table3: 'Last Updated',
+  table4: 'Created by',
+  table5: 'Actions',
+};
+
 export const CardsPack = () => {
   const [inputValue, setInputalue] = useState<string>('');
   const [selectPage, setSelectPage] = useState<number>(5);
@@ -52,12 +60,6 @@ export const CardsPack = () => {
   );
   const page = useSelector<AppStoreType, number>(state => state.cardsPack.pageCount);
   const currentPageNumber = useSelector<AppStoreType, number>(state => state.cardsPack.page);
-  // const cardsSettings = useSelector<AppStoreType, CardsSettingsType>(
-  //   state => state.cardsPack.cardsSettings
-  // );
-  const totalCountCards = useSelector<AppStoreType, number>(
-    state => state.cardsPack.cardPacksTotalCount
-  );
 
   useEffect(() => {
     dispatch(cardsPackTC());
@@ -145,34 +147,19 @@ export const CardsPack = () => {
                 onClickHandler={addNewPackHandler}
               />
             </div>
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Cards</th>
-                  <th>Last Updated</th>
-                  <th>Created by</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
 
-              {CardsPack.map(CardsPack => {
-                return (
-                  <tbody key={CardsPack._id}>
-                    <tr>
-                      <td>{CardsPack.name}</td>
-                      <td>{CardsPack.cardsCount}</td>
-                      <td>{CardsPack.updated.substr(0, 10)}</td>
-                      <td>{CardsPack.user_name}</td>
-                      <td>
-                        <Link to={`/cards/${CardsPack._id}`}>Learn</Link>
-                      </td>
-                    </tr>
-                  </tbody>
-                );
-              })}
-            </table>
-            <div className="cards-pack__pagination">
+            <Table
+              CardsPack={CardsPack}
+              tableTitle={tableTitle}
+              currentPage={currentPage}
+              page={page}
+              currentPageNumber={currentPageNumber}
+              handleChange={handleChange}
+              selectPage={selectPage}
+              handleChangePage={handleChangePage}
+            />
+
+            {/* <div className="cards-pack__pagination">
               <Pagination
                 count={Math.ceil(currentPage / page)}
                 shape="rounded"
@@ -198,7 +185,7 @@ export const CardsPack = () => {
                 </Select>
               </FormControl>
               <span className="cards-pack__select-title_end">Cards per Page</span>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
