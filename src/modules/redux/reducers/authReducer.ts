@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux';
-import { authApi } from '../../api/api';
+import { authApi } from '../../api/authApi';
 
 const initialState = {
   authMe: false,
@@ -8,7 +8,6 @@ const initialState = {
   statusSend: false,
   userEmail: '',
   newPassSuccess: false,
-  //userData: {} as Usertype,
 };
 
 export const authReducer = (

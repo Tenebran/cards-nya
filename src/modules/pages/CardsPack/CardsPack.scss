@@ -1,0 +1,156 @@
+.cards-pack {
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__title {
+    font-family: 'Poppins';
+    font-size: 22px;
+    line-height: 33px;
+    margin: 0 0 15px 0;
+  }
+  &__list {
+    cursor: pointer;
+  }
+
+  &__show {
+    &_title {
+      display: inline-block;
+      margin: 13px 0 20px 0;
+      font-size: 16px;
+      color: #2d2e46;
+      font-family: 'SF UI Semibold';
+    }
+    &_button {
+      &_wrapper {
+        display: inline-block;
+
+        margin: 0 0 42px 0;
+      }
+      &_white {
+        max-height: 36px;
+        max-width: 80px;
+        border: none;
+        padding: 10px 30px;
+        background-color: #9a91c8;
+      }
+
+      &_purpe {
+        max-height: 36px;
+        max-width: 80px;
+        border: none;
+        padding: 10px 30px;
+        background-color: #ffff;
+      }
+    }
+  }
+  &__wrapper {
+    width: 80%;
+    height: 636px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &_table {
+      width: 75%;
+      height: 100%;
+      background-color: #fefeff;
+      padding: 24px 48px;
+      width: 70;
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px;
+      overflow-y: scroll; /* прокрутка по вертикали */
+    }
+
+    &_schow {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+      width: 20%;
+      padding: 24px 24px;
+      background-color: #ececf9;
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+    }
+  }
+  &__search {
+    margin: 0 0 24px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+
+    &__input {
+      width: 461px;
+      height: 36px;
+    }
+    &__button {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+    }
+  }
+  &__input-wrapper {
+    position: relative;
+  }
+
+  &__pagination {
+    display: flex;
+    align-items: center;
+  }
+
+  &__select-title {
+    margin: 0 5px 0 36px;
+    &_end {
+      margin: 0 0 0 5px;
+    }
+  }
+}
+
+.demo-simple-select-label {
+  color: black !important;
+}
+
+.cards-pack__wrapper_table::-webkit-scrollbar {
+  width: 0px;
+  height: 5px;
+}
+
+.cards-pack__wrapper_table::-webkit-scrollbar-track {
+  background: rgb(195, 177, 223);
+  border-radius: 5px;
+}
+
+.cards-pack__wrapper_table::-webkit-scrollbar-thumb {
+  background: rgb(111, 96, 245);
+  border-radius: 5px;
+}
+.cards-pack__wrapper_table::-webkit-scrollbar-thumb:hover {
+  background: rgb(100, 100, 100);
+  border-radius: 5px;
+}
+.cards-pack__wrapper_table::-webkit-scrollbar-thumb:active {
+  background: rgb(68, 68, 68);
+  border-radius: 10px;
+}
+
+.MuiTouchRipple-root {
+  color: #21268f !important;
+}
+
+.MuiButtonBase-root {
+  color: #21268f !important;
+  font-weight: 400 !important;
+  font-size: 18px !important;
+}
+
+.Mui-selected {
+  color: #fff !important;
+}
+
+.MuiPaginationItem-page.Mui-selected {
+  background-color: #21268f !important;
+  color: #fff;
+  border-radius: 5px;
+}
