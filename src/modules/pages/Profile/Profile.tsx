@@ -5,8 +5,7 @@ import './Profile.scss';
 export const Profile = () => {
   return (
     <>
-      <Header />
-
+      <Header active={'profile_active'} />
       <div>
         <h1>Profile</h1>
       </div>

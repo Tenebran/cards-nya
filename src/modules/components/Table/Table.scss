@@ -1,0 +1,52 @@
+.table {
+  &__pagination {
+    display: flex;
+  }
+
+  &__td {
+    font-size: 13px;
+    font-family: 'SF UI Regular';
+    font-weight: 500;
+  }
+
+  &__button {
+    font-family: 'SF UI Semibold';
+    padding: 5px 6px;
+    background-color: #d7d8ef;
+    text-decoration: none;
+    color: #21268f;
+    transition: 1s;
+    border-radius: 2px;
+    &:hover {
+      background-color: #a4a5c4;
+    }
+  }
+}
+
+.table {
+  min-width: 100%;
+  margin-bottom: 20px;
+  border-collapse: unset;
+  background: #ececf9;
+  box-shadow: 1px 1px 5px 5px #0a0a0a0c;
+}
+.table thead th {
+  font-weight: bold;
+  text-align: left;
+  border: none;
+  padding: 16px 24px;
+  background: #ececf9;
+}
+
+.table tbody td {
+  text-align: left;
+  border: none;
+  padding: 16px 24px;
+  vertical-align: top;
+}
+.table tbody tr:nth-child(even) {
+  background: #f8f7fd;
+}
+.table tbody tr {
+  background: #ffffff;
+}

@@ -9,7 +9,6 @@ import {
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { CardsType } from '../../pages/CardsPack/Cards/Cards';
-import { cardPacksType } from '../../pages/CardsPack/CardsPack';
 import './Table.scss';
 
 export type TableTitleType = {
@@ -31,10 +30,19 @@ type FormPropsType = {
   handleChange: (event: object, value: number) => void;
 };
 
+const srtingLenghtCutter = (value: string | number) => {
+  if (value && typeof value === 'string') {
+    return value.length > 10 ? value.substring(0, 9) + '...' : value;
+  } else if (value >= 0 && typeof value === 'number') {
+    return value;
+  }
+  return;
+};
+
 export const Table = (props: FormPropsType) => {
   return (
     <>
-      <table className="table">
+      <table className="table" style={{ borderCollapse: 'collapse' }}>
         <thead>
           <tr>
             <th>{props.tableTitle.table1}</th>
@@ -44,50 +52,65 @@ export const Table = (props: FormPropsType) => {
             <th>{props.tableTitle.table5}</th>
           </tr>
         </thead>
-
-        {props.CardsPack.map(CardsPack => {
-          return (
-            <tbody key={CardsPack._id}>
-              <tr>
-                <td>{CardsPack.name}</td>
-                <td>{CardsPack.cardsCount}</td>
-                <td>{CardsPack.updated.substr(0, 10)}</td>
-                <td>{CardsPack.user_name}</td>
+        <tbody className="table__td">
+          {props.CardsPack.map(CardsPack =>
+            CardsPack.type === 'card' ? (
+              <tr key={CardsPack._id} className="table__td">
+                <td>{srtingLenghtCutter(CardsPack.question)}</td>
+                <td>{srtingLenghtCutter(CardsPack.answer)}</td>
+                <td>{srtingLenghtCutter(CardsPack.updated.substr(0, 10))}</td>
+                <td>{srtingLenghtCutter(CardsPack.created)}</td>
+                <td>{/* <Link to={`/cards/${CardsPack._id}`}>Learn</Link> */}</td>
+              </tr>
+            ) : (
+              <tr key={CardsPack._id} className="table__td">
+                <td>{srtingLenghtCutter(CardsPack.name)}</td>
+                <td>{srtingLenghtCutter(CardsPack.cardsCount)}</td>
+                <td>{srtingLenghtCutter(CardsPack.updated.substr(0, 10))}</td>
+                <td>{srtingLenghtCutter(CardsPack.user_name)}</td>
                 <td>
-                  <Link to={`/cards/${CardsPack._id}`}>Learn</Link>
+                  <Link to={`/cards/${CardsPack._id}`} className="table__button">
+                    Learn
+                  </Link>
                 </td>
               </tr>
-            </tbody>
-          );
-        })}
+            )
+          )}
+        </tbody>
       </table>
 
-      <div className="cards-pack__pagination">
-        <Pagination
-          count={Math.ceil(props.currentPage / props.page)}
-          shape="rounded"
-          page={props.currentPageNumber}
-          onChange={props.handleChange}
-          boundaryCount={2}
-        />
-
-        <span className="cards-pack__select-title">Show</span>
-        <FormControl>
-          <InputLabel id="demo-simple-select-label">Page</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={props.selectPage.toString()}
-            label="Page"
-            onChange={props.handleChangePage}
-            size={'small'}
-          >
-            <MenuItem value={5}>5</MenuItem>
-            <MenuItem value={8}>8</MenuItem>
-            <MenuItem value={10}>10</MenuItem>
-          </Select>
-        </FormControl>
-        <span className="cards-pack__select-title_end">Cards per Page</span>
+      <div className="table__pagination">
+        {props.currentPage === 0 ? (
+          ''
+        ) : (
+          <Pagination
+            count={Math.ceil(props.currentPage / props.page)}
+            shape="rounded"
+            page={props.currentPageNumber}
+            onChange={props.handleChange}
+            boundaryCount={2}
+            size="small"
+          />
+        )}
+        <div>
+          <span className="cards-pack__select-title">Show</span>
+          <FormControl>
+            <InputLabel id="demo-simple-select-label">Page</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={props.selectPage.toString()}
+              label="Page"
+              onChange={props.handleChangePage}
+              size={'small'}
+            >
+              <MenuItem value={5}>5</MenuItem>
+              <MenuItem value={8}>8</MenuItem>
+              <MenuItem value={10}>10</MenuItem>
+            </Select>
+          </FormControl>
+          <span className="cards-pack__select-title_end">Cards per Page</span>
+        </div>
       </div>
     </>
   );

@@ -1,11 +1,17 @@
-import { Pagination } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import { SelectChangeEvent } from '@mui/material';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Header } from '../../../components/Header/Header';
 import SuperButton from '../../../components/SuperButton/SuperButton';
 import { Table } from '../../../components/Table/Table';
-import { CardsSettingsType, cardsTC } from '../../../redux/reducers/cardsReducer';
+import {
+  CardsSettingsType,
+  cardsTC,
+  changeCardsPage,
+  getCardsPageCount,
+  getUsersCards,
+} from '../../../redux/reducers/cardsReducer';
 import { AppStoreType } from '../../../redux/store';
 import './Cards.scss';
 
@@ -37,33 +43,39 @@ const tableTitle = {
 export const Cards = () => {
   const dispatch = useDispatch();
   const cards = useSelector<AppStoreType, Array<CardsType>>(state => state.cards.cards);
-
-  const { id } = useParams<{ id: string }>();
-  const totalCountCards = useSelector<AppStoreType, number>(state => state.cards.cardsTotalCount);
+  const cardsCurrentPage = useSelector<AppStoreType, number>(state => state.cards.cardsTotalCount);
+  const cardspage = useSelector<AppStoreType, number>(state => state.cards.pageCount);
+  const [selectPage, setSelectPage] = useState<number>(8);
+  const { id: userId } = useParams<{ id: string }>();
+  const currentPageNumber = useSelector<AppStoreType, number>(state => state.cards.page);
 
   useEffect(() => {
-    // dispatch(cardsChangeSettings({ ...cardsSettings, cardsPack_id: id }));
+    dispatch(getUsersCards(userId));
+    dispatch(getCardsPageCount(selectPage));
+    dispatch(cardsTC());
+  }, [dispatch, userId]);
 
+  const handleChange = useCallback(
+    (event: object, value: number) => {
+      dispatch(changeCardsPage(value));
+      dispatch(cardsTC());
+    },
+    [dispatch]
+  );
+
+  console.log(currentPageNumber);
+
+  const handleChangePage = useCallback((event: SelectChangeEvent) => {
+    setSelectPage(parseInt(event.target.value));
+    dispatch(getCardsPageCount(parseInt(event.target.value)));
     dispatch(cardsTC());
   }, []);
 
-  const handleChange = (event: object, value: number) => {
-    // dispatch(cardsChangeSettings({ ...cardsSettings, page: value }));
-  };
-
   return (
     <>
-      <Header />
+      <Header active={'pack_list_active'} />
       <div className="cards-pack">
         <div className="cards-pack__wrapper">
-          <div className="cards-pack__wrapper_schow">
-            <span className="cards-pack__show_title">Show packs cards</span>
-            <div className="cards-pack__show_button_wrapper">
-              <button className="cards-pack__show_button_white">My</button>
-              <button className="cards-pack__show_button_purpe">All</button>
-            </div>
-            <span className="cards-pack__show_title">Number of cards</span>
-          </div>
           <div className="cards-pack__wrapper_table">
             <h1>Packs list</h1>
             <div className="cards-pack__search">
@@ -71,41 +83,15 @@ export const Cards = () => {
               <SuperButton name="Add new pack" buttonWidth="266px" />
             </div>
 
-            {/* <Table tableTitle={tableTitle} CardsPack={cards}  currentPage={}/> */}
-
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Question</th>
-                  <th>Answer</th>
-                  <th>Last Updated</th>
-                  <th>Grade</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {cards.map(card => {
-                  return (
-                    <tr key={card._id}>
-                      <td>{card.question}</td>
-                      <td>{card.answer}</td>
-                      <td>{card.updated.substr(0, 10)}</td>
-                      <td>
-                        <button>Delete</button>
-                      </td>
-                      <td>
-                        <button>Delete </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-            <Pagination
-              // count={Math.ceil(totalCountCards / cardsSettings.pageCount)}
-              shape="rounded"
-              onChange={handleChange}
-              boundaryCount={3}
+            <Table
+              CardsPack={cards}
+              tableTitle={tableTitle}
+              currentPage={cardsCurrentPage}
+              page={cardspage}
+              currentPageNumber={currentPageNumber}
+              handleChange={handleChange}
+              selectPage={selectPage}
+              handleChangePage={handleChangePage}
             />
           </div>
         </div>

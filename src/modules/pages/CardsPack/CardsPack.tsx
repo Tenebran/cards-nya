@@ -92,7 +92,7 @@ export const CardsPack = () => {
 
   return (
     <>
-      <Header />
+      <Header active={'pack_list_active'} />
       <div className="cards-pack">
         <div className="cards-pack__wrapper">
           <div className="cards-pack__wrapper_schow">
@@ -104,7 +104,7 @@ export const CardsPack = () => {
             <span className="cards-pack__show_title">Number of cards</span>
           </div>
           <div className="cards-pack__wrapper_table">
-            <h1>Packs list</h1>
+            <div className="cards-pack__title">Packs list</div>
             <div className="cards-pack__search">
               <div className="cards-pack__input-wrapper">
                 <input
