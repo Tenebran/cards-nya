@@ -8,6 +8,7 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { CardsType } from '../../pages/CardsPack/Cards/Cards';
 import { cardPacksType } from '../../pages/CardsPack/CardsPack';
 import './Table.scss';
 
@@ -20,7 +21,7 @@ export type TableTitleType = {
 };
 
 type FormPropsType = {
-  CardsPack: Array<cardPacksType>;
+  CardsPack: Array<any>;
   tableTitle: TableTitleType;
   currentPageNumber: number;
   page: number;

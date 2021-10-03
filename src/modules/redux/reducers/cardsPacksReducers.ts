@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux';
-import { cardsPackApi, PostCardsPackType } from '../../api/api';
+import { cardsPackApi } from '../../api/cardPackApi';
 import { cardPacksType } from '../../pages/CardsPack/CardsPack';
 import { AppStoreType } from '../store';
 
@@ -56,6 +56,9 @@ export const cardsPackReducer = (
     case 'CARDSPACK/CHANGE_PAGE_COUNT':
       return { ...state, pageCount: action.pageCount };
 
+    case 'CARDSPACK/SEARCH_PACK':
+      return { ...state, searchPacks: action.PackName };
+
     default:
       return state;
   }
@@ -88,6 +91,9 @@ export const cardsPackChangePage = (page: number) => {
   return { type: 'CARDSPACK/CARDS_CHANGE_PAGE', page } as const;
 };
 
+export const seacrhPacksNameAC = (PackName: string) => {
+  return { type: 'CARDSPACK/SEARCH_PACK', PackName } as const;
+};
 export const cardsPackTC = () => (dispatch: Dispatch, getState: () => AppStoreType) => {
   const appState = getState().cardsPack;
   const currentPage = appState.page;
@@ -110,21 +116,8 @@ export const cardsPackTC = () => (dispatch: Dispatch, getState: () => AppStoreTy
   });
 };
 
-export const addPackTC = (name: string) => (dispatch: Dispatch, getState: () => AppStoreType) => {
-  const appState = getState();
-
-  cardsPackApi.postCardsPack(name).then(resp => {
-    // dispatch(
-    //   updateCardsPackAc(
-    //     resp.data.cardPacks,
-    //     resp.data.pageCount,
-    //     resp.data.page,
-    //     resp.data.minCardsCount,
-    //     resp.data.maxCardsCount,
-    //     resp.data.cardPacksTotalCount
-    //   )
-    // );
-  });
+export const addPackTC = (name: string) => () => {
+  cardsPackApi.postCardsPack(name);
 };
 
 export type CardsSettingsType = {
@@ -138,6 +131,7 @@ export type CardsSettingsType = {
 type ActionType =
   | ReturnType<typeof updateCardsPackAc>
   | ReturnType<typeof cardsPackChangePage>
-  | ReturnType<typeof changePageCount>;
+  | ReturnType<typeof changePageCount>
+  | ReturnType<typeof seacrhPacksNameAC>;
 
 type InitialStateType = typeof initialState;

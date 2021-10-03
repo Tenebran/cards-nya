@@ -1,11 +1,4 @@
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Pagination,
-  Select,
-  SelectChangeEvent,
-} from '@mui/material';
+import { SelectChangeEvent } from '@mui/material';
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -13,13 +6,12 @@ import {
   cardsPackChangePage,
   cardsPackTC,
   changePageCount,
+  seacrhPacksNameAC,
 } from '../../redux/reducers/cardsPacksReducers';
 import { AppStoreType } from '../../redux/store';
 import { Header } from '../../components/Header/Header';
 import SuperButton from '../../components/SuperButton/SuperButton';
 import './CardsPack.scss';
-import { Redirect } from 'react-router';
-import { Link } from 'react-router-dom';
 import { Table } from '../../components/Table/Table';
 
 export type cardPacksType = {
@@ -50,7 +42,7 @@ const tableTitle = {
 
 export const CardsPack = () => {
   const [inputValue, setInputalue] = useState<string>('');
-  const [selectPage, setSelectPage] = useState<number>(5);
+  const [selectPage, setSelectPage] = useState<number>(8);
   const dispatch = useDispatch();
   const CardsPack = useSelector<AppStoreType, Array<cardPacksType>>(
     state => state.cardsPack.cardsPack
@@ -62,11 +54,9 @@ export const CardsPack = () => {
   const currentPageNumber = useSelector<AppStoreType, number>(state => state.cardsPack.page);
 
   useEffect(() => {
-    dispatch(cardsPackTC());
     dispatch(changePageCount(selectPage));
+    dispatch(cardsPackTC());
   }, [dispatch]);
-
-  // console.log(CardsPack);
 
   const handleChange = useCallback(
     (event: object, value: number) => {
@@ -76,19 +66,13 @@ export const CardsPack = () => {
     [dispatch]
   );
 
-  console.log(page);
-
-  const onLearnClick = (id: string) => {
-    console.log(`button cliked ${id}`);
-    return <Redirect to={`/cards/${id}`} />;
-  };
-
   const onChangeCallback = (e: ChangeEvent<HTMLInputElement>) => {
     setInputalue(e.currentTarget.value);
   };
 
   const onSearchClick = () => {
-    // dispatch(cardsPackChangeSettings({ ...cardsSettings, packName: inputValue }));
+    dispatch(seacrhPacksNameAC(inputValue));
+    dispatch(cardsPackTC());
   };
 
   const handleChangePage = useCallback(
@@ -100,16 +84,8 @@ export const CardsPack = () => {
     [dispatch, page]
   );
 
-  // const handleChangePage  =  (event: SelectChangeEvent) => {
-  //   // console.log(parseInt(event.target.value));
-  //   setSelectPage(parseInt(event.target.value));
-  //   // dispatch(
-  //   //   cardsPackChangeSettings({ ...cardsSettings, pageCount: parseInt(event.target.value) })
-  //   // );
-  // };
-
   const addNewPackHandler = useCallback(() => {
-    const name = 'Hi';
+    const name = 'Hello';
     dispatch(addPackTC(name));
     dispatch(cardsPackTC());
   }, [dispatch]);
@@ -158,34 +134,6 @@ export const CardsPack = () => {
               selectPage={selectPage}
               handleChangePage={handleChangePage}
             />
-
-            {/* <div className="cards-pack__pagination">
-              <Pagination
-                count={Math.ceil(currentPage / page)}
-                shape="rounded"
-                page={currentPageNumber}
-                onChange={handleChange}
-                boundaryCount={2}
-              />
-
-              <span className="cards-pack__select-title">Show</span>
-              <FormControl>
-                <InputLabel id="demo-simple-select-label">Page</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={selectPage.toString()}
-                  label="Page"
-                  onChange={handleChangePage}
-                  size={'small'}
-                >
-                  <MenuItem value={5}>5</MenuItem>
-                  <MenuItem value={8}>8</MenuItem>
-                  <MenuItem value={10}>10</MenuItem>
-                </Select>
-              </FormControl>
-              <span className="cards-pack__select-title_end">Cards per Page</span>
-            </div> */}
           </div>
         </div>
       </div>

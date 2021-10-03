@@ -1,14 +1,10 @@
+import { resolve } from 'dns';
 import { Dispatch } from 'redux';
-import { cardsApi } from '../../api/api';
+import { cardsApi } from '../../api/cardsApi';
 import { CardsType } from '../../pages/CardsPack/Cards/Cards';
 import { AppStoreType } from '../store';
 
 const initialState = {
-  cardsSettings: {
-    cardsPack_id: '',
-    page: 1,
-    pageCount: 5,
-  },
   cards: [
     {
       answer: '',
@@ -51,11 +47,7 @@ export const cardsReducer = (
         page: action.page,
         pageCount: action.pageCount,
       };
-    case 'CARDS/CARDS_CHANGE_SETTINGS':
-      return {
-        ...state,
-        cardsSettings: action.cardsSettings,
-      };
+
     default:
       return state;
   }
@@ -82,24 +74,19 @@ export const getCardsAC = (
   } as const;
 };
 
-export const cardsChangeSettings = (cardsSettings: CardsSettingsType) => {
-  return { type: 'CARDS/CARDS_CHANGE_SETTINGS', cardsSettings } as const;
-};
-
 export const cardsTC = () => (dispatch: Dispatch, getState: () => AppStoreType) => {
-  const appstate = getState();
+  const appstate = getState().cards;
   console.log(appstate);
-  cardsApi.getCards(appstate.cards.cardsSettings).then(resp => {
-    dispatch(
-      getCardsAC(
-        resp.data.cards,
-        resp.data.cardsTotalCount,
-        resp.data.maxGrade,
-        resp.data.minGrade,
-        resp.data.packUserId,
-        resp.data.page,
-        resp.data.pageCount
-      )
+  cardsApi.getCards(appstate.packUserId, appstate.pageCount, appstate.page).then(resolve => {
+    let res = resolve.data;
+    getCardsAC(
+      res.cards,
+      res.cardsTotalCount,
+      res.maxGrade,
+      res.minGrade,
+      res.packUserId,
+      res.page,
+      res.pageCount
     );
   });
 };
@@ -110,6 +97,6 @@ export type CardsSettingsType = {
   pageCount: number;
 };
 
-type ActionType = ReturnType<typeof getCardsAC> | ReturnType<typeof cardsChangeSettings>;
+type ActionType = ReturnType<typeof getCardsAC>;
 
 export type InitialStateType = typeof initialState;

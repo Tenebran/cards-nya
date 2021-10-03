@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux';
-import { authApi } from '../../api/api';
+import { authApi } from '../../api/authApi';
 
 const initialState = {
   authMe: false,

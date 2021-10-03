@@ -4,11 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Header } from '../../../components/Header/Header';
 import SuperButton from '../../../components/SuperButton/SuperButton';
-import {
-  cardsChangeSettings,
-  CardsSettingsType,
-  cardsTC,
-} from '../../../redux/reducers/cardsReducer';
+import { Table } from '../../../components/Table/Table';
+import { CardsSettingsType, cardsTC } from '../../../redux/reducers/cardsReducer';
 import { AppStoreType } from '../../../redux/store';
 import './Cards.scss';
 
@@ -29,26 +26,30 @@ export type CardsType = {
   _id: string;
 };
 
+const tableTitle = {
+  table1: 'Question',
+  table2: 'Answer',
+  table3: 'Last Updated',
+  table4: 'Grade',
+  table5: 'Actions',
+};
+
 export const Cards = () => {
   const dispatch = useDispatch();
   const cards = useSelector<AppStoreType, Array<CardsType>>(state => state.cards.cards);
-  const cardsSettings = useSelector<AppStoreType, CardsSettingsType>(
-    state => state.cards.cardsSettings
-  );
+
   const { id } = useParams<{ id: string }>();
   const totalCountCards = useSelector<AppStoreType, number>(state => state.cards.cardsTotalCount);
 
   useEffect(() => {
-    dispatch(cardsChangeSettings({ ...cardsSettings, cardsPack_id: id }));
+    // dispatch(cardsChangeSettings({ ...cardsSettings, cardsPack_id: id }));
 
     dispatch(cardsTC());
-  }, [cardsSettings.page]);
+  }, []);
 
   const handleChange = (event: object, value: number) => {
-    dispatch(cardsChangeSettings({ ...cardsSettings, page: value }));
+    // dispatch(cardsChangeSettings({ ...cardsSettings, page: value }));
   };
-
-  console.log(cardsSettings);
 
   return (
     <>
@@ -69,6 +70,9 @@ export const Cards = () => {
               <input placeholder="Search..." className="cards-pack__search__input" />
               <SuperButton name="Add new pack" buttonWidth="266px" />
             </div>
+
+            {/* <Table tableTitle={tableTitle} CardsPack={cards}  currentPage={}/> */}
+
             <table className="table">
               <thead>
                 <tr>
@@ -98,7 +102,7 @@ export const Cards = () => {
               </tbody>
             </table>
             <Pagination
-              count={Math.ceil(totalCountCards / cardsSettings.pageCount)}
+              // count={Math.ceil(totalCountCards / cardsSettings.pageCount)}
               shape="rounded"
               onChange={handleChange}
               boundaryCount={3}

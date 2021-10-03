@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
+import { authApi } from '../../api/authApi';
 import { entityStatusAC, setInitializedAC } from './authReducer';
-import { authApi } from '../../api/api';
 
 const initState: InitStateType = {
   authoriseMe: false,
