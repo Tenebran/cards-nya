@@ -12,7 +12,7 @@ type HeaderPropsType = {
 export const Header = (props: HeaderPropsType) => {
   return (
     <header className={'header'}>
-      <Link to="/profile" className="header__logo">
+      <Link to={PATH.PROFILE} className="header__logo">
         It-incubator
       </Link>
       <div className="header__menu__wrapper">

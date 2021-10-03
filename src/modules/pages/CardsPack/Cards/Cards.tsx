@@ -1,7 +1,8 @@
 import { SelectChangeEvent } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { LeftArrowIcon } from '../../../common/IconComponents/LeftArrowIcon';
 import { Header } from '../../../components/Header/Header';
 import SuperButton from '../../../components/SuperButton/SuperButton';
 import { Table } from '../../../components/Table/Table';
@@ -13,6 +14,7 @@ import {
   getUsersCards,
 } from '../../../redux/reducers/cardsReducer';
 import { AppStoreType } from '../../../redux/store';
+import { PATH } from '../../../routes/Routes';
 import './Cards.scss';
 
 export type CardsType = {
@@ -77,7 +79,10 @@ export const Cards = () => {
       <div className="cards-pack">
         <div className="cards-pack__wrapper">
           <div className="cards-pack__wrapper_table">
-            <h1>Packs list</h1>
+            <Link to={PATH.PACK_LIST} className="card__wrapper">
+              <LeftArrowIcon />
+              <div className="card__wrapper__title">Pack</div>
+            </Link>
             <div className="cards-pack__search">
               <input placeholder="Search..." className="cards-pack__search__input" />
               <SuperButton name="Add new pack" buttonWidth="266px" />
