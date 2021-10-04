@@ -24,12 +24,13 @@ export const Registration = () => {
   const dispatch = useDispatch();
   const authoriseMe = useSelector<any, boolean>(state => state.registration.authoriseMe);
   const entityStatus = useSelector<any, boolean>(state => state.registration.entityStatus);
-  const initialized = useSelector<AppStoreType, boolean>(state => state.user.initialized);
   const [openPassword, setOpenPassword] = useState(false);
+  const [initialized, setInitialized] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [disabledBtn, setDisabledBtn] = useState(true);
+  const [returnToLogin, setReturnToLogin] = useState(false);
   const [value, setValue] = useState<string>('');
 
   const emailTarget = (e: ChangeEvent<HTMLInputElement>) => {
@@ -60,9 +61,8 @@ export const Registration = () => {
     setPasswordConfirm(e.currentTarget.value);
   };
 
-  const changeViewPassword = () => {
-    setOpenPassword(!openPassword);
-  };
+  const changeViewPassword = () => setOpenPassword(!openPassword);
+  const returnToLoginHandler = () => setReturnToLogin(true);
 
   const registerHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -79,9 +79,10 @@ export const Registration = () => {
     setDisabledBtn(true);
   };
 
-  if (authoriseMe) {
+  if (authoriseMe || returnToLogin) {
     return <Redirect to={PATH.LOGIN} />;
   }
+
   return (
     <div className="login">
       {initialized ? (
@@ -146,7 +147,7 @@ export const Registration = () => {
               <SuperButton
                 name="Cancel"
                 buttonWidth="124px"
-                onClickHandler={clearAllInputs}
+                onClickHandler={returnToLoginHandler}
                 color="purpe"
               />
               <SuperButton
