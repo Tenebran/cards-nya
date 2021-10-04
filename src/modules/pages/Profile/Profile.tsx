@@ -9,6 +9,7 @@ import { Redirect } from 'react-router-dom';
 import { PATH } from '../../routes/Routes';
 import { AppStoreType } from '../../redux/store';
 import { Loader } from '../../components/Loader/Loader';
+import { Preloader } from '../../components/Preloader/Preloader';
 
 export const Profile = () => {
   const initialized = useSelector<AppStoreType, boolean>(state => state.user.initialized);

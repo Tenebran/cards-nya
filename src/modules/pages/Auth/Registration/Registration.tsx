@@ -19,13 +19,14 @@ import SuperButton from '../../../components/SuperButton/SuperButton';
 import './Registration.scss';
 import { Loader } from '../../../components/Loader/Loader';
 import { AppStoreType } from '../../../redux/store';
+import { Preloader } from '../../../components/Preloader/Preloader';
 
 export const Registration = () => {
   const dispatch = useDispatch();
-  const authoriseMe = useSelector<any, boolean>(state => state.registration.authoriseMe);
-  const entityStatus = useSelector<any, boolean>(state => state.registration.entityStatus);
+  const authoriseMe = useSelector<AppStoreType, boolean>(state => state.registration.authoriseMe);
+  const entityStatus = useSelector<AppStoreType, boolean>(state => state.registration.entityStatus);
+  const initialized = useSelector<AppStoreType, boolean>(state => state.user.initialized);
   const [openPassword, setOpenPassword] = useState(false);
-  const [initialized, setInitialized] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
@@ -72,19 +73,13 @@ export const Registration = () => {
     setPasswordConfirm('');
   };
 
-  const clearAllInputs = () => {
-    setEmail('');
-    setPassword('');
-    setPasswordConfirm('');
-    setDisabledBtn(true);
-  };
-
   if (authoriseMe || returnToLogin) {
     return <Redirect to={PATH.LOGIN} />;
   }
 
   return (
     <div className="login">
+      {initialized ? <Preloader /> : ''}
       {initialized ? (
         <Loader />
       ) : (

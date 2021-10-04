@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
 import { authApi } from '../../api/authApi';
-import { entityStatusAC, setInitializedAC } from './authReducer';
+import { entityStatusAC, errorMessagesAC, setInitializedAC } from './authReducer';
 
 const initState: InitStateType = {
   authoriseMe: false,
@@ -40,12 +40,16 @@ export const registrationTC =
       const error = e.response
         ? e.response.data.error
         : e.message + ', more details in the console';
-      alert(error);
+      dispatch(errorMessagesAC(error));
     }
     dispatch(registrationAC(false));
   };
 
 type registrationAT = ReturnType<typeof registrationAC>;
 export type entityStatusAT = ReturnType<typeof entityStatusAC>;
-type actionType = registrationAT | entityStatusAT | ReturnType<typeof setInitializedAC>;
+type actionType =
+  | registrationAT
+  | entityStatusAT
+  | ReturnType<typeof setInitializedAC>
+  | ReturnType<typeof errorMessagesAC>;
 type ThunkDispatch = Dispatch<actionType>;

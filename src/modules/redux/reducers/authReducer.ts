@@ -8,6 +8,7 @@ const initialState = {
   statusSend: false,
   userEmail: '',
   newPassSuccess: false,
+  errorMessage: '',
 };
 
 export const authReducer = (
@@ -33,7 +34,8 @@ export const authReducer = (
       return { ...state, newPassSuccess: action.success };
     /* case 'AUTH/UPDATE-USER':
              return {...state, userData: action.userData};*/
-
+    case 'AUTH/ERROR_MESSAGES':
+      return { ...state, errorMessage: action.messages };
     default:
       return state;
   }
@@ -69,6 +71,10 @@ export const setPassSuccessAC = (success: boolean) => {
   return { type: 'AUTH/NEW-PASSWORD-SUCCESS', success } as const;
 };
 
+export const errorMessagesAC = (messages: string) => {
+  return { type: 'AUTH/ERROR_MESSAGES', messages } as const;
+};
+
 export const loginTC =
   (email: string, password: string, rememberMe: boolean) =>
   async (dispatch: Dispatch<ActionType>) => {
@@ -83,7 +89,7 @@ export const loginTC =
       const error = e.response
         ? e.response.data.error
         : e.message + ', more details in the console';
-      alert(error);
+      dispatch(errorMessagesAC(error));
     }
   };
 
@@ -94,8 +100,8 @@ export const logOutTC = () => async (dispatch: Dispatch<ActionType>) => {
     dispatch(setInitializedAC(false));
     dispatch(logOutAC(false));
   } catch (e: any) {
-    const error = e.response ? e.response.data.error : e.message + ', more details in the console';
-    alert(error);
+    // const error = e.response ? e.response.data.error : e.message + ', more details in the console';
+    dispatch(errorMessagesAC(e.response.data.error));
   }
 };
 
@@ -104,8 +110,8 @@ export const authMe = () => async (dispatch: Dispatch<ActionType>) => {
     await authApi.authMe();
     dispatch(loginAC(true));
   } catch (e: any) {
-    const error = e.response ? e.response.data.error : e.message + ', more details in the console';
-    alert(error);
+    // const error = e.response ? e.response.data.error : e.message + ', more details in the console';
+    dispatch(errorMessagesAC(e.response.data.error));
   }
 };
 
@@ -118,10 +124,16 @@ export const thunkUpdateUser =
 
 export const forgotPasswordThunk = (email: string) => (dispatch: Dispatch) => {
   dispatch(setInitializedAC(true));
-  authApi.forgotPassword(email).then(resp => {
-    dispatch(forgotPasswordAc(email));
-    dispatch(setInitializedAC(false));
-  });
+  authApi
+    .forgotPassword(email)
+    .then(resp => {
+      dispatch(forgotPasswordAc(email));
+      dispatch(setInitializedAC(false));
+    })
+    .catch(error => {
+      dispatch(setInitializedAC(false));
+      // dispatch(errorMessagesAC(error.error));
+    });
 };
 
 export const createNewPasswordThunk = (password: string, token: string) => (dispatch: Dispatch) => {
@@ -145,6 +157,12 @@ export type Usertype = {
   rememberMe: boolean;
 };
 
+// export type ErrorType = {
+//   error: string;
+//   password: string;
+//   in: string;
+// };
+
 export type ActionType =
   | ReturnType<typeof logOutAC>
   | ReturnType<typeof loginAC>
@@ -152,6 +170,7 @@ export type ActionType =
   | ReturnType<typeof setInitializedAC>
   | ReturnType<typeof entityStatusAC>
   | ReturnType<typeof forgotPasswordAc>
-  | ReturnType<typeof setPassSuccessAC>;
+  | ReturnType<typeof setPassSuccessAC>
+  | ReturnType<typeof errorMessagesAC>;
 
 type InitialStateType = typeof initialState;

@@ -13,6 +13,7 @@ import { Header } from '../../components/Header/Header';
 import SuperButton from '../../components/SuperButton/SuperButton';
 import './CardsPack.scss';
 import { Table } from '../../components/Table/Table';
+import { Preloader } from '../../components/Preloader/Preloader';
 
 export type cardPacksType = {
   cardsCount: number;
@@ -47,11 +48,14 @@ export const CardsPack = () => {
   const CardsPack = useSelector<AppStoreType, Array<cardPacksType>>(
     state => state.cardsPack.cardsPack
   );
+  const initialized = useSelector<AppStoreType, boolean>(state => state.user.initialized);
   const currentPage = useSelector<AppStoreType, number>(
     state => state.cardsPack.cardPacksTotalCount
   );
   const page = useSelector<AppStoreType, number>(state => state.cardsPack.pageCount);
   const currentPageNumber = useSelector<AppStoreType, number>(state => state.cardsPack.page);
+
+  console.log(initialized);
 
   useEffect(() => {
     dispatch(changePageCount(selectPage));
@@ -93,6 +97,7 @@ export const CardsPack = () => {
   return (
     <>
       <Header active={'pack_list_active'} />
+      {initialized ? <Preloader /> : ''}
       <div className="cards-pack">
         <div className="cards-pack__wrapper">
           <div className="cards-pack__wrapper_schow">

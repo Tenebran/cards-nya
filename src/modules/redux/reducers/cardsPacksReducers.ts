@@ -2,6 +2,7 @@ import { Dispatch } from 'redux';
 import { cardsPackApi } from '../../api/cardPackApi';
 import { cardPacksType } from '../../pages/CardsPack/CardsPack';
 import { AppStoreType } from '../store';
+import { setInitializedAC } from './authReducer';
 
 export const label = '';
 
@@ -101,6 +102,7 @@ export const cardsPackTC = () => (dispatch: Dispatch, getState: () => AppStoreTy
   const packName = appState.searchPacks;
   const min = appState.minCardsCount;
   const max = appState.maxCardsCount;
+  dispatch(setInitializedAC(true));
 
   cardsPackApi.getCardsPack(currentPage, pageCount, packName, '', min, max).then(resp => {
     dispatch(
@@ -113,6 +115,7 @@ export const cardsPackTC = () => (dispatch: Dispatch, getState: () => AppStoreTy
         resp.data.cardPacksTotalCount
       )
     );
+    dispatch(setInitializedAC(false));
   });
 };
 
