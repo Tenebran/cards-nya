@@ -43,8 +43,8 @@ export const entityStatusAC = () =>
     type: 'ENTITY-STATUS',
   } as const);
 
-export const logOutAC = () => {
-  return { type: 'AUTH/LOGOUT' } as const;
+export const logOutAC = (authMe: boolean) => {
+  return { type: 'AUTH/LOGOUT', authMe } as const;
 };
 
 export const loginAC = (authMe: boolean) => {
@@ -87,19 +87,26 @@ export const loginTC =
     }
   };
 
-export const thunkLogOut = () => (dispatch: Dispatch<ActionType>) => {
-  authApi.logOut().then(resp => {
-    dispatch(logOutAC());
-  });
+export const logOutTC = () => async (dispatch: Dispatch<ActionType>) => {
+  try {
+    dispatch(setInitializedAC(true));
+    await authApi.logOut();
+    dispatch(setInitializedAC(false));
+    dispatch(logOutAC(false));
+  } catch (e: any) {
+    const error = e.response ? e.response.data.error : e.message + ', more details in the console';
+    alert(error);
+  }
 };
 
-export const authMe = () => (dispatch: Dispatch<ActionType>) => {
-  authApi
-    .authMe()
-    .then(res => {
-      dispatch(loginAC(true));
-    })
-    .catch(e => console.log(e));
+export const authMe = () => async (dispatch: Dispatch<ActionType>) => {
+  try {
+    await authApi.authMe();
+    dispatch(loginAC(true));
+  } catch (e: any) {
+    const error = e.response ? e.response.data.error : e.message + ', more details in the console';
+    alert(error);
+  }
 };
 
 export const thunkUpdateUser =
