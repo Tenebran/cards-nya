@@ -6,30 +6,55 @@
   right: 0;
   width: 100%;
   box-shadow: 2px 2px 50px #cac8c8;
+  padding: 0 136px 0 0;
   height: 60px;
   background-color: #ebe0e9;
   display: flex;
-  justify-content: space-evenly;
   align-items: center;
 
-  &__button {
-    background: transparent;
-    padding: 0;
-    margin: 0 10px;
-    color: #000000;
-    font-weight: 600;
+  &__logo {
+    font-size: 26px;
+    line-height: 39px;
+    font-family: 'Poppins';
     text-decoration: none;
+    color: #2d2e46;
+    margin: 0 168px;
+  }
 
-    &:focus {
-      background: transparent;
-      color: #0b58ab;
-      outline: none;
+  &__menu {
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    width: 173px;
+    height: 100%;
+    align-items: center;
+    font-size: 14px;
+    font-family: 'SF UI Regular';
+    color: #2d2e46;
+    opacity: 0.4;
+
+    &__wrapper {
+      display: flex;
+      align-items: center;
+      height: 100%;
     }
 
-    &:hover {
-      background: transparent;
-      color: #0b58ab;
-      outline: none;
+    &__title {
+      margin: 0 0 0 10px;
     }
+  }
+
+  &__menu_active {
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    width: 173px;
+    height: 100%;
+    align-items: center;
+    font-size: 14px;
+    font-family: 'SF UI Regular';
+    color: #2d2e46;
+    background-color: #dcccdb;
+    border-bottom: 3px solid #21268f;
   }
 }

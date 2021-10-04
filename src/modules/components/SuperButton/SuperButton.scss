@@ -11,6 +11,7 @@
     font-size: 16px;
     font-family: 'SF UI Regular';
     user-select: none;
+    box-shadow: 5px 5px 15px 5px #21278f34;
 
     &:hover {
       background-color: #161b5a;
@@ -25,5 +26,24 @@
 
   &:focus:hover {
     background-color: #b82115;
+  }
+
+  &__purpe {
+    border: 0;
+    border-radius: 18px;
+    transition: all 0.3s ease;
+    background-color: #d7d8ef;
+    color: #21268f;
+    margin: 10px;
+    cursor: pointer;
+    height: 36px;
+    font-size: 16px;
+    font-family: 'SF UI Regular';
+    user-select: none;
+    font-weight: 600;
+
+    &:hover {
+      background-color: #8282bd;
+    }
   }
 }

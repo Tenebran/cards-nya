@@ -1,55 +1,37 @@
 import React from 'react';
 import { PATH } from '../../routes/Routes';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import './Header.scss';
+import { PackIcon } from '../../common/IconComponents/PackIcon';
+import { ProfileIcon } from '../../common/IconComponents/ProfileIcon';
 
-export const Header = () => {
+type HeaderPropsType = {
+  active: string;
+};
+
+export const Header = (props: HeaderPropsType) => {
   return (
     <header className={'header'}>
-      <NavLink
-        to={PATH.PROFILE}
-        activeClassName={'header__button_active'}
-        className={'header__button'}
-      >
-        Profile
-      </NavLink>
+      <Link to={PATH.PROFILE} className="header__logo">
+        It-incubator
+      </Link>
+      <div className="header__menu__wrapper">
+        <NavLink
+          to={PATH.PACK_LIST}
+          className={props.active === 'pack_list_active' ? 'header__menu_active' : 'header__menu'}
+        >
+          <PackIcon />
+          <div className="header__menu__title">Pack List</div>
+        </NavLink>
 
-      <NavLink
-        to={PATH.LOGIN}
-        activeClassName={'header__button_active'}
-        className={'header__button'}
-      >
-        Login
-      </NavLink>
-
-      <NavLink
-        to={PATH.REGISTRATION}
-        activeClassName={'header__button_active'}
-        className={'header__button'}
-      >
-        Sing Up
-      </NavLink>
-      <NavLink
-        to={PATH.RESET_PASSWORD}
-        activeClassName={'header__button_active'}
-        className={'header__button'}
-      >
-        Forgot Password
-      </NavLink>
-      <NavLink
-        to={PATH.CHECK_EMAIL}
-        activeClassName={'header__button_active'}
-        className={'header__button'}
-      >
-        Check Email
-      </NavLink>
-      <NavLink
-        to={PATH.CREATE_NEW_PASSWORD}
-        activeClassName={'header__button_active'}
-        className={'header__button'}
-      >
-        Create New Passsword
-      </NavLink>
+        <NavLink
+          to={PATH.PROFILE}
+          className={props.active === 'profile_active' ? 'header__menu_active' : 'header__menu'}
+        >
+          <ProfileIcon />
+          <div className="header__menu__title"> Profile</div>
+        </NavLink>
+      </div>
     </header>
   );
 };
