@@ -30,9 +30,9 @@ type FormPropsType = {
   handleChange: (event: object, value: number) => void;
 };
 
-const srtingLenghtCutter = (value: string | number) => {
+export const srtingLenghtCutter = (value: string | number) => {
   if (value && typeof value === 'string') {
-    return value.length > 10 ? value.substring(0, 9) + '...' : value;
+    return value.length > 10 ? value.substring(0, 15) + '...' : value;
   } else if (value >= 0 && typeof value === 'number') {
     return value;
   }

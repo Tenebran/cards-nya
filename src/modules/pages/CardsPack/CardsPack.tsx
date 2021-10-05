@@ -6,6 +6,7 @@ import {
   cardsPackChangePage,
   cardsPackTC,
   changePageCount,
+  changeToMyCardsPackAC,
   seacrhPacksNameAC,
 } from '../../redux/reducers/cardsPacksReducers';
 import { AppStoreType } from '../../redux/store';
@@ -14,24 +15,9 @@ import SuperButton from '../../components/SuperButton/SuperButton';
 import './CardsPack.scss';
 import { Table } from '../../components/Table/Table';
 import { Preloader } from '../../components/Preloader/Preloader';
-
-export type cardPacksType = {
-  cardsCount: number;
-  created: string;
-  grade: number;
-  more_id: string;
-  name: string;
-  path: string;
-  private: boolean;
-  rating: number;
-  shots: number;
-  type: string;
-  updated: string;
-  user_id: string;
-  user_name: string;
-  __v: number;
-  _id: string;
-};
+import { InitialStateProfileType } from '../../redux/reducers/profileReducer';
+import { CardsShow } from './CardsShow/CardsShow';
+import { ProfileInfo } from '../Profile/ProfileInfo/ProfileInfo';
 
 const tableTitle = {
   table1: 'Name',
@@ -41,9 +27,10 @@ const tableTitle = {
   table5: 'Actions',
 };
 
-export const CardsPack = () => {
+export const CardsPack = (props: PropsType) => {
   const [inputValue, setInputalue] = useState<string>('');
   const [selectPage, setSelectPage] = useState<number>(8);
+  const [changeButton, setChangeButton] = useState<boolean>(false);
   const dispatch = useDispatch();
   const CardsPack = useSelector<AppStoreType, Array<cardPacksType>>(
     state => state.cardsPack.cardsPack
@@ -54,8 +41,7 @@ export const CardsPack = () => {
   );
   const page = useSelector<AppStoreType, number>(state => state.cardsPack.pageCount);
   const currentPageNumber = useSelector<AppStoreType, number>(state => state.cardsPack.page);
-
-  console.log(initialized);
+  const myCardsId = useSelector<AppStoreType, string>(state => state.profile._id);
 
   useEffect(() => {
     dispatch(changePageCount(selectPage));
@@ -88,6 +74,18 @@ export const CardsPack = () => {
     [dispatch, page]
   );
 
+  const changeToUserPack = useCallback(() => {
+    dispatch(changeToMyCardsPackAC(myCardsId));
+    dispatch(cardsPackTC());
+    setChangeButton(true);
+  }, [dispatch]);
+
+  const changeToAllPack = useCallback(() => {
+    dispatch(changeToMyCardsPackAC(''));
+    dispatch(cardsPackTC());
+    setChangeButton(false);
+  }, [dispatch]);
+
   const addNewPackHandler = useCallback(() => {
     const name = 'Hello';
     dispatch(addPackTC(name));
@@ -96,17 +94,20 @@ export const CardsPack = () => {
 
   return (
     <>
-      <Header active={'pack_list_active'} />
+      {props.profie ? '' : <Header active={'pack_list_active'} />}
       {initialized ? <Preloader /> : ''}
       <div className="cards-pack">
         <div className="cards-pack__wrapper">
           <div className="cards-pack__wrapper_schow">
-            <span className="cards-pack__show_title">Show packs cards</span>
-            <div className="cards-pack__show_button_wrapper">
-              <button className="cards-pack__show_button_white">My</button>
-              <button className="cards-pack__show_button_purpe">All</button>
-            </div>
-            <span className="cards-pack__show_title">Number of cards</span>
+            {props.profie ? (
+              <ProfileInfo profie={props.profie} />
+            ) : (
+              <CardsShow
+                myPackHandler={changeToUserPack}
+                allPackHandler={changeToAllPack}
+                changeButton={changeButton}
+              />
+            )}
           </div>
           <div className="cards-pack__wrapper_table">
             <div className="cards-pack__title">Packs list</div>
@@ -144,4 +145,26 @@ export const CardsPack = () => {
       </div>
     </>
   );
+};
+
+type PropsType = {
+  profie?: InitialStateProfileType;
+};
+
+export type cardPacksType = {
+  cardsCount: number;
+  created: string;
+  grade: number;
+  more_id: string;
+  name: string;
+  path: string;
+  private: boolean;
+  rating: number;
+  shots: number;
+  type: string;
+  updated: string;
+  user_id: string;
+  user_name: string;
+  __v: number;
+  _id: string;
 };

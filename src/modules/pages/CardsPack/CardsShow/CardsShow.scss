@@ -1,0 +1,33 @@
+.cards-pack {
+  &__show {
+    &_title {
+      display: inline-block;
+      margin: 13px 0 20px 0;
+      font-size: 16px;
+      color: #2d2e46;
+      font-family: 'SF UI Semibold';
+    }
+    &_button {
+      &_wrapper {
+        display: inline-block;
+
+        margin: 0 0 42px 0;
+      }
+      &_white {
+        max-height: 36px;
+        max-width: 80px;
+        border: none;
+        padding: 10px 30px;
+        background-color: #9a91c8;
+      }
+
+      &_purpe {
+        max-height: 36px;
+        max-width: 80px;
+        border: none;
+        padding: 10px 30px;
+        background-color: #ffff;
+      }
+    }
+  }
+}

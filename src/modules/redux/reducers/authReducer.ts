@@ -1,5 +1,6 @@
 import { Dispatch } from 'redux';
 import { authApi } from '../../api/authApi';
+import { getProfileAC, InitialStateProfileType } from './profileReducer';
 
 const initialState = {
   authMe: false,
@@ -81,9 +82,18 @@ export const loginTC =
     dispatch(entityStatusAC());
     try {
       dispatch(setInitializedAC(true));
-      await authApi.login(email, password, rememberMe);
+      const response = await authApi.login(email, password, rememberMe);
       dispatch(setInitializedAC(false));
       dispatch(loginAC(true));
+      dispatch(
+        getProfileAC(
+          response.data._id,
+          response.data.email,
+          response.data.name,
+          response.data.avatar,
+          response.data.publicCardPacksCount
+        )
+      );
     } catch (e: any) {
       dispatch(setInitializedAC(false));
       const error = e.response
@@ -157,12 +167,6 @@ export type Usertype = {
   rememberMe: boolean;
 };
 
-// export type ErrorType = {
-//   error: string;
-//   password: string;
-//   in: string;
-// };
-
 export type ActionType =
   | ReturnType<typeof logOutAC>
   | ReturnType<typeof loginAC>
@@ -171,6 +175,7 @@ export type ActionType =
   | ReturnType<typeof entityStatusAC>
   | ReturnType<typeof forgotPasswordAc>
   | ReturnType<typeof setPassSuccessAC>
-  | ReturnType<typeof errorMessagesAC>;
+  | ReturnType<typeof errorMessagesAC>
+  | ReturnType<typeof getProfileAC>;
 
 type InitialStateType = typeof initialState;
