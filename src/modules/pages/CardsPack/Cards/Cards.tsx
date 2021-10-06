@@ -73,6 +73,8 @@ export const Cards = () => {
     dispatch(cardsTC());
   }, []);
 
+  const deletePackHandler = useCallback((id: string) => {}, [dispatch]);
+
   return (
     <>
       <Header active={'pack_list_active'} />
@@ -97,6 +99,7 @@ export const Cards = () => {
               handleChange={handleChange}
               selectPage={selectPage}
               handleChangePage={handleChangePage}
+              deletePackHandler={deletePackHandler}
             />
           </div>
         </div>

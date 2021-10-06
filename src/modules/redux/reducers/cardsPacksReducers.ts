@@ -61,6 +61,8 @@ export const cardsPackReducer = (
       return { ...state, searchPacks: action.PackName };
     case 'CARDSPACK/CHANGE_CARDS_PACK':
       return { ...state, userId: action.userId };
+    case 'CARDSPACK/CARDS_COUNT_SETTINGS':
+      return { ...state, minCardsCount: action.min, maxCardsCount: action.max };
 
     default:
       return state;
@@ -102,6 +104,10 @@ export const changeToMyCardsPackAC = (userId: string) => {
   return { type: 'CARDSPACK/CHANGE_CARDS_PACK', userId } as const;
 };
 
+export const packCardsCountSettings = (min: number, max: number) => {
+  return { type: 'CARDSPACK/CARDS_COUNT_SETTINGS', min, max } as const;
+};
+
 export const cardsPackTC = () => (dispatch: Dispatch, getState: () => AppStoreType) => {
   const appState = getState().cardsPack;
   const currentPage = appState.page;
@@ -111,6 +117,7 @@ export const cardsPackTC = () => (dispatch: Dispatch, getState: () => AppStoreTy
   const max = appState.maxCardsCount;
   const userId = appState.userId;
   dispatch(setInitializedAC(true));
+  console.log(min, max);
 
   cardsPackApi.getCardsPack(currentPage, pageCount, packName, userId, min, max).then(resp => {
     dispatch(
@@ -139,11 +146,16 @@ export type CardsSettingsType = {
   packName: string;
 };
 
+export const deletePackTC = (id: string) => () => {
+  cardsPackApi.deleteCardsPack(id);
+};
+
 type ActionType =
   | ReturnType<typeof updateCardsPackAc>
   | ReturnType<typeof cardsPackChangePage>
   | ReturnType<typeof changePageCount>
   | ReturnType<typeof seacrhPacksNameAC>
-  | ReturnType<typeof changeToMyCardsPackAC>;
+  | ReturnType<typeof changeToMyCardsPackAC>
+  | ReturnType<typeof packCardsCountSettings>;
 
 type InitialStateType = typeof initialState;

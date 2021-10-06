@@ -7,6 +7,7 @@ import {
   cardsPackTC,
   changePageCount,
   changeToMyCardsPackAC,
+  deletePackTC,
   seacrhPacksNameAC,
 } from '../../redux/reducers/cardsPacksReducers';
 import { AppStoreType } from '../../redux/store';
@@ -92,6 +93,14 @@ export const CardsPack = (props: PropsType) => {
     dispatch(cardsPackTC());
   }, [dispatch]);
 
+  const deletePackHandler = useCallback(
+    (id: string) => {
+      dispatch(deletePackTC(id));
+      dispatch(cardsPackTC());
+    },
+    [dispatch]
+  );
+  console.log(CardsPack);
   return (
     <>
       {props.profie ? '' : <Header active={'pack_list_active'} />}
@@ -139,6 +148,8 @@ export const CardsPack = (props: PropsType) => {
               handleChange={handleChange}
               selectPage={selectPage}
               handleChangePage={handleChangePage}
+              myCardsId={myCardsId}
+              deletePackHandler={deletePackHandler}
             />
           </div>
         </div>

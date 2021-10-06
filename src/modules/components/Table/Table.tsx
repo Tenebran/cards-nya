@@ -28,6 +28,8 @@ type FormPropsType = {
   selectPage: number;
   handleChangePage: (event: SelectChangeEvent) => void;
   handleChange: (event: object, value: number) => void;
+  myCardsId?: string;
+  deletePackHandler: (id: string) => void;
 };
 
 export const srtingLenghtCutter = (value: string | number) => {
@@ -69,6 +71,14 @@ export const Table = (props: FormPropsType) => {
                 <td>{srtingLenghtCutter(CardsPack.updated.substr(0, 10))}</td>
                 <td>{srtingLenghtCutter(CardsPack.user_name)}</td>
                 <td>
+                  {props.myCardsId === CardsPack.user_id ? (
+                    <>
+                      <button onClick={() => props.deletePackHandler(CardsPack._id)}>Delete</button>
+                      <button>Edit</button>
+                    </>
+                  ) : (
+                    ''
+                  )}
                   <Link to={`/cards/${CardsPack._id}`} className="table__button">
                     Learn
                   </Link>
