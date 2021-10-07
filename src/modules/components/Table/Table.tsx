@@ -30,6 +30,7 @@ type FormPropsType = {
   handleChange: (event: object, value: number) => void;
   myCardsId?: string;
   deletePackHandler: (id: string) => void;
+  updatePackHAndler?: (id: string, name: string) => void;
 };
 
 export const srtingLenghtCutter = (value: string | number) => {
@@ -74,7 +75,15 @@ export const Table = (props: FormPropsType) => {
                   {props.myCardsId === CardsPack.user_id ? (
                     <>
                       <button onClick={() => props.deletePackHandler(CardsPack._id)}>Delete</button>
-                      <button>Edit</button>
+                      <button
+                        onClick={() =>
+                          props.updatePackHAndler
+                            ? props.updatePackHAndler(CardsPack._id, 'Name Updated')
+                            : ''
+                        }
+                      >
+                        Edit
+                      </button>
                     </>
                   ) : (
                     ''

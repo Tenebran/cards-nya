@@ -60,6 +60,8 @@ export type PostCardsPackType = {
 };
 
 export type UpdateCardsPackType = {
-  _id: string;
-  name: string;
+  cardsPack: {
+    _id: string;
+    name: string;
+  };
 };

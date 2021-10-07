@@ -8,7 +8,9 @@ import {
   changePageCount,
   changeToMyCardsPackAC,
   deletePackTC,
+  packCardsCountSettings,
   seacrhPacksNameAC,
+  updatePackTC,
 } from '../../redux/reducers/cardsPacksReducers';
 import { AppStoreType } from '../../redux/store';
 import { Header } from '../../components/Header/Header';
@@ -19,6 +21,7 @@ import { Preloader } from '../../components/Preloader/Preloader';
 import { InitialStateProfileType } from '../../redux/reducers/profileReducer';
 import { CardsShow } from './CardsShow/CardsShow';
 import { ProfileInfo } from '../Profile/ProfileInfo/ProfileInfo';
+import { profile } from 'console';
 
 const tableTitle = {
   table1: 'Name',
@@ -31,7 +34,7 @@ const tableTitle = {
 export const CardsPack = (props: PropsType) => {
   const [inputValue, setInputalue] = useState<string>('');
   const [selectPage, setSelectPage] = useState<number>(8);
-  const [changeButton, setChangeButton] = useState<boolean>(false);
+
   const dispatch = useDispatch();
   const CardsPack = useSelector<AppStoreType, Array<cardPacksType>>(
     state => state.cardsPack.cardsPack
@@ -40,14 +43,19 @@ export const CardsPack = (props: PropsType) => {
   const currentPage = useSelector<AppStoreType, number>(
     state => state.cardsPack.cardPacksTotalCount
   );
+  const maxRangeCount = useSelector<AppStoreType, number>(state => state.cardsPack.maxCardsCount);
+  const minRangeCount = useSelector<AppStoreType, number>(state => state.cardsPack.minCardsCount);
   const page = useSelector<AppStoreType, number>(state => state.cardsPack.pageCount);
   const currentPageNumber = useSelector<AppStoreType, number>(state => state.cardsPack.page);
   const myCardsId = useSelector<AppStoreType, string>(state => state.profile._id);
+  const userSelect = useSelector<AppStoreType, string>(state => state.cardsPack.userId);
+  const [changeButton, setChangeButton] = useState<boolean>(userSelect ? true : false);
 
   useEffect(() => {
     dispatch(changePageCount(selectPage));
+    dispatch(packCardsCountSettings(minRangeCount, maxRangeCount));
     dispatch(cardsPackTC());
-  }, [dispatch]);
+  }, [dispatch, props.profie]);
 
   const handleChange = useCallback(
     (event: object, value: number) => {
@@ -90,17 +98,22 @@ export const CardsPack = (props: PropsType) => {
   const addNewPackHandler = useCallback(() => {
     const name = 'Hello';
     dispatch(addPackTC(name));
-    dispatch(cardsPackTC());
   }, [dispatch]);
 
   const deletePackHandler = useCallback(
     (id: string) => {
       dispatch(deletePackTC(id));
-      dispatch(cardsPackTC());
     },
     [dispatch]
   );
-  console.log(CardsPack);
+
+  const updatePackHAndler = useCallback(
+    (id: string, name: string) => {
+      dispatch(updatePackTC(id, name));
+    },
+    [dispatch]
+  );
+
   return (
     <>
       {props.profie ? '' : <Header active={'pack_list_active'} />}
@@ -115,6 +128,8 @@ export const CardsPack = (props: PropsType) => {
                 myPackHandler={changeToUserPack}
                 allPackHandler={changeToAllPack}
                 changeButton={changeButton}
+                minRangeCount={minRangeCount}
+                maxRangeCount={maxRangeCount}
               />
             )}
           </div>
@@ -150,6 +165,7 @@ export const CardsPack = (props: PropsType) => {
               handleChangePage={handleChangePage}
               myCardsId={myCardsId}
               deletePackHandler={deletePackHandler}
+              updatePackHAndler={updatePackHAndler}
             />
           </div>
         </div>

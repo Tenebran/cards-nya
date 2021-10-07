@@ -10,6 +10,8 @@ import { PageNotFound } from '../pages/PageNotFound/PageNotFound';
 import { Profile } from '../pages/Profile/Profile';
 import { TestPage } from '../pages/TestPage/TestPage';
 import { Cards } from '../pages/CardsPack/Cards/Cards';
+import { useSelector } from 'react-redux';
+import { AppStoreType } from '../redux/store';
 
 export enum PATH {
   TEST = '/test',
@@ -27,6 +29,7 @@ export const Routes = () => {
   return (
     <Switch>
       <Route exact path={'/'} render={() => <Redirect to={PATH.LOGIN} />} />
+
       <Route path={PATH.TEST} component={TestPage} />
       <Route path={PATH.PROFILE} component={Profile} />
       <Route path={PATH.LOGIN} component={Login} />

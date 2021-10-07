@@ -6,6 +6,7 @@ import { LeftArrowIcon } from '../../../common/IconComponents/LeftArrowIcon';
 import { Header } from '../../../components/Header/Header';
 import SuperButton from '../../../components/SuperButton/SuperButton';
 import { Table } from '../../../components/Table/Table';
+import { updatePackTC } from '../../../redux/reducers/cardsPacksReducers';
 import {
   CardsSettingsType,
   cardsTC,

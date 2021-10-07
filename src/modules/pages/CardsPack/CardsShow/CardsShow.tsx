@@ -12,9 +12,10 @@ function valuetext(value: number) {
 const minDistance = 1;
 
 export const CardsShow = (props: PropsType) => {
-  const maxRange = useSelector<AppStoreType, number>(state => state.cardsPack.maxCardsCount);
-  const minRange = useSelector<AppStoreType, number>(state => state.cardsPack.minCardsCount);
-  const [value2, setValue2] = React.useState<number[]>([minRange, maxRange]);
+  const [rangeValue, setRangeValue] = React.useState<number[]>([
+    props.minRangeCount,
+    props.maxRangeCount,
+  ]);
   const dispatch = useDispatch();
   const handleChange2 = useCallback(
     (event: Event, newValue: number | number[], activeThumb: number) => {
@@ -25,23 +26,22 @@ export const CardsShow = (props: PropsType) => {
       if (newValue[1] - newValue[0] < minDistance) {
         if (activeThumb === 0) {
           const clamped = Math.min(newValue[0], 103 - minDistance);
-          setValue2([clamped, clamped + minDistance]);
+          setRangeValue([clamped, clamped + minDistance]);
         } else {
           const clamped = Math.max(newValue[1], minDistance);
-          setValue2([clamped - minDistance, clamped]);
+          setRangeValue([clamped - minDistance, clamped]);
         }
       } else {
-        setValue2(newValue as number[]);
+        setRangeValue(newValue as number[]);
       }
     },
     []
   );
 
   const onSearchClick = useCallback(() => {
-    console.log(value2[0], value2[1]);
-    dispatch(packCardsCountSettings(value2[0], value2[1]));
+    dispatch(packCardsCountSettings(rangeValue[0], rangeValue[1]));
     dispatch(cardsPackTC());
-  }, [dispatch, value2]);
+  }, [dispatch, rangeValue]);
 
   return (
     <>
@@ -68,7 +68,7 @@ export const CardsShow = (props: PropsType) => {
       <Box sx={{ width: '80%' }}>
         <Slider
           getAriaLabel={() => 'Minimum distance shift'}
-          value={value2}
+          value={rangeValue}
           onChange={handleChange2}
           valueLabelDisplay="auto"
           getAriaValueText={valuetext}
@@ -84,4 +84,6 @@ type PropsType = {
   myPackHandler: () => void;
   allPackHandler: () => void;
   changeButton: boolean;
+  maxRangeCount: number;
+  minRangeCount: number;
 };

@@ -27,7 +27,7 @@ const initialState = {
     },
   ],
   cardPacksTotalCount: 0,
-  maxCardsCount: 0,
+  maxCardsCount: 100,
   minCardsCount: 0,
   page: 0,
   pageCount: 0,
@@ -108,7 +108,7 @@ export const packCardsCountSettings = (min: number, max: number) => {
   return { type: 'CARDSPACK/CARDS_COUNT_SETTINGS', min, max } as const;
 };
 
-export const cardsPackTC = () => (dispatch: Dispatch, getState: () => AppStoreType) => {
+export const cardsPackTC = (): any => (dispatch: Dispatch, getState: () => AppStoreType) => {
   const appState = getState().cardsPack;
   const currentPage = appState.page;
   const pageCount = appState.pageCount;
@@ -117,7 +117,6 @@ export const cardsPackTC = () => (dispatch: Dispatch, getState: () => AppStoreTy
   const max = appState.maxCardsCount;
   const userId = appState.userId;
   dispatch(setInitializedAC(true));
-  console.log(min, max);
 
   cardsPackApi.getCardsPack(currentPage, pageCount, packName, userId, min, max).then(resp => {
     dispatch(
@@ -125,8 +124,8 @@ export const cardsPackTC = () => (dispatch: Dispatch, getState: () => AppStoreTy
         resp.data.cardPacks,
         resp.data.pageCount,
         resp.data.page,
-        resp.data.minCardsCount,
-        resp.data.maxCardsCount,
+        appState.minCardsCount,
+        appState.maxCardsCount,
         resp.data.cardPacksTotalCount
       )
     );
@@ -134,20 +133,28 @@ export const cardsPackTC = () => (dispatch: Dispatch, getState: () => AppStoreTy
   });
 };
 
-export const addPackTC = (name: string) => () => {
-  cardsPackApi.postCardsPack(name);
+export const addPackTC = (name: string) => (dispatch: Dispatch) => {
+  cardsPackApi.postCardsPack(name).then(res => {
+    dispatch(cardsPackTC());
+  });
 };
 
-export type CardsSettingsType = {
-  min: number;
-  max: number;
-  page: number;
-  pageCount: number;
-  packName: string;
+export const deletePackTC = (id: string) => (dispatch: Dispatch) => {
+  cardsPackApi.deleteCardsPack(id).then(res => {
+    dispatch(cardsPackTC());
+  });
 };
 
-export const deletePackTC = (id: string) => () => {
-  cardsPackApi.deleteCardsPack(id);
+export const updatePackTC = (id: string, name: string) => (dispatch: Dispatch) => {
+  const cardsPack = {
+    cardsPack: {
+      _id: id,
+      name: name,
+    },
+  };
+  cardsPackApi.updateCardsPack(cardsPack).then(res => {
+    dispatch(cardsPackTC());
+  });
 };
 
 type ActionType =
@@ -159,3 +166,11 @@ type ActionType =
   | ReturnType<typeof packCardsCountSettings>;
 
 type InitialStateType = typeof initialState;
+
+export type CardsSettingsType = {
+  min: number;
+  max: number;
+  page: number;
+  pageCount: number;
+  packName: string;
+};
