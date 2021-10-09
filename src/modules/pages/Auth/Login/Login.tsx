@@ -27,7 +27,6 @@ export const Login = () => {
   const dispatch = useDispatch();
   const authMe = useSelector<AppStoreType, boolean>(state => state.user.authMe);
   const entityStatus = useSelector<AppStoreType, boolean>(state => state.user.entityStatus);
-  const initialized = useSelector<AppStoreType, boolean>(state => state.user.initialized);
   const error = useSelector<AppStoreType, string>(state => state.user.errorMessage);
   const [openPassword, setOpenPassword] = useState(false);
   const [email, setEmail] = useState('');
@@ -74,7 +73,7 @@ export const Login = () => {
 
   return (
     <div className="login">
-      {initialized ? <Preloader /> : ''}
+      {/* {initialized ? <Preloader /> : ''} */}
       <form>
         <div className="login__wrapper">
           <h2 className="forgot__title">It-Incubator</h2>
@@ -132,6 +131,7 @@ export const Login = () => {
             onClickHandler={loginHandler}
             entityStatus={entityStatus}
             disabledBtn={disabledBtn}
+            className="superButton__default"
           />
 
           <div className="login__remember">Don’t have an account?</div>

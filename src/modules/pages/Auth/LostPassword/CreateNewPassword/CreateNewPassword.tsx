@@ -16,7 +16,7 @@ import { PATH } from '../../../../routes/Routes';
 import { Loader } from '../../../../components/Loader/Loader';
 
 export const CreateNewPassword = () => {
-  const initialized = useSelector<AppStoreType, boolean>(state => state.user.initialized);
+  const initialized = useSelector<AppStoreType, boolean>(state => state.app.initialized);
   const [pass, setPass] = useState<string>('');
   const { token } = useParams<{ token: string }>();
   const [openPassword, setOpenPassword] = useState(false);
@@ -82,6 +82,7 @@ export const CreateNewPassword = () => {
             onClickHandler={onClickHandler}
             entityStatus={entityStatus}
             disabledBtn={disabledBtn}
+            className="superButton__default"
           />
         </div>
       )}

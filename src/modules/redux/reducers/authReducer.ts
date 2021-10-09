@@ -1,20 +1,19 @@
-import { Dispatch } from 'redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import { authApi } from '../../api/authApi';
 import { getProfileAC, InitialStateProfileType } from './profileReducer';
 
 const initialState = {
-  authMe: false,
-  initialized: false,
-  entityStatus: false,
-  statusSend: false,
-  userEmail: '',
-  newPassSuccess: false,
-  errorMessage: '',
+  authMe: false as boolean,
+  entityStatus: false as boolean,
+  statusSend: false as boolean,
+  userEmail: '' as string,
+  newPassSuccess: false as boolean,
+  errorMessage: '' as string,
 };
 
 export const authReducer = (
   state: InitialStateType = initialState,
-  action: ActionType
+  action: ActionAuthType
 ): InitialStateType => {
   switch (action.type) {
     case 'AUTH/LOGIN': {
@@ -23,20 +22,16 @@ export const authReducer = (
     case 'AUTH/LOGOUT': {
       return { ...state };
     }
-    case 'AUTH/SET_INITIALIZED':
-      return {
-        ...state,
-        initialized: action.initialized,
-      };
+
     case 'AUTH/FORGOT-PASSWORD':
       return { ...state, statusSend: true, userEmail: action.email };
 
     case 'AUTH/NEW-PASSWORD-SUCCESS':
       return { ...state, newPassSuccess: action.success };
-    /* case 'AUTH/UPDATE-USER':
-             return {...state, userData: action.userData};*/
+
     case 'AUTH/ERROR_MESSAGES':
       return { ...state, errorMessage: action.messages };
+
     default:
       return state;
   }
@@ -78,12 +73,11 @@ export const errorMessagesAC = (messages: string) => {
 
 export const loginTC =
   (email: string, password: string, rememberMe: boolean) =>
-  async (dispatch: Dispatch<ActionType>) => {
+  async (dispatch: Dispatch<ActionAuthType>) => {
     dispatch(entityStatusAC());
     try {
-      dispatch(setInitializedAC(true));
       const response = await authApi.login(email, password, rememberMe);
-      dispatch(setInitializedAC(false));
+      dispatch(setInitializedAC(true));
       dispatch(loginAC(true));
       dispatch(
         getProfileAC(
@@ -103,30 +97,28 @@ export const loginTC =
     }
   };
 
-export const logOutTC = () => async (dispatch: Dispatch<ActionType>) => {
+export const logOutTC = () => async (dispatch: Dispatch<ActionAuthType>) => {
   try {
-    dispatch(setInitializedAC(true));
     await authApi.logOut();
     dispatch(setInitializedAC(false));
     dispatch(logOutAC(false));
   } catch (e: any) {
-    // const error = e.response ? e.response.data.error : e.message + ', more details in the console';
     dispatch(errorMessagesAC(e.response.data.error));
   }
 };
 
-export const authMe = () => async (dispatch: Dispatch<ActionType>) => {
+export const authMe = () => async (dispatch: Dispatch<ActionAuthType>) => {
   try {
     await authApi.authMe();
+    dispatch(setInitializedAC(true));
     dispatch(loginAC(true));
   } catch (e: any) {
-    // const error = e.response ? e.response.data.error : e.message + ', more details in the console';
     dispatch(errorMessagesAC(e.response.data.error));
   }
 };
 
 export const thunkUpdateUser =
-  (name: string, avatar: string) => (dispatch: Dispatch<ActionType>) => {
+  (name: string, avatar: string) => (dispatch: Dispatch<ActionAuthType>) => {
     authApi.updateProfile(name, avatar).then(resp => {
       dispatch(updatedUserAc(resp.data.updatedUser));
     });
@@ -142,7 +134,6 @@ export const forgotPasswordThunk = (email: string) => (dispatch: Dispatch) => {
     })
     .catch(error => {
       dispatch(setInitializedAC(false));
-      // dispatch(errorMessagesAC(error.error));
     });
 };
 
@@ -167,7 +158,7 @@ export type Usertype = {
   rememberMe: boolean;
 };
 
-export type ActionType =
+export type ActionAuthType =
   | ReturnType<typeof logOutAC>
   | ReturnType<typeof loginAC>
   | ReturnType<typeof updatedUserAc>

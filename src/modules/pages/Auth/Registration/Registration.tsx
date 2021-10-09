@@ -25,7 +25,7 @@ export const Registration = () => {
   const dispatch = useDispatch();
   const authoriseMe = useSelector<AppStoreType, boolean>(state => state.registration.authoriseMe);
   const entityStatus = useSelector<AppStoreType, boolean>(state => state.registration.entityStatus);
-  const initialized = useSelector<AppStoreType, boolean>(state => state.user.initialized);
+  const initialized = useSelector<AppStoreType, boolean>(state => state.app.initialized);
   const [openPassword, setOpenPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -143,6 +143,7 @@ export const Registration = () => {
                 name="Cancel"
                 buttonWidth="124px"
                 onClickHandler={returnToLoginHandler}
+                className="superButton__default"
                 color="purpe"
               />
               <SuperButton
@@ -151,6 +152,7 @@ export const Registration = () => {
                 onClickHandler={registerHandler}
                 entityStatus={entityStatus}
                 disabledBtn={disabledBtn}
+                className="superButton__default"
               />
             </div>
           </div>

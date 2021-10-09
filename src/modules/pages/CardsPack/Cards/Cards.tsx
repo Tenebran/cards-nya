@@ -88,7 +88,11 @@ export const Cards = () => {
             </Link>
             <div className="cards-pack__search">
               <input placeholder="Search..." className="cards-pack__search__input" />
-              <SuperButton name="Add new pack" buttonWidth="266px" />
+              <SuperButton
+                name="Add new pack"
+                buttonWidth="266px"
+                className="superButton__default"
+              />
             </div>
 
             <Table

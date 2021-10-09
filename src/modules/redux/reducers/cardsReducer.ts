@@ -33,7 +33,7 @@ const initialState = {
 
 export const cardsReducer = (
   state: InitialStateType = initialState,
-  action: ActionType
+  action: ActionCardsType
 ): InitialStateType => {
   switch (action.type) {
     case 'CARDS/CARDS__UPDATE':
@@ -72,23 +72,6 @@ export const getCardsAC = (cards: Array<CardsType>) => {
     cards,
   } as const;
 };
-
-// export const getCardsSettingsAC = (
-//   cardsTotalCount: number,
-//   maxGrade: number,
-//   minGrade: number,
-//   page: number,
-//   pageCount: number
-// ) => {
-//   return {
-//     type: 'CARDS/GET_SETTINGS',
-//     cardsTotalCount,
-//     maxGrade,
-//     minGrade,
-//     page,
-//     pageCount,
-//   } as const;
-// };
 
 export const updateCardsAc = (
   cards: Array<CardsType>,
@@ -149,7 +132,7 @@ export type CardsSettingsType = {
   pageCount: number;
 };
 
-type ActionType =
+export type ActionCardsType =
   | ReturnType<typeof getCardsAC>
   | ReturnType<typeof getUsersCards>
   | ReturnType<typeof getCardsPageCount>

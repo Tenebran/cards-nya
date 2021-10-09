@@ -22,6 +22,7 @@ import { InitialStateProfileType } from '../../redux/reducers/profileReducer';
 import { CardsShow } from './CardsShow/CardsShow';
 import { ProfileInfo } from '../Profile/ProfileInfo/ProfileInfo';
 import { profile } from 'console';
+import { CardsPackSearch } from './CardsPackSearch/CardsPackSearch';
 
 const tableTitle = {
   table1: 'Name',
@@ -39,7 +40,7 @@ export const CardsPack = (props: PropsType) => {
   const CardsPack = useSelector<AppStoreType, Array<cardPacksType>>(
     state => state.cardsPack.cardsPack
   );
-  const initialized = useSelector<AppStoreType, boolean>(state => state.user.initialized);
+  const initialized = useSelector<AppStoreType, boolean>(state => state.app.initialized);
   const currentPage = useSelector<AppStoreType, number>(
     state => state.cardsPack.cardPacksTotalCount
   );
@@ -135,24 +136,13 @@ export const CardsPack = (props: PropsType) => {
           </div>
           <div className="cards-pack__wrapper_table">
             <div className="cards-pack__title">Packs list</div>
-            <div className="cards-pack__search">
-              <div className="cards-pack__input-wrapper">
-                <input
-                  placeholder="Search..."
-                  className="cards-pack__search__input"
-                  value={inputValue}
-                  onChange={onChangeCallback}
-                />
-                <button className="cards-pack__search__button" onClick={onSearchClick}>
-                  Search
-                </button>
-              </div>
-              <SuperButton
-                name="Add new pack"
-                buttonWidth="266px"
-                onClickHandler={addNewPackHandler}
-              />
-            </div>
+
+            <CardsPackSearch
+              inputValue={inputValue}
+              onChangeCallback={onChangeCallback}
+              onSearchClick={onSearchClick}
+              addNewPackHandler={addNewPackHandler}
+            />
 
             <Table
               CardsPack={CardsPack}

@@ -17,7 +17,7 @@ import { CardsPack } from '../CardsPack/CardsPack';
 import { cardsPackTC, changeToMyCardsPackAC } from '../../redux/reducers/cardsPacksReducers';
 
 export const Profile = () => {
-  const initialized = useSelector<AppStoreType, boolean>(state => state.user.initialized);
+  const initialized = useSelector<AppStoreType, boolean>(state => state.app.initialized);
   const authMe = useSelector<AppStoreType, boolean>(state => state.user.authMe);
   const dispatch = useDispatch();
   const profile = useSelector<AppStoreType, InitialStateProfileType>(state => state.profile);
@@ -34,7 +34,7 @@ export const Profile = () => {
   return (
     <>
       <Header active={'profile_active'} />
-      {/* <CardsPack profie={profile} /> */}
+      <CardsPack profie={profile} />
     </>
   );
 };

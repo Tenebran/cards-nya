@@ -1,5 +1,5 @@
 .cards-pack {
-  min-height: 90vh;
+  margin: 40px 0 0 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -16,16 +16,16 @@
 
   &__wrapper {
     width: 80%;
-    height: 636px;
+    height: 600px;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0 0 80px 0;
     &_table {
       width: 75%;
-      height: 100%;
+      height: 99.5%;
       background-color: #fefeff;
       padding: 24px 48px;
-      width: 70;
       border-top-right-radius: 10px;
       border-bottom-right-radius: 10px;
       overflow-y: scroll; /* прокрутка по вертикали */
@@ -43,15 +43,16 @@
     }
   }
   &__search {
-    margin: 0 0 24px 0;
+    margin: 0 30px 24px 0;
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-between;
     flex-wrap: wrap;
 
     &__input {
-      width: 461px;
+      width: 400px;
       height: 36px;
+      padding: 0 80px 0 10px;
     }
     &__button {
       position: absolute;

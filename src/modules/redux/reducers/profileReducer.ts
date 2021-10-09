@@ -8,7 +8,7 @@ let initialState: InitialStateProfileType = {
 
 export const profileReducer = (
   state: InitialStateProfileType = initialState,
-  action: ActionType
+  action: ActionProfileType
 ): InitialStateProfileType => {
   switch (action.type) {
     case 'PROFILE/GET_PROFILE':
@@ -43,4 +43,4 @@ export type InitialStateProfileType = {
   publicCardPacksCount: number;
 };
 
-export type ActionType = ReturnType<typeof getProfileAC>;
+export type ActionProfileType = ReturnType<typeof getProfileAC>;

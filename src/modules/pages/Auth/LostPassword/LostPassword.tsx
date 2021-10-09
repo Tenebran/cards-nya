@@ -12,7 +12,7 @@ import './LostPassword.scss';
 
 export const LostPassword = () => {
   const statusSend = useSelector<AppStoreType, boolean>(state => state.user.statusSend);
-  const initialized = useSelector<AppStoreType, boolean>(state => state.user.initialized);
+  const initialized = useSelector<AppStoreType, boolean>(state => state.app.initialized);
   const [email, setEmail] = useState<string>('');
   const dispatch = useDispatch();
 
@@ -49,6 +49,7 @@ export const LostPassword = () => {
           name="Send Instructions"
           buttonWidth="266px"
           onClickHandler={resetPasswordHandler}
+          className="superButton__default"
         />
 
         <div className="forgot__remember">Did you remember your password?</div>

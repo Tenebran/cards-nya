@@ -20,7 +20,9 @@ export const TestPage = () => {
     <div className="test">
       <div className="test__components">
         <div className="test__components__title">Button:</div>
-        <SuperButton onClick={alertHandle}> SuperButton</SuperButton>
+        <SuperButton onClick={alertHandle} className="superButton__default">
+          SuperButton
+        </SuperButton>
       </div>
 
       <div className="test__components">

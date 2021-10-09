@@ -38,7 +38,7 @@ const initialState = {
 
 export const cardsPackReducer = (
   state: InitialStateType = initialState,
-  action: ActionType
+  action: ActionCardsPackType
 ): InitialStateType => {
   switch (action.type) {
     case 'CARDSPACK/CARDS_PACK_UPDATE':
@@ -157,7 +157,7 @@ export const updatePackTC = (id: string, name: string) => (dispatch: Dispatch) =
   });
 };
 
-type ActionType =
+export type ActionCardsPackType =
   | ReturnType<typeof updateCardsPackAc>
   | ReturnType<typeof cardsPackChangePage>
   | ReturnType<typeof changePageCount>

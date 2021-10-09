@@ -3,15 +3,18 @@ import { authApi } from '../../api/authApi';
 import { entityStatusAC, errorMessagesAC, setInitializedAC } from './authReducer';
 
 const initState: InitStateType = {
-  authoriseMe: false,
-  entityStatus: false,
+  authoriseMe: false as const,
+  entityStatus: false as const,
 };
 type InitStateType = {
   authoriseMe: boolean;
   entityStatus: boolean;
 };
 
-export const registrationReducer = (state: any = initState, action: actionType) => {
+export const registrationReducer = (
+  state: InitStateType = initState,
+  action: ActionRegistrationType
+) => {
   switch (action.type) {
     case 'REGISTRATION_ME':
       return { ...state, authoriseMe: action.authoriseMe };
@@ -47,9 +50,9 @@ export const registrationTC =
 
 type registrationAT = ReturnType<typeof registrationAC>;
 export type entityStatusAT = ReturnType<typeof entityStatusAC>;
-type actionType =
+export type ActionRegistrationType =
   | registrationAT
   | entityStatusAT
   | ReturnType<typeof setInitializedAC>
   | ReturnType<typeof errorMessagesAC>;
-type ThunkDispatch = Dispatch<actionType>;
+type ThunkDispatch = Dispatch<ActionRegistrationType>;
