@@ -8,25 +8,25 @@ import React, {
 import SuperInput from '../SuperInput/SuperInput';
 import './SuperEditableSpan.scss';
 
-// тип пропсов обычного инпута
 type DefaultInputPropsType = DetailedHTMLProps<
   InputHTMLAttributes<HTMLInputElement>,
   HTMLInputElement
 >;
-// тип пропсов обычного спана
+
 type DefaultSpanPropsType = DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
 
-// здесь мы говорим что у нашего инпута будут такие же пропсы как у обычного инпута
-// (чтоб не писать value: string, onChange: ...; они уже все описаны в DefaultInputPropsType)
+export const srtingLenghtCutter = (value: string) => {
+  return value.length > 10 ? value.substring(0, 40) + '...' : value;
+};
+
 type SuperEditableSpanType = DefaultInputPropsType & {
-  // и + ещё пропсы которых нет в стандартном инпуте
   onChangeText?: (value: string) => void;
   onEnter?: () => void;
   error?: string;
   spanClassName?: string;
   inputName?: string;
   type?: string;
-  spanProps?: DefaultSpanPropsType; // пропсы для спана
+  spanProps?: DefaultSpanPropsType;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   valuepass?: string;
   value: string;
@@ -64,6 +64,8 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
     onDoubleClick && onDoubleClick(e);
   };
 
+  const cutValue = srtingLenghtCutter(value);
+
   return (
     <>
       {editMode ? (
@@ -87,7 +89,7 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
               {type === 'Password' && valuepass && value
                 ? valuepass.replace(/[^\s]/g, '*')
                 : type
-                ? value || children
+                ? cutValue || children
                 : ''}
             </label>
           </span>

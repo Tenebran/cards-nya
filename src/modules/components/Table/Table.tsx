@@ -11,20 +11,6 @@ import { Link } from 'react-router-dom';
 import { PopUp } from '../PopUp/PopUp';
 import './Table.scss';
 
-type FormPropsType = {
-  CardsPack: Array<any>;
-  tableTitle: TableTitleType;
-  currentPageNumber: number;
-  page: number;
-  currentPage: number;
-  selectPage: number;
-  handleChangePage: (event: SelectChangeEvent) => void;
-  handleChange: (event: object, value: number) => void;
-  myCardsId?: string;
-  deletePackHandler: (id: string) => void;
-  updatePackHAndler?: (id: string, name: string) => void;
-};
-
 export const srtingLenghtCutter = (value: string | number) => {
   if (value && typeof value === 'string') {
     return value.length > 10 ? value.substring(0, 15) + '...' : value;
@@ -59,12 +45,15 @@ export const Table = (props: FormPropsType) => {
   };
 
   const popUpOpenEditHandler = (id: string, packEditName: string) => {
-    popUpEdit === false ? setPopUpEdit(true) : setPopUpEdit(false);
     setPackId(id);
     setPackEditName(packEditName);
+    popUpEdit === false ? setPopUpEdit(true) : setPopUpEdit(false);
   };
 
   const popUpEditHandler = () => {
+    if (props.updatePackHAndler) {
+      props.updatePackHAndler(packId, packEditName);
+    }
     popUpEdit === false ? setPopUpEdit(true) : setPopUpEdit(false);
   };
 
@@ -80,7 +69,14 @@ export const Table = (props: FormPropsType) => {
         ''
       )}
       {popUpEdit ? (
-        <PopUp popUpType="add" popUpOpenHandler={popUpOpenEdit} popUpTitle="Edit pack name" />
+        <PopUp
+          popUpType="add"
+          popUpOpenHandler={popUpOpenEdit}
+          popUpTitle="Edit pack name"
+          value={packEditName}
+          onChangeText={setPackEditName}
+          addNewCardsPackValue={popUpEditHandler}
+        />
       ) : (
         ''
       )}
@@ -184,4 +180,18 @@ export type TableTitleType = {
   table3: string;
   table4: string;
   table5: string;
+};
+
+type FormPropsType = {
+  CardsPack: Array<any>;
+  tableTitle: TableTitleType;
+  currentPageNumber: number;
+  page: number;
+  currentPage: number;
+  selectPage: number;
+  handleChangePage: (event: SelectChangeEvent) => void;
+  handleChange: (event: object, value: number) => void;
+  myCardsId?: string;
+  deletePackHandler: (id: string) => void;
+  updatePackHAndler?: (id: string, name: string) => void;
 };

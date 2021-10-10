@@ -21,6 +21,7 @@ import { InitialStateProfileType } from '../../redux/reducers/profileReducer';
 import { CardsShow } from './CardsShow/CardsShow';
 import { ProfileInfo } from '../Profile/ProfileInfo/ProfileInfo';
 import { CardsPackSearch } from './CardsPackSearch/CardsPackSearch';
+import SuperButton from '../../components/SuperButton/SuperButton';
 
 const tableTitle = {
   table1: 'Name',
@@ -124,7 +125,15 @@ export const CardsPack = (props: PropsType) => {
         <div className="cards-pack__wrapper">
           <div className="cards-pack__wrapper_schow">
             {props.profie ? (
-              <ProfileInfo profie={props.profie} />
+              <>
+                <ProfileInfo profie={props.profie} />
+                <SuperButton
+                  name="Logout"
+                  buttonWidth="176px"
+                  className="superButton__default"
+                  onClickHandler={props.logOutHandler}
+                />
+              </>
             ) : (
               <CardsShow
                 myPackHandler={changeToUserPack}
@@ -167,6 +176,7 @@ export const CardsPack = (props: PropsType) => {
 
 type PropsType = {
   profie?: InitialStateProfileType;
+  logOutHandler?: () => void;
 };
 
 export type cardPacksType = {

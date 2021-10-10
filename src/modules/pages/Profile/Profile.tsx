@@ -16,7 +16,7 @@ export const Profile = () => {
   const profile = useSelector<AppStoreType, InitialStateProfileType>(state => state.profile);
   const myCardsId = useSelector<AppStoreType, string>(state => state.profile._id);
 
-  // useEffect(() => {}, [dispatch, authMe]);
+  // useEffect(() => {}, [dispatch, authMe, profile]);
 
   const logOutHandler = useCallback(() => {
     dispatch(logOutTC());
@@ -29,7 +29,7 @@ export const Profile = () => {
   return (
     <>
       <Header active={'profile_active'} />
-      <CardsPack profie={profile} />
+      <CardsPack profie={profile} logOutHandler={logOutHandler} />
     </>
   );
 };

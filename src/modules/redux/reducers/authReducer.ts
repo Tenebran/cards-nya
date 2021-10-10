@@ -20,9 +20,6 @@ export const authReducer = (
     case 'AUTH/LOGIN': {
       return { ...state, authMe: action.authMe };
     }
-    case 'AUTH/LOGOUT': {
-      return { ...state };
-    }
 
     case 'AUTH/FORGOT-PASSWORD':
       return { ...state, statusSend: true, userEmail: action.email };
@@ -45,17 +42,13 @@ export const entityStatusAC = () =>
     type: 'ENTITY-STATUS',
   } as const);
 
-export const logOutAC = (authMe: boolean) => {
-  return { type: 'AUTH/LOGOUT', authMe } as const;
-};
-
 export const loginAC = (authMe: boolean) => {
   return { type: 'AUTH/LOGIN', authMe } as const;
 };
 
-export const updatedUserAc = (userData: Usertype) => {
-  return { type: 'AUTH/UPDATE-USER', userData } as const;
-};
+// export const updatedUserAc = (userData: Usertype) => {
+//   return { type: 'AUTH/UPDATE-USER', userData } as const;
+// };
 
 export const setInitializedAC = (initialized: boolean) =>
   ({
@@ -104,7 +97,7 @@ export const logOutTC = () => async (dispatch: Dispatch<ActionAuthType>) => {
   try {
     await authApi.logOut();
     dispatch(setInitializedAC(false));
-    dispatch(logOutAC(false));
+    dispatch(loginAC(false));
   } catch (e: any) {
     dispatch(errorMessagesAC(e.response.data.error));
   }
@@ -131,7 +124,15 @@ export const authMe = () => async (dispatch: Dispatch<ActionAuthType>) => {
 export const thunkUpdateUser =
   (name: string, avatar: string) => (dispatch: Dispatch<ActionAuthType>) => {
     authApi.updateProfile(name, avatar).then(resp => {
-      dispatch(updatedUserAc(resp.data.updatedUser));
+      dispatch(
+        getProfileAC(
+          resp.data.updatedUser._id,
+          resp.data.updatedUser.email,
+          resp.data.updatedUser.name,
+          resp.data.updatedUser.avatar,
+          resp.data.updatedUser.publicCardPacksCount
+        )
+      );
     });
   };
 
@@ -170,9 +171,7 @@ export type Usertype = {
 };
 
 export type ActionAuthType =
-  | ReturnType<typeof logOutAC>
   | ReturnType<typeof loginAC>
-  | ReturnType<typeof updatedUserAc>
   | ReturnType<typeof setInitializedAC>
   | ReturnType<typeof entityStatusAC>
   | ReturnType<typeof forgotPasswordAc>
