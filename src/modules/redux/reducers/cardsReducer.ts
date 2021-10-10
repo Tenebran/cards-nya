@@ -2,7 +2,7 @@ import { resolve } from 'dns';
 import { Dispatch } from 'redux';
 import { cardsApi } from '../../api/cardsApi';
 import { CardsType } from '../../pages/CardsPack/Cards/Cards';
-import { AppStoreType } from '../store';
+import { AppStoreType, ThunkType } from '../store';
 
 const initialState = {
   cards: [
@@ -29,6 +29,8 @@ const initialState = {
   packUserId: '',
   page: 0,
   pageCount: 0,
+  cardId: '',
+  cardGrade: 0,
 };
 
 export const cardsReducer = (
@@ -61,6 +63,15 @@ export const cardsReducer = (
       return { ...state, cardsTotalCount: action.totalCount };
     case 'CARDS/CHANGE_PAGE':
       return { ...state, page: action.page };
+    case 'CARDS/SET_CURRENT_CARD_ID':
+      return { ...state, cardId: action.cardId };
+    case 'CARDS/SET_CURRENT_CARD_GRADE':
+      return {
+        ...state,
+        cardGrade: action.cardGrade,
+      };
+    case 'CARDS/GET_CARDS':
+      return { ...state, cards: action.cards };
     default:
       return state;
   }
@@ -70,6 +81,13 @@ export const getCardsAC = (cards: Array<CardsType>) => {
   return {
     type: 'CARDS/GET_CARDS',
     cards,
+  } as const;
+};
+
+export const setCurrentCardIdAC = (cardId: string) => {
+  return {
+    type: 'CARDS/SET_CURRENT_CARD_ID',
+    cardId,
   } as const;
 };
 
@@ -108,6 +126,13 @@ export const changeCardsPage = (page: number) => {
   return { type: 'CARDS/CHANGE_PAGE', page } as const;
 };
 
+export const setCurrentCardGradeAC = (cardGrade: number) => {
+  return {
+    type: 'CARDS/SET_CURRENT_CARD_GRADE',
+    cardGrade,
+  } as const;
+};
+
 export const cardsTC = () => (dispatch: Dispatch, getState: () => AppStoreType) => {
   const appstate = getState().cards;
   console.log(appstate.page);
@@ -126,6 +151,49 @@ export const cardsTC = () => (dispatch: Dispatch, getState: () => AppStoreType) 
   });
 };
 
+export const getCardsTC =
+  (packId: string): ThunkType =>
+  (dispatch, getState: () => AppStoreType) => {
+    const cards = getState().cards;
+    const currentPage = cards.page;
+    const pageCount = cards.pageCount;
+    // dispatch(setAppStatusAC("loading"));
+    cardsApi.getCards(packId, currentPage, pageCount).then(res => {
+      dispatch(getCardsAC(res.data.cards));
+      dispatch(getUsersCards(res.data.packUserId));
+      dispatch(getTotalUserCount(res.data.cardsTotalCount));
+    });
+    // .catch((err) => {
+    //     const error = err.response
+    //         ? err.response.data.error
+    //         : err.message + ", more details in the console";
+    //     console.log("err:", error);
+    //     dispatch(catchErrorAC(error));
+    // })
+    // .finally(() => {
+    //     dispatch(setAppStatusAC("succeeded"));
+    // });
+  };
+
+export const updateCardGradeTC = (): ThunkType => (dispatch, getState: () => AppStoreType) => {
+  const cardId = getState().cards.cardId;
+  const grade = getState().cards.cardGrade;
+  // dispatch(setAppStatusAC("loading"));
+  cardsApi.updateCardGrade(cardId, grade).then(res => {
+    dispatch(setCurrentCardGradeAC(res.data.updatedGrade.grade));
+  });
+  // .catch(err => {
+  //   const error = err.response
+  //     ? err.response.data.error
+  //     : err.message + ', more details in the console';
+  //   console.log('err:', error);
+  //   dispatch(catchErrorAC(error));
+  // })
+  // .finally(() => {
+  //   dispatch(setAppStatusAC('succeeded'));
+  // });
+};
+
 export type CardsSettingsType = {
   cardsPack_id: string;
   page: number;
@@ -138,6 +206,8 @@ export type ActionCardsType =
   | ReturnType<typeof getCardsPageCount>
   | ReturnType<typeof getTotalUserCount>
   | ReturnType<typeof changeCardsPage>
-  | ReturnType<typeof updateCardsAc>;
+  | ReturnType<typeof updateCardsAc>
+  | ReturnType<typeof setCurrentCardIdAC>
+  | ReturnType<typeof setCurrentCardGradeAC>;
 
 export type InitialStateType = typeof initialState;

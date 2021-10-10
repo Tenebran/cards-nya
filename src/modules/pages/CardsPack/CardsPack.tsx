@@ -28,7 +28,8 @@ const tableTitle = {
   table2: 'Cards',
   table3: 'Last Updated',
   table4: 'Created by',
-  table5: 'Actions',
+  table5: 'Cards',
+  table6: 'Actions',
 };
 
 export const CardsPack = (props: PropsType) => {

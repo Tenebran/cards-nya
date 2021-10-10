@@ -1,0 +1,38 @@
+/* button default : blue - var(--accent-color) */
+.default {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-light);
+    background-color: var(--accent-color);
+    max-width: 266px;
+    width: 100%;
+    min-height: 36px;
+    border: none;
+    border-radius: 30px;
+    transition: all var(--default-transition);
+    cursor: pointer;
+    box-shadow: var(--default-shadow);
+}
+
+.default:active {
+    opacity: var(--opacity-middle);
+}
+
+.default:disabled {
+    opacity: var(--opacity-active);
+}
+
+/* button : red - var(--color-warning) */
+.red {
+    color: var(--color-light);
+    background-color: var(--color-warning);
+    box-shadow: var(--red-shadow);
+}
+
+/* button : purple - var(--color-light-purple) */
+.purple {
+    background-color: var(--color-light-purple);
+    color: var(--accent-color);
+    box-shadow: none;
+}

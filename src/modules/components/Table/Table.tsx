@@ -8,6 +8,7 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { PackIcon } from '../../common/IconComponents/PackIcon';
 import { PopUp } from '../PopUp/PopUp';
 import './Table.scss';
 
@@ -89,6 +90,7 @@ export const Table = (props: FormPropsType) => {
             <th>{props.tableTitle.table3}</th>
             <th>{props.tableTitle.table4}</th>
             <th>{props.tableTitle.table5}</th>
+            {props.tableTitle.table6 ? <th>{props.tableTitle.table6}</th> : ''}
           </tr>
         </thead>
         <tbody className="table__td">
@@ -107,6 +109,16 @@ export const Table = (props: FormPropsType) => {
                 <td>{srtingLenghtCutter(CardsPack.cardsCount)}</td>
                 <td>{srtingLenghtCutter(CardsPack.updated.substr(0, 10))}</td>
                 <td>{srtingLenghtCutter(CardsPack.user_name)}</td>
+                {props.tableTitle.table6 ? (
+                  <td>
+                    <Link to={`/cards/${CardsPack._id}`}>
+                      <PackIcon />
+                    </Link>
+                  </td>
+                ) : (
+                  ''
+                )}
+
                 <td>
                   {props.myCardsId === CardsPack.user_id ? (
                     <>
@@ -127,7 +139,7 @@ export const Table = (props: FormPropsType) => {
                   ) : (
                     ''
                   )}
-                  <Link to={`/cards/${CardsPack._id}`} className="table__button">
+                  <Link to={`/learn/${CardsPack._id}`} className="table__button">
                     Learn
                   </Link>
                 </td>
@@ -180,6 +192,7 @@ export type TableTitleType = {
   table3: string;
   table4: string;
   table5: string;
+  table6?: string;
 };
 
 type FormPropsType = {

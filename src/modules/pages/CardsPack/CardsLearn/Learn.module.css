@@ -1,0 +1,61 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  padding: 35px 30px;
+  text-align: center;
+  background-color: var(--color-light);
+}
+
+.card h2 {
+  margin-bottom: 20px;
+  word-break: break-word;
+}
+
+.card legend {
+  text-align: left;
+  font-weight: 600;
+  color: var(--dark-color);
+}
+
+.card p {
+  margin: 0 0 10px;
+  text-align: left;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.card fieldset {
+  margin-top: 15px;
+}
+
+.actions {
+  justify-content: space-between;
+}
+.actions button {
+  margin: 10px;
+}
+.actions button:first-child {
+  max-width: 120px;
+}
+
+.actions button:last-child {
+  max-width: 180px;
+}
+
+@media screen and (max-width: 768px) {
+  .actions {
+    flex-wrap: wrap;
+  }
+
+  .actions button:first-child {
+    order: 1;
+    max-width: 100%;
+  }
+
+  .actions button:last-child {
+    max-width: 100%;
+  }
+}

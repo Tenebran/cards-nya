@@ -15,6 +15,12 @@ export const cardsApi = {
   updateCards(card: UpdateCardsType) {
     return instance.put(`/cards/card/`, card);
   },
+  updateCardGrade(card_id: string, grade: number) {
+    return instance.put<UpdatedGradeResponseType>(`cards/grade`, {
+      card_id,
+      grade,
+    });
+  },
 };
 
 export type GetCards = {
@@ -42,6 +48,7 @@ export type GetCards = {
   packUserId: string;
   page: number;
   pageCount: number;
+  cardGrade: number;
 };
 
 export type GetCardsType = {
@@ -59,4 +66,23 @@ export type PostCardsType = {
 export type UpdateCardsType = {
   _id: string;
   question: string;
+};
+
+export type UpdatedGradeResponseType = {
+  updatedGrade: CardType;
+};
+
+export type CardType = {
+  _id: string;
+  cardsPack_id: string;
+  user_id: string;
+  answer: string;
+  question: string;
+  grade: number;
+  shots: number;
+  type: string;
+  rating: number;
+  updated: Date | string;
+  more_id: string;
+  created: Date | string;
 };

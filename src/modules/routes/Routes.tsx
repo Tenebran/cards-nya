@@ -12,6 +12,7 @@ import { TestPage } from '../pages/TestPage/TestPage';
 import { Cards } from '../pages/CardsPack/Cards/Cards';
 import { useSelector } from 'react-redux';
 import { AppStoreType } from '../redux/store';
+import { CardsLearn } from '../pages/CardsPack/CardsLearn/CardsLearn';
 
 export enum PATH {
   TEST = '/test',
@@ -23,6 +24,7 @@ export enum PATH {
   CHECK_EMAIL = '/checkemail',
   CREATE_NEW_PASSWORD = '/newpassword/:token',
   CARDS = '/cards/:id',
+  CARDS_LEARN = '/learn/:packId',
 }
 
 export const Routes = () => {
@@ -38,6 +40,7 @@ export const Routes = () => {
       <Route path={PATH.CREATE_NEW_PASSWORD} component={CreateNewPassword} />
       <Route path={PATH.PACK_LIST} component={CardsPack} />
       <Route path={PATH.CARDS} component={Cards} />
+      <Route path={PATH.CARDS_LEARN} component={CardsLearn} />
       <Route component={PageNotFound} />
     </Switch>
   );
