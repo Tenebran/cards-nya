@@ -79,8 +79,8 @@ export const Registration = () => {
 
   return (
     <div className="login">
-      {initialized ? <Preloader /> : ''}
-      {initialized ? (
+      {/* {initialized ? <Preloader /> : ''} */}
+      {!initialized ? (
         <Loader />
       ) : (
         <form>

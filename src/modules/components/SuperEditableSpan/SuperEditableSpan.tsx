@@ -30,6 +30,7 @@ type SuperEditableSpanType = DefaultInputPropsType & {
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   valuepass?: string;
   value: string;
+  width?: string;
 };
 
 const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
@@ -43,6 +44,7 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
   onChange,
   valuepass,
   value,
+  width,
 
   ...restProps
 }) => {
@@ -74,12 +76,13 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
           type={type}
           onChange={onChange}
           value={value}
+          width={width}
           {...restProps}
         />
       ) : (
         <div className="wrapper__input">
           <span className="span__group " onClick={onDoubleClickCallBack} {...restSpanProps}>
-            <input className="span__field" name={type} />
+            <input className="span__field" name={type} style={{ width: width }} />
             <label htmlFor="name" className="span__label">
               {type === 'Password' && valuepass && value
                 ? valuepass.replace(/[^\s]/g, '*')

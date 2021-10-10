@@ -6,43 +6,63 @@ import SuperInput from '../SuperInput/SuperInput';
 import './PopUp.scss';
 
 export const PopUp = (props: PopUpType) => {
-  const [value, setValue] = useState<any>(null);
-
   return (
-    <div className="popup">
-      <div className="popup__wrapper">
+    <div className="popup" onClick={props.popUpOpenHandler}>
+      <div className="popup__wrapper" onClick={e => e.stopPropagation()}>
         <div className="popup_header">
           <span className="popup__title">
-            {props.popUpType === 'delete' ? 'Delete Pack' : 'Add new pack'}
+            {props.popUpType === 'delete' ? 'Delete Pack' : props.popUpTitle}
           </span>
-          <PopUpCancelIcon className="popup__cancel-icon" />
+          <PopUpCancelIcon className="popup__cancel-icon" onClickHandler={props.popUpOpenHandler} />
         </div>
         <div className="popup__body">
           {props.popUpType === 'delete' ? (
             <span className="popup__info">
-              Do you really want to remove{' '}
+              Do you really want to remove
               <span className="popup__info_pack"> Pack Name - Name Pack?</span> <br /> All cards
               will be excluded from this course.
             </span>
           ) : (
             <SuperEditableSpan
-              value=""
-              valuepass="Name Pack"
-              inputName="Name Pack"
-              spanProps={{ children: value ? undefined : 'Name pack' }}
+              value={props.value ? props.value : ''}
+              onChangeText={props.onChangeText}
+              valuepass={props.popUpTitle}
+              inputName={props.popUpTitle}
+              spanProps={{ children: props.value ? undefined : props.popUpTitle }}
               type={'text'}
+              width="113%"
             />
           )}
         </div>
         {props.popUpType === 'delete' ? (
           <div className="popup__button-wrapper">
-            <SuperButton name="Cancel" buttonWidth="126px" className="superButton__default" />
-            <SuperButton name="Delete" buttonWidth="126px" className="superButton__default" />
+            <SuperButton
+              name="Cancel"
+              buttonWidth="126px"
+              className="superButton__purpe"
+              onClickHandler={props.popUpOpenHandler}
+            />
+            <SuperButton
+              name="Delete"
+              buttonWidth="126px"
+              className="superButton__delete"
+              onClickHandler={props.popUpDeleteHandler}
+            />
           </div>
         ) : (
           <div className="popup__button-wrapper">
-            <SuperButton name="Cancel" buttonWidth="126px" className="superButton__default" />
-            <SuperButton name="Save" buttonWidth="126px" className="superButton__default" />
+            <SuperButton
+              name="Cancel"
+              buttonWidth="126px"
+              className="superButton__purpe"
+              onClickHandler={props.popUpOpenHandler}
+            />
+            <SuperButton
+              name="Save"
+              buttonWidth="126px"
+              className="superButton__default"
+              onClickHandler={props.addNewCardsPackValue}
+            />
           </div>
         )}
       </div>
@@ -52,4 +72,10 @@ export const PopUp = (props: PopUpType) => {
 
 type PopUpType = {
   popUpType: 'delete' | 'add';
+  value?: string;
+  onChangeText?: (value: string) => void;
+  addNewCardsPackValue?: () => void;
+  popUpOpenHandler: () => void;
+  popUpDeleteHandler?: () => void;
+  popUpTitle?: string;
 };

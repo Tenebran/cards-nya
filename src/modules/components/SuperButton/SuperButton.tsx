@@ -27,8 +27,6 @@ const SuperButton: React.FC<SuperButtonPropsType> = ({
   disabledBtn,
   entityStatus,
 }) => {
-  const finalClassName = `${color ? `superButton__${color}` : 'superButton__default'} ${className}`;
-
   return (
     <button
       className={className}

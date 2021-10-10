@@ -1,5 +1,5 @@
 import { ThunkType } from '../store';
-import { authMe } from './authReducer';
+import { authMe, loginAC } from './authReducer';
 
 const initialState = {
   initialized: false as boolean,
@@ -12,7 +12,7 @@ export const appReducer = (state = initialState, action: ActionAppType) => {
     case 'APP/SET_STATUS':
       return { ...state, status: action.status };
     case 'APP/SET_INITIALISATION':
-      return { ...state, initialState: action.init };
+      return { ...state, initialized: action.init };
     case 'APP/SET_CATCH_ERROR':
       return { ...state, error: action.error };
     default:
@@ -34,8 +34,10 @@ export const setCatchError = (error: string) => {
 
 export const initializeAppThunk = (): ThunkType => dispatch => {
   const promise = dispatch(authMe());
+  dispatch(setAppStatusAC('loading'));
   Promise.all([promise]).then(() => {
     dispatch(setInitializedAC(true));
+    dispatch(setAppStatusAC('succeeded'));
   });
 };
 

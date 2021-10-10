@@ -6,18 +6,10 @@ import {
   Select,
   SelectChangeEvent,
 } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CardsType } from '../../pages/CardsPack/Cards/Cards';
+import { PopUp } from '../PopUp/PopUp';
 import './Table.scss';
-
-export type TableTitleType = {
-  table1: string;
-  table2: string;
-  table3: string;
-  table4: string;
-  table5: string;
-};
 
 type FormPropsType = {
   CardsPack: Array<any>;
@@ -43,8 +35,56 @@ export const srtingLenghtCutter = (value: string | number) => {
 };
 
 export const Table = (props: FormPropsType) => {
+  const [popUp, setPopUp] = useState<boolean>(false);
+  const [popUpEdit, setPopUpEdit] = useState<boolean>(false);
+  const [packId, setPackId] = useState<string>('');
+  const [packEditName, setPackEditName] = useState<string>('');
+
+  const popUpOpenHandler = () => {
+    popUp === false ? setPopUp(true) : setPopUp(false);
+  };
+
+  const popUpOpenEdit = () => {
+    popUpEdit === false ? setPopUpEdit(true) : setPopUpEdit(false);
+  };
+
+  const popUpOpenDeleteHandler = (id: string) => {
+    popUp === false ? setPopUp(true) : setPopUp(false);
+    setPackId(id);
+  };
+
+  const popUpDeleteHandler = () => {
+    props.deletePackHandler(packId);
+    popUp === false ? setPopUp(true) : setPopUp(false);
+  };
+
+  const popUpOpenEditHandler = (id: string, packEditName: string) => {
+    popUpEdit === false ? setPopUpEdit(true) : setPopUpEdit(false);
+    setPackId(id);
+    setPackEditName(packEditName);
+  };
+
+  const popUpEditHandler = () => {
+    popUpEdit === false ? setPopUpEdit(true) : setPopUpEdit(false);
+  };
+
   return (
     <>
+      {popUp ? (
+        <PopUp
+          popUpType="delete"
+          popUpOpenHandler={popUpOpenHandler}
+          popUpDeleteHandler={popUpDeleteHandler}
+        />
+      ) : (
+        ''
+      )}
+      {popUpEdit ? (
+        <PopUp popUpType="add" popUpOpenHandler={popUpOpenEdit} popUpTitle="Edit pack name" />
+      ) : (
+        ''
+      )}
+
       <table className="table" style={{ borderCollapse: 'collapse' }}>
         <thead>
           <tr>
@@ -74,13 +114,16 @@ export const Table = (props: FormPropsType) => {
                 <td>
                   {props.myCardsId === CardsPack.user_id ? (
                     <>
-                      <button onClick={() => props.deletePackHandler(CardsPack._id)}>Delete</button>
                       <button
-                        onClick={() =>
-                          props.updatePackHAndler
-                            ? props.updatePackHAndler(CardsPack._id, 'Name Updated')
-                            : ''
-                        }
+                        onClick={() => popUpOpenDeleteHandler(CardsPack._id)}
+                        className="table__button_delete"
+                      >
+                        Delete
+                      </button>
+
+                      <button
+                        className="table__button"
+                        onClick={() => popUpOpenEditHandler(CardsPack._id, CardsPack.name)}
                       >
                         Edit
                       </button>
@@ -133,4 +176,12 @@ export const Table = (props: FormPropsType) => {
       </div>
     </>
   );
+};
+
+export type TableTitleType = {
+  table1: string;
+  table2: string;
+  table3: string;
+  table4: string;
+  table5: string;
 };

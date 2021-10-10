@@ -14,14 +14,12 @@ import {
 } from '../../redux/reducers/cardsPacksReducers';
 import { AppStoreType } from '../../redux/store';
 import { Header } from '../../components/Header/Header';
-import SuperButton from '../../components/SuperButton/SuperButton';
 import './CardsPack.scss';
 import { Table } from '../../components/Table/Table';
 import { Preloader } from '../../components/Preloader/Preloader';
 import { InitialStateProfileType } from '../../redux/reducers/profileReducer';
 import { CardsShow } from './CardsShow/CardsShow';
 import { ProfileInfo } from '../Profile/ProfileInfo/ProfileInfo';
-import { profile } from 'console';
 import { CardsPackSearch } from './CardsPackSearch/CardsPackSearch';
 
 const tableTitle = {
@@ -44,6 +42,7 @@ export const CardsPack = (props: PropsType) => {
   const currentPage = useSelector<AppStoreType, number>(
     state => state.cardsPack.cardPacksTotalCount
   );
+
   const maxRangeCount = useSelector<AppStoreType, number>(state => state.cardsPack.maxCardsCount);
   const minRangeCount = useSelector<AppStoreType, number>(state => state.cardsPack.minCardsCount);
   const page = useSelector<AppStoreType, number>(state => state.cardsPack.pageCount);
@@ -96,10 +95,12 @@ export const CardsPack = (props: PropsType) => {
     setChangeButton(false);
   }, [dispatch]);
 
-  const addNewPackHandler = useCallback(() => {
-    const name = 'Hello';
-    dispatch(addPackTC(name));
-  }, [dispatch]);
+  const addNewPackHandler = useCallback(
+    (name: string) => {
+      dispatch(addPackTC(name));
+    },
+    [dispatch]
+  );
 
   const deletePackHandler = useCallback(
     (id: string) => {
@@ -118,7 +119,7 @@ export const CardsPack = (props: PropsType) => {
   return (
     <>
       {props.profie ? '' : <Header active={'pack_list_active'} />}
-      {initialized ? <Preloader /> : ''}
+      {/* {!initialized ? <Preloader /> : ''} */}
       <div className="cards-pack">
         <div className="cards-pack__wrapper">
           <div className="cards-pack__wrapper_schow">

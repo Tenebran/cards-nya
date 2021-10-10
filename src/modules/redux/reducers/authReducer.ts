@@ -9,6 +9,7 @@ const initialState = {
   userEmail: '' as string,
   newPassSuccess: false as boolean,
   errorMessage: '' as string,
+  initialized: false as boolean,
 };
 
 export const authReducer = (
@@ -31,6 +32,9 @@ export const authReducer = (
 
     case 'AUTH/ERROR_MESSAGES':
       return { ...state, errorMessage: action.messages };
+
+    case 'AUTH/SET_INITIALIZED':
+      return { ...state, initialized: action.initialized };
 
     default:
       return state;
@@ -77,8 +81,6 @@ export const loginTC =
     dispatch(entityStatusAC());
     try {
       const response = await authApi.login(email, password, rememberMe);
-      dispatch(setInitializedAC(true));
-      dispatch(loginAC(true));
       dispatch(
         getProfileAC(
           response.data._id,
@@ -88,6 +90,7 @@ export const loginTC =
           response.data.publicCardPacksCount
         )
       );
+      dispatch(loginAC(true));
     } catch (e: any) {
       dispatch(setInitializedAC(false));
       const error = e.response
@@ -109,8 +112,16 @@ export const logOutTC = () => async (dispatch: Dispatch<ActionAuthType>) => {
 
 export const authMe = () => async (dispatch: Dispatch<ActionAuthType>) => {
   try {
-    await authApi.authMe();
-    dispatch(setInitializedAC(true));
+    const respons = await authApi.authMe();
+    dispatch(
+      getProfileAC(
+        respons.data._id,
+        respons.data.email,
+        respons.data.name,
+        respons.data.avatar,
+        respons.data.publicCardPacksCount
+      )
+    );
     dispatch(loginAC(true));
   } catch (e: any) {
     dispatch(errorMessagesAC(e.response.data.error));
