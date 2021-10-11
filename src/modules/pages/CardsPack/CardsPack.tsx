@@ -16,7 +16,6 @@ import { AppStoreType } from '../../redux/store';
 import { Header } from '../../components/Header/Header';
 import './CardsPack.scss';
 import { Table } from '../../components/Table/Table';
-import { Preloader } from '../../components/Preloader/Preloader';
 import { InitialStateProfileType } from '../../redux/reducers/profileReducer';
 import { CardsShow } from './CardsShow/CardsShow';
 import { ProfileInfo } from '../Profile/ProfileInfo/ProfileInfo';

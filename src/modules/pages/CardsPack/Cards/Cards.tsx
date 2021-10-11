@@ -81,7 +81,7 @@ export const Cards = () => {
       <Header active={'pack_list_active'} />
       <div className="cards-pack">
         <div className="cards-pack__wrapper">
-          <div className="cards-pack__wrapper_table">
+          <div className="cards__wrapper_table">
             <Link to={PATH.PACK_LIST} className="card__wrapper">
               <LeftArrowIcon />
               <div className="card__wrapper__title">Pack</div>

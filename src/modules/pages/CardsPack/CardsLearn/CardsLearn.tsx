@@ -11,27 +11,19 @@ import {
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-// import {
-//     CardType,
-//     getCardsTC,
-//     setCurrentCardGradeAC,
-//     setCurrentCardIdAC,
-//     updateCardGradeTC,
-// } from "../../redux/cardsReducer";
-// import { AppStore } from "../../redux/store";
-// import { Button } from "../../UI-kit/Button/Button";
 import styles from './Learn.module.css';
 import { AppStoreType } from '../../../redux/store';
 import { CardsType } from '../Cards/Cards';
 import {
-  cardsTC,
   getCardsTC,
-  getUsersCards,
   setCurrentCardGradeAC,
   setCurrentCardIdAC,
   updateCardGradeTC,
 } from '../../../redux/reducers/cardsReducer';
 import { Button } from '../../../common/Button2/Button';
+import './CardsLearn.scss';
+import SuperButton from '../../../components/SuperButton/SuperButton';
+import { Header } from '../../../components/Header/Header';
 
 const grades = ['Did not know', 'Forgot', 'A lot of thought', 'Сonfused', 'Knew the answer'];
 
@@ -170,79 +162,89 @@ export const CardsLearn = () => {
   }
 
   return (
-    <Card className={styles.card} sx={{ maxWidth: 413, minHeight: 300, margin: '100px auto' }}>
-      <h2>Learn “ {currentPack[0].name} ”</h2>
-      {card.question === 'question fake' ? (
-        <p style={{ textAlign: 'center' }}>
-          <b>No questions in this Pack!!!</b>
-        </p>
-      ) : (
-        <p>
-          <b>Question</b>: “ {card.question} “
-        </p>
-      )}
-
-      {!isChecked && (
-        <CardActions className={styles.actions}>
-          <Button
-            className={styles.cancelBtn}
-            style={card.question === 'question fake' ? { margin: '0 auto' } : { margin: '0' }}
-            purple
-            onClick={() => {
-              history.goBack();
-            }}
-          >
-            Cancel
-          </Button>
-          {card.question !== 'question fake' && (
-            <Button onClick={() => setIsChecked(true)}>check</Button>
-          )}
-        </CardActions>
-      )}
-
-      {isChecked && (
-        <>
-          <p>
-            <b>Answer</b>: “ {card.answer} “
+    <>
+      <Header active={'pack_list_active'} />
+      <Card className="card-learn" sx={{ maxWidth: 413, minHeight: 300, margin: '100px auto' }}>
+        <h2>Learn “ {currentPack[0].name} ”</h2>
+        {card.question === 'question fake' ? (
+          <p style={{ textAlign: 'center' }}>
+            <b>No questions in this Pack!!!</b>
           </p>
+        ) : (
+          <p>
+            <b>Question</b>: “ {card.question} “
+          </p>
+        )}
 
-          <FormControl component="fieldset">
-            <FormLabel className={styles.legend} component="legend">
-              Rate yourself:
-            </FormLabel>
-
-            <RadioGroup aria-label="Rate" defaultValue="Knew the answer" name="radio-buttons-group">
-              {grades.map((g, i) => (
-                <FormControlLabel
-                  key={i}
-                  value={i + 1}
-                  control={<BpRadio />}
-                  label={g}
-                  onChange={() => {
-                    dispatch(setCurrentCardGradeAC(i + 1));
-                  }}
-                />
-              ))}
-            </RadioGroup>
-          </FormControl>
-
+        {!isChecked && (
           <CardActions className={styles.actions}>
-            <Button
-              className={styles.cancelBtn}
-              purple
-              onClick={() => {
-                history.goBack();
-              }}
-            >
-              Cancel
-            </Button>
-            <Button className={styles.registerBtn} onClick={onNext} disabled={status === 'loading'}>
-              next
-            </Button>
+            <SuperButton
+              name="Cancel"
+              className="superButton__purpe"
+              buttonWidth="124px"
+              onClickHandler={() => history.goBack()}
+            />
+
+            {card.question !== 'question fake' && (
+              <SuperButton
+                name="Show answer"
+                className="superButton__default"
+                buttonWidth="187px"
+                onClickHandler={() => setIsChecked(true)}
+              />
+            )}
           </CardActions>
-        </>
-      )}
-    </Card>
+        )}
+
+        {isChecked && (
+          <>
+            <p>
+              <b>Answer</b>: “ {card.answer} “
+            </p>
+
+            <FormControl component="fieldset">
+              <FormLabel className={styles.legend} component="legend">
+                Rate yourself:
+              </FormLabel>
+
+              <RadioGroup
+                aria-label="Rate"
+                defaultValue="Knew the answer"
+                name="radio-buttons-group"
+              >
+                {grades.map((g, i) => (
+                  <FormControlLabel
+                    key={i}
+                    value={i + 1}
+                    control={<BpRadio />}
+                    label={g}
+                    onChange={() => {
+                      dispatch(setCurrentCardGradeAC(i + 1));
+                    }}
+                  />
+                ))}
+              </RadioGroup>
+            </FormControl>
+
+            <CardActions className={styles.actions}>
+              <SuperButton
+                name="Cancel"
+                className="superButton__purpe"
+                buttonWidth="124px"
+                onClickHandler={() => history.goBack()}
+              />
+              <SuperButton
+                name="Next"
+                className="superButton__default"
+                buttonWidth="187px"
+                disabled={status === 'loading'}
+                onClickHandler={onNext}
+              />
+            </CardActions>
+          </>
+        )}
+      </Card>
+    </>
   );
 };
 

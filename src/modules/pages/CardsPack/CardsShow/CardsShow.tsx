@@ -1,7 +1,8 @@
-import { Box, Slider } from '@mui/material';
+import { Box } from '@mui/material';
 import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { cardsPackTC, packCardsCountSettings } from '../../../redux/reducers/cardsPacksReducers';
+import Slider from '@mui/material/Slider';
 import { AppStoreType } from '../../../redux/store';
 import './CardsShow.scss';
 
@@ -70,8 +71,8 @@ export const CardsShow = (props: PropsType) => {
           getAriaLabel={() => 'Minimum distance shift'}
           value={rangeValue}
           onChange={handleChange2}
-          valueLabelDisplay="auto"
-          getAriaValueText={valuetext}
+          valueLabelDisplay="on"
+          // getAriaValueText={valuetext}
           disableSwap
         />
       </Box>
