@@ -8,11 +8,14 @@ import SuperButton from '../../../components/SuperButton/SuperButton';
 import { Table } from '../../../components/Table/Table';
 import { updatePackTC } from '../../../redux/reducers/cardsPacksReducers';
 import {
+  addCard,
   CardsSettingsType,
   cardsTC,
   changeCardsPage,
+  deleteCardTC,
   getCardsPageCount,
   getUsersCards,
+  updateCardsTC,
 } from '../../../redux/reducers/cardsReducer';
 import { AppStoreType } from '../../../redux/store';
 import { PATH } from '../../../routes/Routes';
@@ -51,6 +54,7 @@ export const Cards = () => {
   const [selectPage, setSelectPage] = useState<number>(8);
   const { id: userId } = useParams<{ id: string }>();
   const currentPageNumber = useSelector<AppStoreType, number>(state => state.cards.page);
+  const myCardsId = useSelector<AppStoreType, string>(state => state.profile._id);
 
   useEffect(() => {
     dispatch(getUsersCards(userId));
@@ -66,15 +70,34 @@ export const Cards = () => {
     [dispatch]
   );
 
-  console.log(currentPageNumber);
-
   const handleChangePage = useCallback((event: SelectChangeEvent) => {
     setSelectPage(parseInt(event.target.value));
     dispatch(getCardsPageCount(parseInt(event.target.value)));
     dispatch(cardsTC());
   }, []);
 
-  const deletePackHandler = useCallback((id: string) => {}, [dispatch]);
+  const deletePackHandler = useCallback(
+    (id: string) => {
+      dispatch(deleteCardTC(id));
+    },
+    [dispatch]
+  );
+
+  const question = 'How Many?';
+  const answer = 'Very Very Many';
+  const addNewPackHandler = useCallback(() => {
+    dispatch(addCard(userId, question, answer));
+  }, [dispatch]);
+
+  const question2 = 'Update Title?';
+  const answer2 = 'Update Subtitle';
+
+  const updateCardHandler = useCallback(
+    (id: string) => {
+      dispatch(updateCardsTC(id, question2, answer2));
+    },
+    [dispatch]
+  );
 
   return (
     <>
@@ -89,10 +112,12 @@ export const Cards = () => {
             <div className="cards-pack__search">
               <input placeholder="Search..." className="cards-pack__search__input" />
               <SuperButton
-                name="Add new pack"
+                name="Add card"
                 buttonWidth="266px"
                 className="superButton__default"
+                onClickHandler={addNewPackHandler}
               />
+              *{' '}
             </div>
 
             <Table
@@ -105,6 +130,8 @@ export const Cards = () => {
               selectPage={selectPage}
               handleChangePage={handleChangePage}
               deletePackHandler={deletePackHandler}
+              myCardsId={myCardsId}
+              updateCardHandler={updateCardHandler}
             />
           </div>
         </div>

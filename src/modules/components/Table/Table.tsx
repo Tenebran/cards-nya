@@ -41,6 +41,8 @@ export const Table = (props: FormPropsType) => {
   };
 
   const popUpDeleteHandler = () => {
+    console.log(packId);
+
     props.deletePackHandler(packId);
     popUp === false ? setPopUp(true) : setPopUp(false);
   };
@@ -54,6 +56,8 @@ export const Table = (props: FormPropsType) => {
   const popUpEditHandler = () => {
     if (props.updatePackHAndler) {
       props.updatePackHAndler(packId, packEditName);
+    } else if (props.updateCardHandler) {
+      props.updateCardHandler(packId);
     }
     popUpEdit === false ? setPopUpEdit(true) : setPopUpEdit(false);
   };
@@ -101,6 +105,30 @@ export const Table = (props: FormPropsType) => {
                 <td>{srtingLenghtCutter(CardsPack.answer)}</td>
                 <td>{srtingLenghtCutter(CardsPack.updated.substr(0, 10))}</td>
                 <td>{srtingLenghtCutter(CardsPack.created)}</td>
+                <td>
+                  {props.myCardsId === CardsPack.user_id ? (
+                    <>
+                      <button
+                        onClick={() => popUpOpenDeleteHandler(CardsPack._id)}
+                        className="table__button_delete"
+                      >
+                        Delete
+                      </button>
+
+                      <button
+                        className="table__button"
+                        onClick={() => popUpOpenEditHandler(CardsPack._id, CardsPack.name)}
+                      >
+                        Edit
+                      </button>
+                    </>
+                  ) : (
+                    ''
+                  )}
+                  <Link to={`/learn/${CardsPack._id}`} className="table__button">
+                    Learn
+                  </Link>
+                </td>
                 <td>{/* <Link to={`/cards/${CardsPack._id}`}>Learn</Link> */}</td>
               </tr>
             ) : (
@@ -119,6 +147,7 @@ export const Table = (props: FormPropsType) => {
                   ''
                 )}
 
+                {/* 'Cars Pack Button' */}
                 <td>
                   {props.myCardsId === CardsPack.user_id ? (
                     <>
@@ -207,4 +236,6 @@ type FormPropsType = {
   myCardsId?: string;
   deletePackHandler: (id: string) => void;
   updatePackHAndler?: (id: string, name: string) => void;
+  cards?: boolean;
+  updateCardHandler?: (id: string) => void;
 };

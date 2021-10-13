@@ -6,11 +6,11 @@ export const cardsApi = {
       `cards/card?cardsPack_id=${packId}&pageCount=${pageCount}&page=${currentPage}`
     );
   },
-  postCards(card: PostCardsType) {
-    return instance.post(`/cards/card/`, card);
+  postCards(cardsPack_id: string, question: string, answer: string) {
+    return instance.post(`/cards/card/`, { card: { cardsPack_id, question, answer } });
   },
   deleteCards(id: string) {
-    return instance.delete(`/cards/card/?id${id}`);
+    return instance.delete(`/cards/card?id=${id}`);
   },
   updateCards(card: UpdateCardsType) {
     return instance.put(`/cards/card/`, card);
@@ -64,8 +64,7 @@ export type PostCardsType = {
 };
 
 export type UpdateCardsType = {
-  _id: string;
-  question: string;
+  card: { _id: string; question: string; answer: string };
 };
 
 export type UpdatedGradeResponseType = {

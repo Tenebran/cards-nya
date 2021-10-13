@@ -135,7 +135,6 @@ export const setCurrentCardGradeAC = (cardGrade: number) => {
 
 export const cardsTC = () => (dispatch: Dispatch, getState: () => AppStoreType) => {
   const appstate = getState().cards;
-  console.log(appstate.page);
   cardsApi.getCards(appstate.packUserId, appstate.page, appstate.pageCount).then(resolve => {
     let res = resolve.data;
     dispatch(
@@ -193,6 +192,36 @@ export const updateCardGradeTC = (): ThunkType => (dispatch, getState: () => App
   //   dispatch(setAppStatusAC('succeeded'));
   // });
 };
+
+export const addCard =
+  (cardsPack_id: string, question: string, answer: string): ThunkType =>
+  dispatch => {
+    return cardsApi.postCards(cardsPack_id, question, answer).then(res => {
+      dispatch(cardsTC());
+    });
+  };
+
+export const deleteCardTC =
+  (id: string): ThunkType =>
+  dispatch => {
+    return cardsApi.deleteCards(id).then(res => {
+      dispatch(cardsTC());
+    });
+  };
+
+export const updateCardsTC =
+  (_id: string, question: string, answer: string): ThunkType =>
+  dispatch => {
+    const card = {
+      card: {
+        _id: _id,
+        question: question,
+        answer: answer,
+      },
+    };
+
+    return cardsApi.updateCards(card).then(res => dispatch(cardsTC()));
+  };
 
 export type CardsSettingsType = {
   cardsPack_id: string;
