@@ -6,6 +6,7 @@ import SuperInput from '../SuperInput/SuperInput';
 import './PopUp.scss';
 
 export const PopUp = (props: PopUpType) => {
+  console.log(props.value);
   return (
     <div className="popup" onClick={props.popUpOpenHandler}>
       <div className="popup__wrapper" onClick={e => e.stopPropagation()}>
@@ -23,15 +24,29 @@ export const PopUp = (props: PopUpType) => {
               will be excluded from this course.
             </span>
           ) : (
-            <SuperEditableSpan
-              value={props.value ? props.value : ''}
-              onChangeText={props.onChangeText}
-              valuepass={props.popUpTitle}
-              inputName={props.popUpTitle}
-              spanProps={{ children: props.value ? undefined : props.popUpTitle }}
-              type={'text'}
-              width="113%"
-            />
+            <>
+              <SuperEditableSpan
+                value={props.value ? props.value : ''}
+                onChangeText={props.onChangeText}
+                valuepass={props.popUpTitle}
+                inputName={props.popUpTitle}
+                spanProps={{ children: props.value ? undefined : props.popUpTitle }}
+                type={'text'}
+                width="113%"
+              />
+
+              {props.value2 && (
+                <SuperEditableSpan
+                  value={props.value2 ? props.value2 : ''}
+                  onChangeText={props.onChangeText2}
+                  valuepass={props.popUpTitle2 !== null ? props.popUpTitle2 : ''}
+                  spanProps={{ children: props.value2 ? undefined : props.popUpTitle2 }}
+                  inputName={props.popUpTitle2 !== null ? props.popUpTitle2 : ''}
+                  type={'text'}
+                  width="113%"
+                />
+              )}
+            </>
           )}
         </div>
         {props.popUpType === 'delete' ? (
@@ -74,8 +89,11 @@ type PopUpType = {
   popUpType: 'delete' | 'add';
   value?: string;
   onChangeText?: (value: string) => void;
+  onChangeText2?: (value: string) => void;
   addNewCardsPackValue?: () => void;
   popUpOpenHandler: () => void;
   popUpDeleteHandler?: () => void;
   popUpTitle?: string;
+  popUpTitle2?: string | null;
+  value2?: string | null;
 };

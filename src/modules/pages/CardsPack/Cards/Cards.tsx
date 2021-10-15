@@ -6,10 +6,8 @@ import { LeftArrowIcon } from '../../../common/IconComponents/LeftArrowIcon';
 import { Header } from '../../../components/Header/Header';
 import SuperButton from '../../../components/SuperButton/SuperButton';
 import { Table } from '../../../components/Table/Table';
-import { updatePackTC } from '../../../redux/reducers/cardsPacksReducers';
 import {
   addCard,
-  CardsSettingsType,
   cardsTC,
   changeCardsPage,
   deleteCardTC,
@@ -53,6 +51,7 @@ export const Cards = () => {
   const cardspage = useSelector<AppStoreType, number>(state => state.cards.pageCount);
   const [selectPage, setSelectPage] = useState<number>(8);
   const { id: userId } = useParams<{ id: string }>();
+  const myId = useSelector<AppStoreType, string>(state => state.profile._id);
   const currentPageNumber = useSelector<AppStoreType, number>(state => state.cards.page);
   const myCardsId = useSelector<AppStoreType, string>(state => state.profile._id);
 
@@ -89,12 +88,9 @@ export const Cards = () => {
     dispatch(addCard(userId, question, answer));
   }, [dispatch]);
 
-  const question2 = 'Update Title?';
-  const answer2 = 'Update Subtitle';
-
   const updateCardHandler = useCallback(
-    (id: string) => {
-      dispatch(updateCardsTC(id, question2, answer2));
+    (id: string, question: string, answer: string) => {
+      dispatch(updateCardsTC(id, question, answer));
     },
     [dispatch]
   );
@@ -111,13 +107,16 @@ export const Cards = () => {
             </Link>
             <div className="cards-pack__search">
               <input placeholder="Search..." className="cards-pack__search__input" />
-              <SuperButton
-                name="Add card"
-                buttonWidth="266px"
-                className="superButton__default"
-                onClickHandler={addNewPackHandler}
-              />
-              *{' '}
+              {cards[0] && cards[0].user_id === myCardsId ? (
+                <SuperButton
+                  name="Add card"
+                  buttonWidth="266px"
+                  className="superButton__default"
+                  onClickHandler={addNewPackHandler}
+                />
+              ) : (
+                ''
+              )}
             </div>
 
             <Table

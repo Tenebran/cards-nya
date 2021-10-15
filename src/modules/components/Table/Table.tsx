@@ -3,6 +3,7 @@ import {
   InputLabel,
   MenuItem,
   Pagination,
+  Rating,
   Select,
   SelectChangeEvent,
 } from '@mui/material';
@@ -26,6 +27,7 @@ export const Table = (props: FormPropsType) => {
   const [popUpEdit, setPopUpEdit] = useState<boolean>(false);
   const [packId, setPackId] = useState<string>('');
   const [packEditName, setPackEditName] = useState<string>('');
+  const [answerEdit, setAnswerEdit] = useState<string | null>(null);
 
   const popUpOpenHandler = () => {
     popUp === false ? setPopUp(true) : setPopUp(false);
@@ -47,17 +49,19 @@ export const Table = (props: FormPropsType) => {
     popUp === false ? setPopUp(true) : setPopUp(false);
   };
 
-  const popUpOpenEditHandler = (id: string, packEditName: string) => {
+  const popUpOpenEditHandler = (id: string, packEditName: string, subtitleName?: string) => {
     setPackId(id);
     setPackEditName(packEditName);
+    console.log(subtitleName);
+    subtitleName && setAnswerEdit(subtitleName);
     popUpEdit === false ? setPopUpEdit(true) : setPopUpEdit(false);
   };
 
   const popUpEditHandler = () => {
     if (props.updatePackHAndler) {
       props.updatePackHAndler(packId, packEditName);
-    } else if (props.updateCardHandler) {
-      props.updateCardHandler(packId);
+    } else if (props.updateCardHandler && answerEdit !== null) {
+      props.updateCardHandler(packId, packEditName, answerEdit);
     }
     popUpEdit === false ? setPopUpEdit(true) : setPopUpEdit(false);
   };
@@ -78,8 +82,11 @@ export const Table = (props: FormPropsType) => {
           popUpType="add"
           popUpOpenHandler={popUpOpenEdit}
           popUpTitle="Edit pack name"
+          popUpTitle2="Edit anweser"
           value={packEditName}
+          value2={answerEdit}
           onChangeText={setPackEditName}
+          onChangeText2={setAnswerEdit}
           addNewCardsPackValue={popUpEditHandler}
         />
       ) : (
@@ -104,7 +111,7 @@ export const Table = (props: FormPropsType) => {
                 <td>{srtingLenghtCutter(CardsPack.question)}</td>
                 <td>{srtingLenghtCutter(CardsPack.answer)}</td>
                 <td>{srtingLenghtCutter(CardsPack.updated.substr(0, 10))}</td>
-                <td>{srtingLenghtCutter(CardsPack.created)}</td>
+                <td>{<Rating name="read-only" value={CardsPack.grade} readOnly />}</td>
                 <td>
                   {props.myCardsId === CardsPack.user_id ? (
                     <>
@@ -117,7 +124,9 @@ export const Table = (props: FormPropsType) => {
 
                       <button
                         className="table__button"
-                        onClick={() => popUpOpenEditHandler(CardsPack._id, CardsPack.name)}
+                        onClick={() =>
+                          popUpOpenEditHandler(CardsPack._id, CardsPack.question, CardsPack.answer)
+                        }
                       >
                         Edit
                       </button>
@@ -125,7 +134,7 @@ export const Table = (props: FormPropsType) => {
                   ) : (
                     ''
                   )}
-                  <Link to={`/learn/${CardsPack._id}`} className="table__button">
+                  <Link to={`/learn/${CardsPack.cardsPack_id}`} className="table__button">
                     Learn
                   </Link>
                 </td>
@@ -237,5 +246,5 @@ type FormPropsType = {
   deletePackHandler: (id: string) => void;
   updatePackHAndler?: (id: string, name: string) => void;
   cards?: boolean;
-  updateCardHandler?: (id: string) => void;
+  updateCardHandler?: (id: string, question: string, anweser: string) => void;
 };
