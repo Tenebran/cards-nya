@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { InitialStateProfileType } from '../../../redux/reducers/profileReducer';
 import './ProfileInfo.scss';
 import userNoAvatar from '../../../common/img/no-avatar.png';
-import { srtingLenghtCutter } from '../../../components/Table/Table';
 import SuperButton from '../../../components/SuperButton/SuperButton';
 import { ProfilePopUp } from '../ProfilePopUp/ProfilePopUp';
 import { useDispatch } from 'react-redux';
 import { authMe, thunkUpdateUser } from '../../../redux/reducers/authReducer';
+import { srtingLenghtCutter } from '../../../components/Table/TableBody/TableBody';
 
 type PropsType = {
   profie: InitialStateProfileType;

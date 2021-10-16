@@ -107,6 +107,7 @@ export const Cards = () => {
             </Link>
             <div className="cards-pack__search">
               <input placeholder="Search..." className="cards-pack__search__input" />
+
               {cards[0] && cards[0].user_id === myCardsId ? (
                 <SuperButton
                   name="Add card"

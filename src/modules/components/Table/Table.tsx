@@ -1,26 +1,10 @@
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Pagination,
-  Rating,
-  Select,
-  SelectChangeEvent,
-} from '@mui/material';
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { PackIcon } from '../../common/IconComponents/PackIcon';
+import { SelectChangeEvent } from '@mui/material';
+import React, { useCallback, useState } from 'react';
 import { PopUp } from '../PopUp/PopUp';
 import './Table.scss';
-
-export const srtingLenghtCutter = (value: string | number) => {
-  if (value && typeof value === 'string') {
-    return value.length > 10 ? value.substring(0, 15) + '...' : value;
-  } else if (value >= 0 && typeof value === 'number') {
-    return value;
-  }
-  return;
-};
+import { TableBody } from './TableBody/TableBody';
+import { TableHead, TableTitleType } from './TableHead/TableHead';
+import { TablePagination } from './TablePagination/TablePagination';
 
 export const Table = (props: FormPropsType) => {
   const [popUp, setPopUp] = useState<boolean>(false);
@@ -29,42 +13,45 @@ export const Table = (props: FormPropsType) => {
   const [packEditName, setPackEditName] = useState<string>('');
   const [answerEdit, setAnswerEdit] = useState<string | null>(null);
 
-  const popUpOpenHandler = () => {
+  const popUpOpenHandler = useCallback(() => {
     popUp === false ? setPopUp(true) : setPopUp(false);
-  };
+  }, [popUp]);
 
-  const popUpOpenEdit = () => {
+  const popUpOpenEdit = useCallback(() => {
     popUpEdit === false ? setPopUpEdit(true) : setPopUpEdit(false);
-  };
+  }, [popUpEdit]);
 
-  const popUpOpenDeleteHandler = (id: string) => {
-    popUp === false ? setPopUp(true) : setPopUp(false);
-    setPackId(id);
-  };
+  const popUpOpenDeleteHandler = useCallback(
+    (id: string) => {
+      popUp === false ? setPopUp(true) : setPopUp(false);
+      setPackId(id);
+    },
+    [popUp]
+  );
 
-  const popUpDeleteHandler = () => {
-    console.log(packId);
-
+  const popUpDeleteHandler = useCallback(() => {
     props.deletePackHandler(packId);
     popUp === false ? setPopUp(true) : setPopUp(false);
-  };
+  }, [popUp]);
 
-  const popUpOpenEditHandler = (id: string, packEditName: string, subtitleName?: string) => {
-    setPackId(id);
-    setPackEditName(packEditName);
-    console.log(subtitleName);
-    subtitleName && setAnswerEdit(subtitleName);
-    popUpEdit === false ? setPopUpEdit(true) : setPopUpEdit(false);
-  };
+  const popUpOpenEditHandler = useCallback(
+    (id: string, packEditName: string, subtitleName?: string) => {
+      setPackId(id);
+      setPackEditName(packEditName);
+      subtitleName && setAnswerEdit(subtitleName);
+      popUpEdit === false ? setPopUpEdit(true) : setPopUpEdit(false);
+    },
+    [popUpEdit]
+  );
 
-  const popUpEditHandler = () => {
+  const popUpEditHandler = useCallback(() => {
     if (props.updatePackHAndler) {
       props.updatePackHAndler(packId, packEditName);
     } else if (props.updateCardHandler && answerEdit !== null) {
       props.updateCardHandler(packId, packEditName, answerEdit);
     }
     popUpEdit === false ? setPopUpEdit(true) : setPopUpEdit(false);
-  };
+  }, [popUpEdit]);
 
   return (
     <>
@@ -94,143 +81,26 @@ export const Table = (props: FormPropsType) => {
       )}
 
       <table className="table" style={{ borderCollapse: 'collapse' }}>
-        <thead>
-          <tr>
-            <th>{props.tableTitle.table1}</th>
-            <th>{props.tableTitle.table2}</th>
-            <th>{props.tableTitle.table3}</th>
-            <th>{props.tableTitle.table4}</th>
-            <th>{props.tableTitle.table5}</th>
-            {props.tableTitle.table6 ? <th>{props.tableTitle.table6}</th> : ''}
-          </tr>
-        </thead>
-        <tbody className="table__td">
-          {props.CardsPack.map(CardsPack =>
-            CardsPack.type === 'card' ? (
-              <tr key={CardsPack._id} className="table__td">
-                <td>{srtingLenghtCutter(CardsPack.question)}</td>
-                <td>{srtingLenghtCutter(CardsPack.answer)}</td>
-                <td>{srtingLenghtCutter(CardsPack.updated.substr(0, 10))}</td>
-                <td>{<Rating name="read-only" value={CardsPack.grade} readOnly />}</td>
-                <td>
-                  {props.myCardsId === CardsPack.user_id ? (
-                    <>
-                      <button
-                        onClick={() => popUpOpenDeleteHandler(CardsPack._id)}
-                        className="table__button_delete"
-                      >
-                        Delete
-                      </button>
-
-                      <button
-                        className="table__button"
-                        onClick={() =>
-                          popUpOpenEditHandler(CardsPack._id, CardsPack.question, CardsPack.answer)
-                        }
-                      >
-                        Edit
-                      </button>
-                    </>
-                  ) : (
-                    ''
-                  )}
-                  <Link to={`/learn/${CardsPack.cardsPack_id}`} className="table__button">
-                    Learn
-                  </Link>
-                </td>
-                <td>{/* <Link to={`/cards/${CardsPack._id}`}>Learn</Link> */}</td>
-              </tr>
-            ) : (
-              <tr key={CardsPack._id} className="table__td">
-                <td>{srtingLenghtCutter(CardsPack.name)}</td>
-                <td>{srtingLenghtCutter(CardsPack.cardsCount)}</td>
-                <td>{srtingLenghtCutter(CardsPack.updated.substr(0, 10))}</td>
-                <td>{srtingLenghtCutter(CardsPack.user_name)}</td>
-                {props.tableTitle.table6 ? (
-                  <td>
-                    <Link to={`/cards/${CardsPack._id}`}>
-                      <PackIcon />
-                    </Link>
-                  </td>
-                ) : (
-                  ''
-                )}
-
-                {/* 'Cars Pack Button' */}
-                <td>
-                  {props.myCardsId === CardsPack.user_id ? (
-                    <>
-                      <button
-                        onClick={() => popUpOpenDeleteHandler(CardsPack._id)}
-                        className="table__button_delete"
-                      >
-                        Delete
-                      </button>
-
-                      <button
-                        className="table__button"
-                        onClick={() => popUpOpenEditHandler(CardsPack._id, CardsPack.name)}
-                      >
-                        Edit
-                      </button>
-                    </>
-                  ) : (
-                    ''
-                  )}
-                  <Link to={`/learn/${CardsPack._id}`} className="table__button">
-                    Learn
-                  </Link>
-                </td>
-              </tr>
-            )
-          )}
-        </tbody>
+        <TableHead tableTitle={props.tableTitle} />
+        <TableBody
+          CardsPack={props.CardsPack}
+          popUpOpenDeleteHandler={popUpOpenDeleteHandler}
+          popUpOpenEditHandler={popUpOpenEditHandler}
+          myCardsId={props.myCardsId}
+          tableTitle={props.tableTitle}
+        />
       </table>
 
-      <div className="table__pagination">
-        {props.currentPage === 0 ? (
-          ''
-        ) : (
-          <Pagination
-            count={Math.ceil(props.currentPage / props.page)}
-            shape="rounded"
-            page={props.currentPageNumber}
-            onChange={props.handleChange}
-            boundaryCount={2}
-            size="small"
-          />
-        )}
-        <div>
-          <span className="cards-pack__select-title">Show</span>
-          <FormControl>
-            <InputLabel id="demo-simple-select-label">Page</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={props.selectPage.toString()}
-              label="Page"
-              onChange={props.handleChangePage}
-              size={'small'}
-            >
-              <MenuItem value={5}>5</MenuItem>
-              <MenuItem value={8}>8</MenuItem>
-              <MenuItem value={10}>10</MenuItem>
-            </Select>
-          </FormControl>
-          <span className="cards-pack__select-title_end">Cards per Page</span>
-        </div>
-      </div>
+      <TablePagination
+        currentPage={props.currentPage}
+        page={props.page}
+        handleChange={props.handleChange}
+        selectPage={props.selectPage}
+        handleChangePage={props.handleChangePage}
+        currentPageNumber={props.currentPageNumber}
+      />
     </>
   );
-};
-
-export type TableTitleType = {
-  table1: string;
-  table2: string;
-  table3: string;
-  table4: string;
-  table5: string;
-  table6?: string;
 };
 
 type FormPropsType = {
