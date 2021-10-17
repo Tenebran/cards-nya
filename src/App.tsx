@@ -5,9 +5,10 @@ import { Routes } from './modules/routes/Routes';
 import { Header } from './modules/components/Header/Header';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppStoreType } from './modules/redux/store';
-import { authMe, setInitializedAC } from './modules/redux/reducers/authReducer';
+import { setInitializedAC } from './modules/redux/reducers/authReducer';
 import { initializeAppThunk, RequestStatusType } from './modules/redux/reducers/appReducer';
 import { Loader } from './modules/components/Loader/Loader';
+import { InitializedLoader } from './modules/components/InitializedLoader/InitializedLoader';
 
 function App() {
   const dispatch = useDispatch();
@@ -19,15 +20,15 @@ function App() {
   }, []);
 
   if (!initialized) {
-    return <Loader />;
+    return <InitializedLoader />;
   }
 
   return (
-    <div className="App">
-      <HashRouter>
+    <HashRouter>
+      <div className="App">
         <Routes />
-      </HashRouter>
-    </div>
+      </div>
+    </HashRouter>
   );
 }
 

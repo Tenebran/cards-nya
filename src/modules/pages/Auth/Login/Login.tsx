@@ -10,7 +10,7 @@ import {
   passwordErrorMessage,
   validatePasswordStyles,
 } from '../../../common/validation/passwordValidation';
-import { NavLink, Redirect } from 'react-router-dom';
+import { NavLink, Redirect, Route } from 'react-router-dom';
 import { PATH } from '../../../routes/Routes';
 import eye from '../../../common/icons/eye.png';
 import closedEye from '../../../common/icons/closedEye.png';
@@ -22,10 +22,11 @@ import { Loader } from '../../../components/Loader/Loader';
 import { Preloader } from '../../../components/Preloader/Preloader';
 import { Snackbar } from '@material-ui/core';
 import Alert from '@mui/material/Alert';
+import { RequestStatusType } from '../../../redux/reducers/appReducer';
 
 export const Login = () => {
   const dispatch = useDispatch();
-  const authMe = useSelector<AppStoreType, boolean>(state => state.user.authMe);
+  const isLoggedIn = useSelector<AppStoreType, boolean>(state => state.user.authMe);
   const entityStatus = useSelector<AppStoreType, boolean>(state => state.user.entityStatus);
   const error = useSelector<AppStoreType, string>(state => state.user.errorMessage);
   const [openPassword, setOpenPassword] = useState(false);
@@ -35,6 +36,7 @@ export const Login = () => {
   const [disabledBtn, setDisabledBtn] = useState(true);
   const [value, setValue] = useState<string>('');
   const [open, setOpen] = React.useState<boolean>(false);
+  const appStatus = useSelector<AppStoreType, RequestStatusType>(state => state.app.status);
 
   const changeViewPassword = () => {
     setOpenPassword(!openPassword);
@@ -66,16 +68,15 @@ export const Login = () => {
 
     setOpen(false);
   };
-
-  if (authMe) {
+  if (isLoggedIn) {
     return <Redirect to={PATH.PROFILE} />;
   }
 
   return (
     <div className="login">
-      {/* {initialized ? <Preloader /> : ''} */}
       <form>
         <div className="login__wrapper">
+          {appStatus === 'loading' ? <Preloader /> : ''}
           <h2 className="forgot__title">It-Incubator</h2>
           <span className="forgot__subtitle">Sing In</span>
           <div>

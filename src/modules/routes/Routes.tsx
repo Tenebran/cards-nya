@@ -25,13 +25,13 @@ export enum PATH {
   CREATE_NEW_PASSWORD = '/newpassword/:token',
   CARDS = '/cards/:id',
   CARDS_LEARN = '/learn/:packId',
+  LEARN = '/learn',
 }
 
 export const Routes = () => {
   return (
     <Switch>
       <Route exact path={'/'} render={() => <Redirect to={PATH.LOGIN} />} />
-      <Route path={PATH.TEST} component={TestPage} />
       <Route path={PATH.PROFILE} component={Profile} />
       <Route path={PATH.LOGIN} component={Login} />
       <Route path={PATH.REGISTRATION} component={Registration} />

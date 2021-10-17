@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { Redirect, useHistory, useParams } from 'react-router-dom';
 import styles from './Learn.module.css';
 import { AppStoreType } from '../../../redux/store';
 import { CardsType } from '../Cards/Cards';
@@ -24,6 +24,7 @@ import { Button } from '../../../common/Button2/Button';
 import './CardsLearn.scss';
 import SuperButton from '../../../components/SuperButton/SuperButton';
 import { Header } from '../../../components/Header/Header';
+import { PATH } from '../../../routes/Routes';
 
 const grades = ['Did not know', 'Forgot', 'A lot of thought', 'Сonfused', 'Knew the answer'];
 
@@ -37,7 +38,6 @@ const getCard = (cards: CardsType[]) => {
     },
     { sum: 0, id: -1 }
   );
-  console.log('test: ', sum, rand, res);
 
   return cards[res.id + 1];
 };
@@ -51,10 +51,9 @@ export const CardsLearn = () => {
   const { packId } = useParams<ParamsType>();
   const history = useHistory();
   const status = useSelector((state: AppStoreType) => state.app.status);
+  const isLoggedIn = useSelector<AppStoreType, boolean>(state => state.user.authMe);
 
   const currentPack = cardsPack.filter(p => p._id === packId);
-
-  console.log('Helloooooooooo', currentPack);
 
   const [card, setCard] = useState<CardsType>({
     answer: 'answer fake',
@@ -75,20 +74,19 @@ export const CardsLearn = () => {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log('LearnContainer useEffect');
-
     if (first) {
       dispatch(getCardsTC(packId));
       setFirst(false);
     }
 
-    console.log('cards', cards);
     if (cards.length > 0) setCard(getCard(cards));
 
-    return () => {
-      console.log('LearnContainer useEffect off');
-    };
+    return () => {};
   }, [dispatch, packId, cards, first]);
+
+  if (!isLoggedIn) {
+    return <Redirect to={PATH.LOGIN} />;
+  }
 
   const onNext = () => {
     setIsChecked(false);
@@ -143,7 +141,6 @@ export const CardsLearn = () => {
     },
   });
 
-  // Inspired by blueprintjs
   function BpRadio(props: RadioProps) {
     return (
       <Radio

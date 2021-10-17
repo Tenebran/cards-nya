@@ -12,23 +12,26 @@ import './LostPassword.scss';
 
 export const LostPassword = () => {
   const statusSend = useSelector<AppStoreType, boolean>(state => state.user.statusSend);
-  const initialized = useSelector<AppStoreType, boolean>(state => state.app.initialized);
   const [email, setEmail] = useState<string>('');
+  const isLoggedIn = useSelector<AppStoreType, boolean>(state => state.user.authMe);
   const dispatch = useDispatch();
 
   if (statusSend) {
     return <Redirect to={PATH.CHECK_EMAIL} />;
   }
 
+  if (isLoggedIn) {
+    return <Redirect to={PATH.PROFILE} />;
+  }
+
   const resetPasswordHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    console.log(email);
     dispatch(forgotPasswordThunk(email));
   };
 
   return (
     <form className="forgot">
-      {initialized ? <Preloader /> : ''}
-
       <div className="forgot__wrapper">
         <h2 className="forgot__title">It-Incubator</h2>
         <span className="forgot__subtitle">Forgot your password?</span>

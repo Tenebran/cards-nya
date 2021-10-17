@@ -1,3 +1,4 @@
+import { authApi } from '../../api/authApi';
 import { ThunkType } from '../store';
 import { authMe, loginAC } from './authReducer';
 
@@ -34,10 +35,8 @@ export const setCatchError = (error: string) => {
 
 export const initializeAppThunk = (): ThunkType => dispatch => {
   const promise = dispatch(authMe());
-  dispatch(setAppStatusAC('loading'));
   Promise.all([promise]).then(() => {
     dispatch(setInitializedAC(true));
-    dispatch(setAppStatusAC('succeeded'));
   });
 };
 

@@ -5,7 +5,7 @@ import userNoAvatar from '../../../common/img/no-avatar.png';
 import SuperButton from '../../../components/SuperButton/SuperButton';
 import { ProfilePopUp } from '../ProfilePopUp/ProfilePopUp';
 import { useDispatch } from 'react-redux';
-import { authMe, thunkUpdateUser } from '../../../redux/reducers/authReducer';
+import { thunkUpdateUser } from '../../../redux/reducers/authReducer';
 import { srtingLenghtCutter } from '../../../components/Table/TableBody/TableBody';
 
 type PropsType = {
@@ -30,8 +30,6 @@ export const ProfileInfo = (props: PropsType) => {
   const popUpOpenHandler = () => {
     popUp === false ? setPopUp(true) : setPopUp(false);
   };
-
-  console.log(props.profie.name);
 
   return (
     <div className="profileInfo">

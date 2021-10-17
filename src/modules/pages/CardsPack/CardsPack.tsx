@@ -21,6 +21,8 @@ import { CardsShow } from './CardsShow/CardsShow';
 import { ProfileInfo } from '../Profile/ProfileInfo/ProfileInfo';
 import { CardsPackSearch } from './CardsPackSearch/CardsPackSearch';
 import SuperButton from '../../components/SuperButton/SuperButton';
+import { Redirect, Route } from 'react-router-dom';
+import { PATH } from '../../routes/Routes';
 
 const tableTitle = {
   table1: 'Name',
@@ -39,11 +41,11 @@ export const CardsPack = (props: PropsType) => {
   const CardsPack = useSelector<AppStoreType, Array<cardPacksType>>(
     state => state.cardsPack.cardsPack
   );
-  const initialized = useSelector<AppStoreType, boolean>(state => state.app.initialized);
   const currentPage = useSelector<AppStoreType, number>(
     state => state.cardsPack.cardPacksTotalCount
   );
 
+  const isLoggedIn = useSelector<AppStoreType, boolean>(state => state.user.authMe);
   const maxRangeCount = useSelector<AppStoreType, number>(state => state.cardsPack.maxCardsCount);
   const minRangeCount = useSelector<AppStoreType, number>(state => state.cardsPack.minCardsCount);
   const page = useSelector<AppStoreType, number>(state => state.cardsPack.pageCount);
@@ -117,10 +119,13 @@ export const CardsPack = (props: PropsType) => {
     [dispatch]
   );
 
+  if (!isLoggedIn) {
+    return <Redirect to={PATH.LOGIN} />;
+  }
+
   return (
     <>
       {props.profie ? '' : <Header active={'pack_list_active'} />}
-      {/* {!initialized ? <Preloader /> : ''} */}
       <div className="cards-pack">
         <div className="cards-pack__wrapper">
           <div className="cards-pack__wrapper_schow">

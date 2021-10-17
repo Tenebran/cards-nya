@@ -1,5 +1,6 @@
 import { bindActionCreators, Dispatch } from 'redux';
 import { authApi } from '../../api/authApi';
+import { setAppStatusAC } from './appReducer';
 import { getProfileAC, InitialStateProfileType } from './profileReducer';
 
 const initialState = {
@@ -46,10 +47,6 @@ export const loginAC = (authMe: boolean) => {
   return { type: 'AUTH/LOGIN', authMe } as const;
 };
 
-// export const updatedUserAc = (userData: Usertype) => {
-//   return { type: 'AUTH/UPDATE-USER', userData } as const;
-// };
-
 export const setInitializedAC = (initialized: boolean) =>
   ({
     type: 'AUTH/SET_INITIALIZED',
@@ -72,6 +69,7 @@ export const loginTC =
   (email: string, password: string, rememberMe: boolean) =>
   async (dispatch: Dispatch<ActionAuthType>) => {
     dispatch(entityStatusAC());
+    dispatch(setAppStatusAC('loading'));
     try {
       const response = await authApi.login(email, password, rememberMe);
       dispatch(
@@ -84,28 +82,39 @@ export const loginTC =
         )
       );
       dispatch(loginAC(true));
+      dispatch(setAppStatusAC('succeeded'));
     } catch (e: any) {
       dispatch(setInitializedAC(false));
       const error = e.response
         ? e.response.data.error
         : e.message + ', more details in the console';
       dispatch(errorMessagesAC(error));
+      dispatch(setAppStatusAC('failed'));
+    } finally {
+      dispatch(setAppStatusAC('succeeded'));
     }
   };
 
 export const logOutTC = () => async (dispatch: Dispatch<ActionAuthType>) => {
+  dispatch(setAppStatusAC('loading'));
   try {
     await authApi.logOut();
     dispatch(setInitializedAC(false));
     dispatch(loginAC(false));
+    dispatch(setAppStatusAC('succeeded'));
   } catch (e: any) {
     dispatch(errorMessagesAC(e.response.data.error));
+    dispatch(setAppStatusAC('succeeded'));
+  } finally {
+    dispatch(setAppStatusAC('succeeded'));
   }
 };
 
 export const authMe = () => async (dispatch: Dispatch<ActionAuthType>) => {
   try {
     const respons = await authApi.authMe();
+    dispatch(loginAC(true));
+    dispatch(setAppStatusAC('loading'));
     dispatch(
       getProfileAC(
         respons.data._id,
@@ -115,14 +124,17 @@ export const authMe = () => async (dispatch: Dispatch<ActionAuthType>) => {
         respons.data.publicCardPacksCount
       )
     );
-    dispatch(loginAC(true));
+    dispatch(setAppStatusAC('succeeded'));
   } catch (e: any) {
+    dispatch(loginAC(false));
     dispatch(errorMessagesAC(e.response.data.error));
+    dispatch(setAppStatusAC('succeeded'));
   }
 };
 
 export const thunkUpdateUser =
   (name: string, avatar: string) => (dispatch: Dispatch<ActionAuthType>) => {
+    dispatch(setAppStatusAC('loading'));
     authApi.updateProfile(name, avatar).then(resp => {
       dispatch(
         getProfileAC(
@@ -133,27 +145,31 @@ export const thunkUpdateUser =
           resp.data.updatedUser.publicCardPacksCount
         )
       );
+      dispatch(setAppStatusAC('succeeded'));
     });
   };
 
 export const forgotPasswordThunk = (email: string) => (dispatch: Dispatch) => {
-  dispatch(setInitializedAC(true));
+  dispatch(setAppStatusAC('loading'));
   authApi
     .forgotPassword(email)
     .then(resp => {
       dispatch(forgotPasswordAc(email));
-      dispatch(setInitializedAC(false));
+      dispatch(setAppStatusAC('succeeded'));
     })
     .catch(error => {
       dispatch(setInitializedAC(false));
+      dispatch(setAppStatusAC('succeeded'));
     });
 };
 
 export const createNewPasswordThunk = (password: string, token: string) => (dispatch: Dispatch) => {
+  dispatch(setAppStatusAC('loading'));
   dispatch(setInitializedAC(true));
   authApi.newPassword(password, token).then(resp => {
     dispatch(setPassSuccessAC(true));
     dispatch(setInitializedAC(false));
+    dispatch(setAppStatusAC('succeeded'));
   });
 };
 
@@ -177,6 +193,7 @@ export type ActionAuthType =
   | ReturnType<typeof forgotPasswordAc>
   | ReturnType<typeof setPassSuccessAC>
   | ReturnType<typeof errorMessagesAC>
-  | ReturnType<typeof getProfileAC>;
+  | ReturnType<typeof getProfileAC>
+  | ReturnType<typeof setAppStatusAC>;
 
 type InitialStateType = typeof initialState;
