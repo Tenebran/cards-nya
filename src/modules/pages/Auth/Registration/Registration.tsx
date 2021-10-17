@@ -17,9 +17,9 @@ import { Redirect } from 'react-router-dom';
 import SuperEditableSpan from '../../../components/SuperEditableSpan/SuperEditableSpan';
 import SuperButton from '../../../components/SuperButton/SuperButton';
 import './Registration.scss';
-import { Loader } from '../../../components/Loader/Loader';
 import { AppStoreType } from '../../../redux/store';
 import { Preloader } from '../../../components/Preloader/Preloader';
+import { RequestStatusType } from '../../../redux/reducers/appReducer';
 
 export const Registration = () => {
   const dispatch = useDispatch();
@@ -31,8 +31,9 @@ export const Registration = () => {
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [disabledBtn, setDisabledBtn] = useState(true);
   const [returnToLogin, setReturnToLogin] = useState(false);
-  const [value, setValue] = useState<string>('');
+  const value = '';
   const isLoggedIn = useSelector<AppStoreType, boolean>(state => state.user.authMe);
+  const appStatus = useSelector<AppStoreType, RequestStatusType>(state => state.app.status);
 
   const emailTarget = (e: ChangeEvent<HTMLInputElement>) => {
     setDisabledBtn(
@@ -85,6 +86,7 @@ export const Registration = () => {
     <div className="login">
       <form>
         <div className="login__wrapper">
+          {appStatus === 'loading' ? <Preloader /> : ''}
           <h2 className="forgot__title">It-Incubator</h2>
           <span className="forgot__subtitle">Sign Up</span>
           <div>

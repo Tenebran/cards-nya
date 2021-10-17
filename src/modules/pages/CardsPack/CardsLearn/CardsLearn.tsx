@@ -20,7 +20,6 @@ import {
   setCurrentCardIdAC,
   updateCardGradeTC,
 } from '../../../redux/reducers/cardsReducer';
-import { Button } from '../../../common/Button2/Button';
 import './CardsLearn.scss';
 import SuperButton from '../../../components/SuperButton/SuperButton';
 import { Header } from '../../../components/Header/Header';
@@ -46,7 +45,6 @@ export const CardsLearn = () => {
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const [first, setFirst] = useState<boolean>(true);
   const { cards } = useSelector((state: AppStoreType) => state.cards);
-  const cardId = useSelector((state: AppStoreType) => state.cards.cardId);
   const { cardsPack } = useSelector((state: AppStoreType) => state.cardsPack);
   const { packId } = useParams<ParamsType>();
   const history = useHistory();

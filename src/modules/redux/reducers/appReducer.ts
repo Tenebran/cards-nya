@@ -1,6 +1,5 @@
-import { authApi } from '../../api/authApi';
 import { ThunkType } from '../store';
-import { authMe, loginAC } from './authReducer';
+import { authMe } from './authReducer';
 
 const initialState = {
   initialized: false as boolean,

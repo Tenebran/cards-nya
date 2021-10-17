@@ -2,22 +2,18 @@ import React, { useEffect } from 'react';
 import './App.scss';
 import { HashRouter } from 'react-router-dom';
 import { Routes } from './modules/routes/Routes';
-import { Header } from './modules/components/Header/Header';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppStoreType } from './modules/redux/store';
-import { setInitializedAC } from './modules/redux/reducers/authReducer';
-import { initializeAppThunk, RequestStatusType } from './modules/redux/reducers/appReducer';
-import { Loader } from './modules/components/Loader/Loader';
+import { initializeAppThunk } from './modules/redux/reducers/appReducer';
 import { InitializedLoader } from './modules/components/InitializedLoader/InitializedLoader';
 
 function App() {
   const dispatch = useDispatch();
   const initialized = useSelector<AppStoreType, boolean>(state => state.app.initialized);
-  const status = useSelector<AppStoreType, RequestStatusType>(state => state.app.status);
 
   useEffect(() => {
     dispatch(initializeAppThunk());
-  }, []);
+  }, [dispatch, initialized]);
 
   if (!initialized) {
     return <InitializedLoader />;

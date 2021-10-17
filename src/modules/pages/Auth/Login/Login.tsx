@@ -10,7 +10,7 @@ import {
   passwordErrorMessage,
   validatePasswordStyles,
 } from '../../../common/validation/passwordValidation';
-import { NavLink, Redirect, Route } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import { PATH } from '../../../routes/Routes';
 import eye from '../../../common/icons/eye.png';
 import closedEye from '../../../common/icons/closedEye.png';
@@ -18,7 +18,6 @@ import { loginTC } from '../../../redux/reducers/authReducer';
 import { AppStoreType } from '../../../redux/store';
 import SuperEditableSpan from '../../../components/SuperEditableSpan/SuperEditableSpan';
 import SuperButton from '../../../components/SuperButton/SuperButton';
-import { Loader } from '../../../components/Loader/Loader';
 import { Preloader } from '../../../components/Preloader/Preloader';
 import { Snackbar } from '@material-ui/core';
 import Alert from '@mui/material/Alert';
@@ -34,7 +33,7 @@ export const Login = () => {
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const [disabledBtn, setDisabledBtn] = useState(true);
-  const [value, setValue] = useState<string>('');
+  const value = '';
   const [open, setOpen] = React.useState<boolean>(false);
   const appStatus = useSelector<AppStoreType, RequestStatusType>(state => state.app.status);
 

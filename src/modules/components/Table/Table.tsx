@@ -21,37 +21,31 @@ export const Table = (props: FormPropsType) => {
     popUpEdit === false ? setPopUpEdit(true) : setPopUpEdit(false);
   }, [popUpEdit]);
 
-  const popUpOpenDeleteHandler = useCallback(
-    (id: string) => {
-      popUp === false ? setPopUp(true) : setPopUp(false);
-      setPackId(id);
-    },
-    [popUp]
-  );
+  const popUpOpenDeleteHandler = (id: string) => {
+    popUp === false ? setPopUp(true) : setPopUp(false);
+    setPackId(id);
+  };
 
-  const popUpDeleteHandler = useCallback(() => {
+  const popUpDeleteHandler = () => {
     props.deletePackHandler(packId);
     popUp === false ? setPopUp(true) : setPopUp(false);
-  }, [popUp]);
+  };
 
-  const popUpOpenEditHandler = useCallback(
-    (id: string, packEditName: string, subtitleName?: string) => {
-      setPackId(id);
-      setPackEditName(packEditName);
-      subtitleName && setAnswerEdit(subtitleName);
-      popUpEdit === false ? setPopUpEdit(true) : setPopUpEdit(false);
-    },
-    [packId, popUp]
-  );
+  const popUpOpenEditHandler = (id: string, packEditName: string, subtitleName?: string) => {
+    setPackId(id);
+    setPackEditName(packEditName);
+    subtitleName && setAnswerEdit(subtitleName);
+    popUpEdit === false ? setPopUpEdit(true) : setPopUpEdit(false);
+  };
 
-  const popUpEditHandler = useCallback(() => {
+  const popUpEditHandler = () => {
     if (props.updatePackHAndler) {
       props.updatePackHAndler(packId, packEditName);
     } else if (props.updateCardHandler && answerEdit !== null) {
       props.updateCardHandler(packId, packEditName, answerEdit);
     }
     popUpEdit === false ? setPopUpEdit(true) : setPopUpEdit(false);
-  }, [packId, packEditName, answerEdit, popUpEdit]);
+  };
 
   return (
     <>

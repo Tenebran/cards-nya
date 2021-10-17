@@ -8,10 +8,7 @@ import { LostPassword } from '../pages/Auth/LostPassword/LostPassword';
 import { Registration } from '../pages/Auth/Registration/Registration';
 import { PageNotFound } from '../pages/PageNotFound/PageNotFound';
 import { Profile } from '../pages/Profile/Profile';
-import { TestPage } from '../pages/TestPage/TestPage';
 import { Cards } from '../pages/CardsPack/Cards/Cards';
-import { useSelector } from 'react-redux';
-import { AppStoreType } from '../redux/store';
 import { CardsLearn } from '../pages/CardsPack/CardsLearn/CardsLearn';
 
 export enum PATH {

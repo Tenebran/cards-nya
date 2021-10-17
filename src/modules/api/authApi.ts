@@ -37,11 +37,6 @@ type AddUserResponseType = {
   error?: string;
 };
 
-type UpdateUserResponseType = {
-  updatedUser: LoginResponseType;
-  error?: string;
-};
-
 type LogOutNewPassUser = {
   info: string;
   error: string;

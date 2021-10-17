@@ -4,10 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { LeftArrowIcon } from '../../../common/IconComponents/LeftArrowIcon';
 import { Header } from '../../../components/Header/Header';
+import { PopUp } from '../../../components/PopUp/PopUp';
 import SuperButton from '../../../components/SuperButton/SuperButton';
 import { Table } from '../../../components/Table/Table';
 import {
-  addCard,
+  // addCard,
   cardsTC,
   changeCardsPage,
   deleteCardTC,
@@ -51,15 +52,19 @@ export const Cards = () => {
   const cardspage = useSelector<AppStoreType, number>(state => state.cards.pageCount);
   const [selectPage, setSelectPage] = useState<number>(8);
   const { id: userId } = useParams<{ id: string }>();
-  const myId = useSelector<AppStoreType, string>(state => state.profile._id);
+  // const myId = useSelector<AppStoreType, string>(state => state.profile._id);
   const currentPageNumber = useSelector<AppStoreType, number>(state => state.cards.page);
   const myCardsId = useSelector<AppStoreType, string>(state => state.profile._id);
+  // const [packId, setPackId] = useState<string>('');
+  const [packEditName, setPackEditName] = useState<string>('');
+  const [answerEdit, setAnswerEdit] = useState<string | null>(null);
+  const [popUpEdit, setPopUpEdit] = useState<boolean>(false);
 
   useEffect(() => {
     dispatch(getUsersCards(userId));
     dispatch(getCardsPageCount(selectPage));
     dispatch(cardsTC());
-  }, [dispatch, userId]);
+  }, [dispatch, userId, selectPage]);
 
   const handleChange = useCallback(
     (event: object, value: number) => {
@@ -69,11 +74,14 @@ export const Cards = () => {
     [dispatch]
   );
 
-  const handleChangePage = useCallback((event: SelectChangeEvent) => {
-    setSelectPage(parseInt(event.target.value));
-    dispatch(getCardsPageCount(parseInt(event.target.value)));
-    dispatch(cardsTC());
-  }, []);
+  const handleChangePage = useCallback(
+    (event: SelectChangeEvent) => {
+      setSelectPage(parseInt(event.target.value));
+      dispatch(getCardsPageCount(parseInt(event.target.value)));
+      dispatch(cardsTC());
+    },
+    [dispatch]
+  );
 
   const deletePackHandler = useCallback(
     (id: string) => {
@@ -82,11 +90,11 @@ export const Cards = () => {
     [dispatch]
   );
 
-  const question = 'How Many?';
-  const answer = 'Very Very Many';
-  const addNewPackHandler = useCallback(() => {
-    dispatch(addCard(userId, question, answer));
-  }, [dispatch]);
+  // const question = 'How Many?';
+  // const answer = 'Very Very Many';
+  // const addNewPackHandler = useCallback(() => {
+  //   dispatch(addCard(userId, question, answer));
+  // }, [dispatch]);
 
   const updateCardHandler = useCallback(
     (id: string, question: string, answer: string) => {
@@ -95,10 +103,39 @@ export const Cards = () => {
     [dispatch]
   );
 
+  // const popUpOpenEditHandler = useCallback(
+  //   (id: string, packEditName: string, subtitleName?: string) => {
+  //     setPackId(id);
+  //     setPackEditName(packEditName);
+  //     subtitleName && setAnswerEdit(subtitleName);
+  //     popUpEdit === false ? setPopUpEdit(true) : setPopUpEdit(false);
+  //   },
+  //   [packId]
+  // );
+
+  const popUpOpenEdit = useCallback(() => {
+    popUpEdit === false ? setPopUpEdit(true) : setPopUpEdit(false);
+  }, [popUpEdit]);
+
   return (
     <>
       <Header active={'pack_list_active'} />
+
       <div className="cards-pack">
+        {popUpEdit ? (
+          <PopUp
+            popUpType="add"
+            popUpOpenHandler={popUpOpenEdit}
+            popUpTitle="Edit pack name"
+            popUpTitle2="Edit anweser"
+            value={packEditName}
+            value2={answerEdit}
+            onChangeText={setPackEditName}
+            onChangeText2={setAnswerEdit}
+          />
+        ) : (
+          ''
+        )}
         <div className="cards-pack__wrapper">
           <div className="cards__wrapper_table">
             <Link to={PATH.PACK_LIST} className="card__wrapper">
@@ -113,7 +150,7 @@ export const Cards = () => {
                   name="Add card"
                   buttonWidth="266px"
                   className="superButton__default"
-                  onClickHandler={addNewPackHandler}
+                  onClickHandler={popUpOpenEdit}
                 />
               ) : (
                 ''

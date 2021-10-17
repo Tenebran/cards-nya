@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { PopUpCancelIcon } from '../../common/IconComponents/PopUpCancelIcon';
 import SuperButton from '../SuperButton/SuperButton';
 import SuperEditableSpan from '../SuperEditableSpan/SuperEditableSpan';
-import SuperInput from '../SuperInput/SuperInput';
 import './PopUp.scss';
 
 export const PopUp = (props: PopUpType) => {
-  console.log(props.value);
   return (
     <div className="popup" onClick={props.popUpOpenHandler}>
       <div className="popup__wrapper" onClick={e => e.stopPropagation()}>

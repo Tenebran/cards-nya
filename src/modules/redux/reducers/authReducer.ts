@@ -1,7 +1,7 @@
-import { bindActionCreators, Dispatch } from 'redux';
+import { Dispatch } from 'redux';
 import { authApi } from '../../api/authApi';
 import { setAppStatusAC } from './appReducer';
-import { getProfileAC, InitialStateProfileType } from './profileReducer';
+import { getProfileAC } from './profileReducer';
 
 const initialState = {
   authMe: false as boolean,

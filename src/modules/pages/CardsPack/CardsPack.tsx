@@ -61,7 +61,7 @@ export const CardsPack = (props: PropsType) => {
     dispatch(changePageCount(selectPage));
     dispatch(packCardsCountSettings(minRangeCount, maxRangeCount));
     dispatch(cardsPackTC());
-  }, [dispatch, props.profie]);
+  }, [dispatch, props.profie, minRangeCount, maxRangeCount, selectPage]);
 
   const handleChange = useCallback(
     (event: object, value: number) => {
@@ -86,14 +86,14 @@ export const CardsPack = (props: PropsType) => {
       dispatch(changePageCount(parseInt(event.target.value)));
       dispatch(cardsPackTC());
     },
-    [dispatch, page]
+    [dispatch]
   );
 
   const changeToUserPack = useCallback(() => {
     dispatch(changeToMyCardsPackAC(myCardsId));
     dispatch(cardsPackTC());
     setChangeButton(true);
-  }, [dispatch]);
+  }, [dispatch, myCardsId]);
 
   const changeToAllPack = useCallback(() => {
     dispatch(changeToMyCardsPackAC(''));

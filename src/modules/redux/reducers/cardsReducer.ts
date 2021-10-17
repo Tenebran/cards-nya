@@ -1,4 +1,3 @@
-import { resolve } from 'dns';
 import { Dispatch } from 'redux';
 import { cardsApi } from '../../api/cardsApi';
 import { CardsType } from '../../pages/CardsPack/Cards/Cards';
@@ -71,8 +70,6 @@ export const cardsReducer = (
         ...state,
         cardGrade: action.cardGrade,
       };
-    case 'CARDS/GET_CARDS':
-      return { ...state, cards: action.cards };
     default:
       return state;
   }
