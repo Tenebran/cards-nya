@@ -50,7 +50,7 @@ export const CardsShow = (props: PropsType) => {
         <button
           disabled={appStatus === 'loading' ? true : false}
           className={
-            props.changeButton ? 'cards-pack__show_button_white' : 'cards-pack__show_button_purpe'
+            props.changeButton ? 'cards-pack__show_button_purpe' : 'cards-pack__show_button_white'
           }
           onClick={props.myPackHandler}
         >
@@ -59,7 +59,7 @@ export const CardsShow = (props: PropsType) => {
         <button
           disabled={appStatus === 'loading' ? true : false}
           className={
-            !props.changeButton ? 'cards-pack__show_button_white' : 'cards-pack__show_button_purpe'
+            !props.changeButton ? 'cards-pack__show_button_purpe' : 'cards-pack__show_button_white'
           }
           onClick={props.allPackHandler}
         >
@@ -77,8 +77,12 @@ export const CardsShow = (props: PropsType) => {
           disableSwap
         />
       </Box>
-      <button disabled={appStatus === 'loading' ? true : false} onClick={onSearchClick}>
-        search
+      <button
+        disabled={appStatus === 'loading' ? true : false}
+        onClick={onSearchClick}
+        className="cards-pack__show_button_purpe"
+      >
+        Search
       </button>
     </>
   );

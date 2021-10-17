@@ -10,6 +10,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { RequestStatusType } from '../../../redux/reducers/appReducer';
 import { AppStoreType } from '../../../redux/store';
+import './TablePagination.scss';
 
 export const TablePagination = (props: PropsType) => {
   const appStatus = useSelector<AppStoreType, RequestStatusType>(state => state.app.status);
@@ -29,9 +30,9 @@ export const TablePagination = (props: PropsType) => {
           size="small"
         />
       )}
-      <div>
+      <div className="cards-pack__select">
         <span className="cards-pack__select-title">Show</span>
-        <FormControl>
+        <FormControl className="cards-pack__select-input">
           <InputLabel id="demo-simple-select-label">Page</InputLabel>
           <Select
             labelId="demo-simple-select-label"

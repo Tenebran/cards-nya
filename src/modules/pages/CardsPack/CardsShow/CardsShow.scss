@@ -12,22 +12,29 @@
         display: inline-block;
         margin: 0 0 42px 0;
       }
-      &_white {
-        max-height: 36px;
-        max-width: 80px;
+      &_purpe {
+        height: 36px;
+        width: 80px;
         border: none;
-        padding: 10px 30px;
         background-color: #9a91c8;
         cursor: pointer;
+        align-items: center;
+        transition: 1s;
+        &:hover {
+          background-color: #8279ac;
+        }
       }
 
-      &_purpe {
-        max-height: 36px;
-        max-width: 80px;
+      &_white {
+        height: 36px;
+        width: 80px;
         border: none;
-        padding: 10px 30px;
         background-color: #ffff;
         cursor: pointer;
+        transition: 1s;
+        &:hover {
+          background-color: rgb(235, 227, 227);
+        }
       }
     }
   }

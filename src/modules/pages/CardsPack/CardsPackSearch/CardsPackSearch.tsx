@@ -1,4 +1,5 @@
 import React, { ChangeEvent, useState } from 'react';
+import { SearchInputIcon } from '../../../common/IconComponents/SearchInputIcon';
 import { PopUp } from '../../../components/PopUp/PopUp';
 import SuperButton from '../../../components/SuperButton/SuperButton';
 
@@ -33,6 +34,9 @@ export const CardsPackSearch = (props: CardsPackPropsSearch) => {
       )}
       <div className="cards-pack__search">
         <div className="cards-pack__input-wrapper">
+          <div className="cards-pack__search__icon">
+            <SearchInputIcon />
+          </div>
           <input
             placeholder="Search..."
             className="cards-pack__search__input"

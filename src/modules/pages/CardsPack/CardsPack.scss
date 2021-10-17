@@ -55,15 +55,35 @@
     justify-content: space-between;
     flex-wrap: wrap;
 
+    &__icon {
+      position: absolute;
+      top: 9px;
+      left: 18px;
+    }
+
     &__input {
       width: 400px;
       height: 36px;
-      padding: 0 80px 0 10px;
+      padding: 0 80px 0 40px;
+      outline: none;
+      background-color: #ececf9;
+      border: 1px solid #635d80;
+      border-radius: 2px;
     }
     &__button {
       position: absolute;
       right: 10px;
-      top: 10px;
+      top: 6px;
+      height: 25px;
+      width: 70px;
+      border: none;
+      background-color: #9a91c8;
+      cursor: pointer;
+      align-items: center;
+      transition: 1s;
+      &:hover {
+        background-color: #8279ac;
+      }
     }
   }
   &__input-wrapper {
@@ -73,13 +93,6 @@
   &__pagination {
     display: flex;
     align-items: center;
-  }
-
-  &__select-title {
-    margin: 0 5px 0 36px;
-    &_end {
-      margin: 0 0 0 5px;
-    }
   }
 }
 
