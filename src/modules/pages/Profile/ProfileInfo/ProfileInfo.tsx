@@ -4,9 +4,11 @@ import './ProfileInfo.scss';
 import userNoAvatar from '../../../common/img/no-avatar.png';
 import SuperButton from '../../../components/SuperButton/SuperButton';
 import { ProfilePopUp } from '../ProfilePopUp/ProfilePopUp';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { thunkUpdateUser } from '../../../redux/reducers/authReducer';
 import { srtingLenghtCutter } from '../../../components/Table/TableBody/TableBody';
+import { AppStoreType } from '../../../redux/store';
+import { RequestStatusType } from '../../../redux/reducers/appReducer';
 
 type PropsType = {
   profie: InitialStateProfileType;
@@ -18,6 +20,11 @@ export const ProfileInfo = (props: PropsType) => {
   const [profileAvatar, setProfileAvatar] = useState<string>(
     props.profie.avatar ? props.profie.avatar : ''
   );
+  const appStatus = useSelector<AppStoreType, RequestStatusType>(state => state.app.status);
+
+  useEffect(() => {
+    thunkUpdateUser(profileName, profileAvatar);
+  }, [profileName, profileAvatar]);
 
   const dispatch = useDispatch();
 
@@ -57,6 +64,7 @@ export const ProfileInfo = (props: PropsType) => {
       </span>
       <span className="profileInfo__email">{props.profie.email}</span>
       <SuperButton
+        disabledBtn={appStatus === 'loading' ? true : false}
         name="Edit"
         buttonWidth="100px"
         className="superButton__purpe"

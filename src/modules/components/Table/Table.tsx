@@ -41,7 +41,7 @@ export const Table = (props: FormPropsType) => {
       subtitleName && setAnswerEdit(subtitleName);
       popUpEdit === false ? setPopUpEdit(true) : setPopUpEdit(false);
     },
-    [popUpEdit]
+    [packId, popUp]
   );
 
   const popUpEditHandler = useCallback(() => {
@@ -51,7 +51,7 @@ export const Table = (props: FormPropsType) => {
       props.updateCardHandler(packId, packEditName, answerEdit);
     }
     popUpEdit === false ? setPopUpEdit(true) : setPopUpEdit(false);
-  }, [popUpEdit]);
+  }, [packId, packEditName, answerEdit, popUpEdit]);
 
   return (
     <>

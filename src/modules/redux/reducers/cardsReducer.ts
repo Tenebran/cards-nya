@@ -3,6 +3,7 @@ import { Dispatch } from 'redux';
 import { cardsApi } from '../../api/cardsApi';
 import { CardsType } from '../../pages/CardsPack/Cards/Cards';
 import { AppStoreType, ThunkType } from '../store';
+import { setAppStatusAC } from './appReducer';
 
 const initialState = {
   cards: [
@@ -134,6 +135,7 @@ export const setCurrentCardGradeAC = (cardGrade: number) => {
 };
 
 export const cardsTC = () => (dispatch: Dispatch, getState: () => AppStoreType) => {
+  dispatch(setAppStatusAC('loading'));
   const appstate = getState().cards;
   cardsApi.getCards(appstate.packUserId, appstate.page, appstate.pageCount).then(resolve => {
     let res = resolve.data;
@@ -147,50 +149,35 @@ export const cardsTC = () => (dispatch: Dispatch, getState: () => AppStoreType) 
         res.pageCount
       )
     );
+    dispatch(setAppStatusAC('succeeded'));
   });
 };
 
 export const getCardsTC =
   (packId: string): ThunkType =>
   (dispatch, getState: () => AppStoreType) => {
+    dispatch(setAppStatusAC('loading'));
     const cards = getState().cards;
     const currentPage = cards.page;
     const pageCount = cards.pageCount;
-    // dispatch(setAppStatusAC("loading"));
+
     cardsApi.getCards(packId, currentPage, pageCount).then(res => {
       dispatch(getCardsAC(res.data.cards));
       dispatch(getUsersCards(res.data.packUserId));
       dispatch(getTotalUserCount(res.data.cardsTotalCount));
+      dispatch(setAppStatusAC('succeeded'));
     });
-    // .catch((err) => {
-    //     const error = err.response
-    //         ? err.response.data.error
-    //         : err.message + ", more details in the console";
-    //     console.log("err:", error);
-    //     dispatch(catchErrorAC(error));
-    // })
-    // .finally(() => {
-    //     dispatch(setAppStatusAC("succeeded"));
-    // });
   };
 
 export const updateCardGradeTC = (): ThunkType => (dispatch, getState: () => AppStoreType) => {
+  dispatch(setAppStatusAC('loading'));
   const cardId = getState().cards.cardId;
   const grade = getState().cards.cardGrade;
-  // dispatch(setAppStatusAC("loading"));
+
   cardsApi.updateCardGrade(cardId, grade).then(res => {
     dispatch(setCurrentCardGradeAC(res.data.updatedGrade.grade));
+    dispatch(setAppStatusAC('succeeded'));
   });
-  // .catch(err => {
-  //   const error = err.response
-  //     ? err.response.data.error
-  //     : err.message + ', more details in the console';
-  //   console.log('err:', error);
-  //   dispatch(catchErrorAC(error));
-  // })
-  // .finally(() => {
-  //   dispatch(setAppStatusAC('succeeded'));
-  // });
 };
 
 export const addCard =

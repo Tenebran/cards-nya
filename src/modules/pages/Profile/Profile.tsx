@@ -16,8 +16,6 @@ export const Profile = () => {
   const profile = useSelector<AppStoreType, InitialStateProfileType>(state => state.profile);
   const myCardsId = useSelector<AppStoreType, string>(state => state.profile._id);
 
-  // useEffect(() => {}, [dispatch, authMe, profile]);
-
   const logOutHandler = useCallback(() => {
     dispatch(logOutTC());
   }, [dispatch]);

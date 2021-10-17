@@ -7,14 +7,20 @@ import {
   SelectChangeEvent,
 } from '@mui/material';
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { RequestStatusType } from '../../../redux/reducers/appReducer';
+import { AppStoreType } from '../../../redux/store';
 
 export const TablePagination = (props: PropsType) => {
+  const appStatus = useSelector<AppStoreType, RequestStatusType>(state => state.app.status);
+
   return (
     <div className="table__pagination">
       {props.currentPage === 0 ? (
         ''
       ) : (
         <Pagination
+          disabled={appStatus === 'loading' ? true : false}
           count={Math.ceil(props.currentPage / props.page)}
           shape="rounded"
           page={props.currentPageNumber}
@@ -35,9 +41,14 @@ export const TablePagination = (props: PropsType) => {
             onChange={props.handleChangePage}
             size={'small'}
           >
-            <MenuItem value={5}>5</MenuItem>
+            <MenuItem value={4}>4</MenuItem>
+            <MenuItem value={6}>6</MenuItem>
             <MenuItem value={8}>8</MenuItem>
             <MenuItem value={10}>10</MenuItem>
+            <MenuItem value={15}>15</MenuItem>
+            <MenuItem value={20}>20</MenuItem>
+            <MenuItem value={30}>30</MenuItem>
+            <MenuItem value={50}>50</MenuItem>
           </Select>
         </FormControl>
         <span className="cards-pack__select-title_end">Cards per Page</span>

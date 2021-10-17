@@ -21,8 +21,10 @@ import { CardsShow } from './CardsShow/CardsShow';
 import { ProfileInfo } from '../Profile/ProfileInfo/ProfileInfo';
 import { CardsPackSearch } from './CardsPackSearch/CardsPackSearch';
 import SuperButton from '../../components/SuperButton/SuperButton';
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { PATH } from '../../routes/Routes';
+import { Preloader } from '../../components/Preloader/Preloader';
+import { RequestStatusType } from '../../redux/reducers/appReducer';
 
 const tableTitle = {
   table1: 'Name',
@@ -35,7 +37,8 @@ const tableTitle = {
 
 export const CardsPack = (props: PropsType) => {
   const [inputValue, setInputalue] = useState<string>('');
-  const [selectPage, setSelectPage] = useState<number>(8);
+  const [selectPage, setSelectPage] = useState<number>(6);
+  const appStatus = useSelector<AppStoreType, RequestStatusType>(state => state.app.status);
 
   const dispatch = useDispatch();
   const CardsPack = useSelector<AppStoreType, Array<cardPacksType>>(
@@ -133,6 +136,7 @@ export const CardsPack = (props: PropsType) => {
               <>
                 <ProfileInfo profie={props.profie} />
                 <SuperButton
+                  disabledBtn={appStatus === 'loading' ? true : false}
                   name="Logout"
                   buttonWidth="176px"
                   className="superButton__default"
@@ -158,20 +162,23 @@ export const CardsPack = (props: PropsType) => {
               onSearchClick={onSearchClick}
               addNewPackHandler={addNewPackHandler}
             />
-
-            <Table
-              CardsPack={CardsPack}
-              tableTitle={tableTitle}
-              currentPage={currentPage}
-              page={page}
-              currentPageNumber={currentPageNumber}
-              handleChange={handleChange}
-              selectPage={selectPage}
-              handleChangePage={handleChangePage}
-              myCardsId={myCardsId}
-              deletePackHandler={deletePackHandler}
-              updatePackHAndler={updatePackHAndler}
-            />
+            {appStatus === 'loading' ? (
+              <Preloader />
+            ) : (
+              <Table
+                CardsPack={CardsPack}
+                tableTitle={tableTitle}
+                currentPage={currentPage}
+                page={page}
+                currentPageNumber={currentPageNumber}
+                handleChange={handleChange}
+                selectPage={selectPage}
+                handleChangePage={handleChangePage}
+                myCardsId={myCardsId}
+                deletePackHandler={deletePackHandler}
+                updatePackHAndler={updatePackHAndler}
+              />
+            )}
           </div>
         </div>
       </div>

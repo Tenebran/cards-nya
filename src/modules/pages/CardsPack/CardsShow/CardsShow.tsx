@@ -1,14 +1,11 @@
 import { Box } from '@mui/material';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { cardsPackTC, packCardsCountSettings } from '../../../redux/reducers/cardsPacksReducers';
 import Slider from '@mui/material/Slider';
 import { AppStoreType } from '../../../redux/store';
 import './CardsShow.scss';
-
-function valuetext(value: number) {
-  return `${value}°C`;
-}
+import { RequestStatusType } from '../../../redux/reducers/appReducer';
 
 const minDistance = 1;
 
@@ -17,6 +14,8 @@ export const CardsShow = (props: PropsType) => {
     props.minRangeCount,
     props.maxRangeCount,
   ]);
+  const appStatus = useSelector<AppStoreType, RequestStatusType>(state => state.app.status);
+
   const dispatch = useDispatch();
   const handleChange2 = useCallback(
     (event: Event, newValue: number | number[], activeThumb: number) => {
@@ -49,6 +48,7 @@ export const CardsShow = (props: PropsType) => {
       <span className="cards-pack__show_title">Show packs cards</span>
       <div className="cards-pack__show_button_wrapper">
         <button
+          disabled={appStatus === 'loading' ? true : false}
           className={
             props.changeButton ? 'cards-pack__show_button_white' : 'cards-pack__show_button_purpe'
           }
@@ -57,6 +57,7 @@ export const CardsShow = (props: PropsType) => {
           My
         </button>
         <button
+          disabled={appStatus === 'loading' ? true : false}
           className={
             !props.changeButton ? 'cards-pack__show_button_white' : 'cards-pack__show_button_purpe'
           }
@@ -72,11 +73,13 @@ export const CardsShow = (props: PropsType) => {
           value={rangeValue}
           onChange={handleChange2}
           valueLabelDisplay="on"
-          // getAriaValueText={valuetext}
+          disabled={appStatus === 'loading' ? true : false}
           disableSwap
         />
       </Box>
-      <button onClick={onSearchClick}>search</button>
+      <button disabled={appStatus === 'loading' ? true : false} onClick={onSearchClick}>
+        search
+      </button>
     </>
   );
 };

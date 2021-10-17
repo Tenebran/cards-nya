@@ -2,6 +2,7 @@ import { Dispatch } from 'redux';
 import { cardsPackApi } from '../../api/cardPackApi';
 import { cardPacksType } from '../../pages/CardsPack/CardsPack';
 import { AppStoreType } from '../store';
+import { setAppStatusAC } from './appReducer';
 import { setInitializedAC } from './authReducer';
 
 export const label = '';
@@ -109,6 +110,7 @@ export const packCardsCountSettings = (min: number, max: number) => {
 };
 
 export const cardsPackTC = (): any => (dispatch: Dispatch, getState: () => AppStoreType) => {
+  dispatch(setAppStatusAC('loading'));
   const appState = getState().cardsPack;
   const currentPage = appState.page;
   const pageCount = appState.pageCount;
@@ -129,23 +131,28 @@ export const cardsPackTC = (): any => (dispatch: Dispatch, getState: () => AppSt
         resp.data.cardPacksTotalCount
       )
     );
-    dispatch(setInitializedAC(false));
+    dispatch(setAppStatusAC('succeeded'));
   });
 };
 
 export const addPackTC = (name: string) => (dispatch: Dispatch) => {
+  dispatch(setAppStatusAC('loading'));
   cardsPackApi.postCardsPack(name).then(res => {
     dispatch(cardsPackTC());
+    dispatch(setAppStatusAC('succeeded'));
   });
 };
 
 export const deletePackTC = (id: string) => (dispatch: Dispatch) => {
+  dispatch(setAppStatusAC('loading'));
   cardsPackApi.deleteCardsPack(id).then(res => {
     dispatch(cardsPackTC());
+    dispatch(setAppStatusAC('succeeded'));
   });
 };
 
 export const updatePackTC = (id: string, name: string) => (dispatch: Dispatch) => {
+  dispatch(setAppStatusAC('loading'));
   const cardsPack = {
     cardsPack: {
       _id: id,
@@ -154,6 +161,7 @@ export const updatePackTC = (id: string, name: string) => (dispatch: Dispatch) =
   };
   cardsPackApi.updateCardsPack(cardsPack).then(res => {
     dispatch(cardsPackTC());
+    dispatch(setAppStatusAC('succeeded'));
   });
 };
 
