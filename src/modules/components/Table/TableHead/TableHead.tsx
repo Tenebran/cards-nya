@@ -9,7 +9,7 @@ export const TableHead = (props: PropsType) => {
         <th>{props.tableTitle.table3}</th>
         <th>{props.tableTitle.table4}</th>
         <th>{props.tableTitle.table5}</th>
-        {props.tableTitle.table6 ? <th>{props.tableTitle.table6}</th> : ''}
+        {props.tableTitle.table6 && <th>{props.tableTitle.table6}</th>}
       </tr>
     </thead>
   );

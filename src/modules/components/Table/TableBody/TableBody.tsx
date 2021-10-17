@@ -25,15 +25,13 @@ export const TableBody = (props: PropsType) => {
             <td>{srtingLenghtCutter(CardsPack.updated.substr(0, 10))}</td>
             <td>{<Rating name="read-only" value={CardsPack.grade} readOnly />}</td>
             <td>
-              {props.myCardsId === CardsPack.user_id ? (
+              {props.myCardsId === CardsPack.user_id && (
                 <TableCardsButton
                   popUpOpenDeleteHandler={props.popUpOpenDeleteHandler}
                   CardsPack={CardsPack}
                   popUpOpenEditHandler={props.popUpOpenEditHandler}
                   myCardsId={props.myCardsId}
                 />
-              ) : (
-                ''
               )}
             </td>
           </tr>
@@ -43,14 +41,12 @@ export const TableBody = (props: PropsType) => {
             <td>{srtingLenghtCutter(CardsPack.cardsCount)}</td>
             <td>{srtingLenghtCutter(CardsPack.updated.substr(0, 10))}</td>
             <td>{srtingLenghtCutter(CardsPack.user_name)}</td>
-            {props.tableTitle.table6 ? (
+            {props.tableTitle.table6 && (
               <td>
                 <Link to={`/cards/${CardsPack._id}`}>
                   <PackIcon />
                 </Link>
               </td>
-            ) : (
-              ''
             )}
 
             {/* 'Cars Pack Button' */}

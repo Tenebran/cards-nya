@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 export const TableCardsButton = (props: PropsType) => {
   return (
     <>
-      {' '}
       {props.myCardsId === props.CardsPack.user_id ? (
         <>
           <button
