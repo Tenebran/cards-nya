@@ -1,7 +1,8 @@
 import { Dispatch } from 'redux';
 import { authApi } from '../../api/authApi';
-import { setAppStatusAC } from './appReducer';
+import { setAppStatusAC, setCatchErrorAC } from './appReducer';
 import { getProfileAC } from './profileReducer';
+import { AxiosError } from 'axios';
 
 const initialState = {
   authMe: false as boolean,
@@ -88,7 +89,7 @@ export const loginTC =
       const error = e.response
         ? e.response.data.error
         : e.message + ', more details in the console';
-      dispatch(errorMessagesAC(error));
+      dispatch(setCatchErrorAC(error));
       dispatch(setAppStatusAC('failed'));
     } finally {
       dispatch(setAppStatusAC('succeeded'));
@@ -103,7 +104,7 @@ export const logOutTC = () => async (dispatch: Dispatch<ActionAuthType>) => {
     dispatch(loginAC(false));
     dispatch(setAppStatusAC('succeeded'));
   } catch (e: any) {
-    dispatch(errorMessagesAC(e.response.data.error));
+    dispatch(setCatchErrorAC(e.response.data.error));
     dispatch(setAppStatusAC('succeeded'));
   } finally {
     dispatch(setAppStatusAC('succeeded'));
@@ -127,7 +128,7 @@ export const authMe = () => async (dispatch: Dispatch<ActionAuthType>) => {
     dispatch(setAppStatusAC('succeeded'));
   } catch (e: any) {
     dispatch(loginAC(false));
-    dispatch(errorMessagesAC(e.response.data.error));
+    dispatch(setCatchErrorAC(e.response.data.error));
     dispatch(setAppStatusAC('succeeded'));
   }
 };
@@ -135,18 +136,24 @@ export const authMe = () => async (dispatch: Dispatch<ActionAuthType>) => {
 export const thunkUpdateUser =
   (name: string, avatar: string) => (dispatch: Dispatch<ActionAuthType>) => {
     dispatch(setAppStatusAC('loading'));
-    authApi.updateProfile(name, avatar).then(resp => {
-      dispatch(
-        getProfileAC(
-          resp.data.updatedUser._id,
-          resp.data.updatedUser.email,
-          resp.data.updatedUser.name,
-          resp.data.updatedUser.avatar,
-          resp.data.updatedUser.publicCardPacksCount
-        )
-      );
-      dispatch(setAppStatusAC('succeeded'));
-    });
+    authApi
+      .updateProfile(name, avatar)
+      .then(resp => {
+        dispatch(
+          getProfileAC(
+            resp.data.updatedUser._id,
+            resp.data.updatedUser.email,
+            resp.data.updatedUser.name,
+            resp.data.updatedUser.avatar,
+            resp.data.updatedUser.publicCardPacksCount
+          )
+        );
+        dispatch(setAppStatusAC('succeeded'));
+      })
+      .catch((err: AxiosError) => {
+        dispatch(setCatchErrorAC(err.message));
+        dispatch(setAppStatusAC('succeeded'));
+      });
   };
 
 export const forgotPasswordThunk = (email: string) => (dispatch: Dispatch) => {
@@ -157,8 +164,8 @@ export const forgotPasswordThunk = (email: string) => (dispatch: Dispatch) => {
       dispatch(forgotPasswordAc(email));
       dispatch(setAppStatusAC('succeeded'));
     })
-    .catch(error => {
-      dispatch(setInitializedAC(false));
+    .catch((err: AxiosError) => {
+      dispatch(setCatchErrorAC(err.message));
       dispatch(setAppStatusAC('succeeded'));
     });
 };
@@ -166,11 +173,17 @@ export const forgotPasswordThunk = (email: string) => (dispatch: Dispatch) => {
 export const createNewPasswordThunk = (password: string, token: string) => (dispatch: Dispatch) => {
   dispatch(setAppStatusAC('loading'));
   dispatch(setInitializedAC(true));
-  authApi.newPassword(password, token).then(resp => {
-    dispatch(setPassSuccessAC(true));
-    dispatch(setInitializedAC(false));
-    dispatch(setAppStatusAC('succeeded'));
-  });
+  authApi
+    .newPassword(password, token)
+    .then(resp => {
+      dispatch(setPassSuccessAC(true));
+      dispatch(setInitializedAC(false));
+      dispatch(setAppStatusAC('succeeded'));
+    })
+    .catch((err: AxiosError) => {
+      dispatch(setCatchErrorAC(err.message));
+      dispatch(setAppStatusAC('succeeded'));
+    });
 };
 
 export type Usertype = {
@@ -194,6 +207,7 @@ export type ActionAuthType =
   | ReturnType<typeof setPassSuccessAC>
   | ReturnType<typeof errorMessagesAC>
   | ReturnType<typeof getProfileAC>
-  | ReturnType<typeof setAppStatusAC>;
+  | ReturnType<typeof setAppStatusAC>
+  | ReturnType<typeof setCatchErrorAC>;
 
 type InitialStateType = typeof initialState;

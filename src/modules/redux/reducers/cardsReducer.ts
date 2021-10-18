@@ -1,8 +1,9 @@
+import { AxiosError } from 'axios';
 import { Dispatch } from 'redux';
 import { cardsApi } from '../../api/cardsApi';
 import { CardsType } from '../../pages/CardsPack/Cards/Cards';
 import { AppStoreType, ThunkType } from '../store';
-import { setAppStatusAC } from './appReducer';
+import { setAppStatusAC, setCatchErrorAC } from './appReducer';
 
 const initialState = {
   cards: [
@@ -137,21 +138,27 @@ export const setCurrentCardGradeAC = (cardGrade: number) => {
 export const cardsTC = () => (dispatch: Dispatch, getState: () => AppStoreType) => {
   dispatch(setAppStatusAC('loading'));
   const appstate = getState().cards;
-  cardsApi.getCards(appstate.packUserId, appstate.page, appstate.pageCount).then(resolve => {
-    let res = resolve.data;
-    dispatch(
-      updateCardsAc(
-        res.cards,
-        res.cardsTotalCount,
-        res.maxGrade,
-        res.minGrade,
-        res.page,
-        res.pageCount,
-        res.packUserId
-      )
-    );
-    dispatch(setAppStatusAC('succeeded'));
-  });
+  cardsApi
+    .getCards(appstate.packUserId, appstate.page, appstate.pageCount)
+    .then(resolve => {
+      let res = resolve.data;
+      dispatch(
+        updateCardsAc(
+          res.cards,
+          res.cardsTotalCount,
+          res.maxGrade,
+          res.minGrade,
+          res.page,
+          res.pageCount,
+          res.packUserId
+        )
+      );
+      dispatch(setAppStatusAC('succeeded'));
+    })
+    .catch((err: AxiosError) => {
+      dispatch(setCatchErrorAC(err.message));
+      dispatch(setAppStatusAC('succeeded'));
+    });
 };
 
 export const getCardsTC =
@@ -162,12 +169,18 @@ export const getCardsTC =
     const currentPage = cards.page;
     const pageCount = cards.pageCount;
 
-    cardsApi.getCards(packId, currentPage, pageCount).then(res => {
-      dispatch(getCardsAC(res.data.cards));
-      dispatch(getUsersCards(res.data.packUserId));
-      dispatch(getTotalUserCount(res.data.cardsTotalCount));
-      dispatch(setAppStatusAC('succeeded'));
-    });
+    cardsApi
+      .getCards(packId, currentPage, pageCount)
+      .then(res => {
+        dispatch(getCardsAC(res.data.cards));
+        dispatch(getUsersCards(res.data.packUserId));
+        dispatch(getTotalUserCount(res.data.cardsTotalCount));
+        dispatch(setAppStatusAC('succeeded'));
+      })
+      .catch((err: AxiosError) => {
+        dispatch(setCatchErrorAC(err.message));
+        dispatch(setAppStatusAC('succeeded'));
+      });
   };
 
 export const updateCardGradeTC = (): ThunkType => (dispatch, getState: () => AppStoreType) => {
@@ -175,29 +188,47 @@ export const updateCardGradeTC = (): ThunkType => (dispatch, getState: () => App
   const cardId = getState().cards.cardId;
   const grade = getState().cards.cardGrade;
 
-  cardsApi.updateCardGrade(cardId, grade).then(res => {
-    dispatch(setCurrentCardGradeAC(res.data.updatedGrade.grade));
-    dispatch(setAppStatusAC('succeeded'));
-  });
+  cardsApi
+    .updateCardGrade(cardId, grade)
+    .then(res => {
+      dispatch(setCurrentCardGradeAC(res.data.updatedGrade.grade));
+      dispatch(setAppStatusAC('succeeded'));
+    })
+    .catch((err: AxiosError) => {
+      dispatch(setCatchErrorAC(err.message));
+      dispatch(setAppStatusAC('succeeded'));
+    });
 };
 
 export const addCard =
   (cardsPack_id: string, question: string, answer: string): ThunkType =>
   dispatch => {
     dispatch(setAppStatusAC('loading'));
-    return cardsApi.postCards(cardsPack_id, question, answer).then(res => {
-      dispatch(cardsTC());
-      dispatch(setAppStatusAC('succeeded'));
-    });
+    return cardsApi
+      .postCards(cardsPack_id, question, answer)
+      .then(res => {
+        dispatch(cardsTC());
+        dispatch(setAppStatusAC('succeeded'));
+      })
+      .catch((err: AxiosError) => {
+        dispatch(setCatchErrorAC(err.message));
+        dispatch(setAppStatusAC('succeeded'));
+      });
   };
 
 export const deleteCardTC =
   (id: string): ThunkType =>
   dispatch => {
     dispatch(setAppStatusAC('loading'));
-    return cardsApi.deleteCards(id).then(res => {
-      dispatch(setAppStatusAC('succeeded'));
-    });
+    return cardsApi
+      .deleteCards(id)
+      .then(res => {
+        dispatch(setAppStatusAC('succeeded'));
+      })
+      .catch((err: AxiosError) => {
+        dispatch(setCatchErrorAC(err.message));
+        dispatch(setAppStatusAC('succeeded'));
+      });
   };
 
 export const updateCardsTC =
@@ -211,11 +242,17 @@ export const updateCardsTC =
       },
     };
     dispatch(setAppStatusAC('loading'));
-    return cardsApi.updateCards(card).then(res => {
-      dispatch(cardsTC());
+    return cardsApi
+      .updateCards(card)
+      .then(res => {
+        dispatch(cardsTC());
 
-      dispatch(setAppStatusAC('succeeded'));
-    });
+        dispatch(setAppStatusAC('succeeded'));
+      })
+      .catch((err: AxiosError) => {
+        dispatch(setCatchErrorAC(err.message));
+        dispatch(setAppStatusAC('succeeded'));
+      });
   };
 
 export type CardsSettingsType = {
@@ -232,6 +269,7 @@ export type ActionCardsType =
   | ReturnType<typeof changeCardsPage>
   | ReturnType<typeof updateCardsAc>
   | ReturnType<typeof setCurrentCardIdAC>
-  | ReturnType<typeof setCurrentCardGradeAC>;
+  | ReturnType<typeof setCurrentCardGradeAC>
+  | ReturnType<typeof setCatchErrorAC>;
 
 export type InitialStateType = typeof initialState;

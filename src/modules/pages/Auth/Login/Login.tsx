@@ -19,22 +19,18 @@ import { AppStoreType } from '../../../redux/store';
 import SuperEditableSpan from '../../../components/SuperEditableSpan/SuperEditableSpan';
 import SuperButton from '../../../components/SuperButton/SuperButton';
 import { Preloader } from '../../../components/Preloader/Preloader';
-import { Snackbar } from '@material-ui/core';
-import Alert from '@mui/material/Alert';
 import { RequestStatusType } from '../../../redux/reducers/appReducer';
 
 export const Login = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector<AppStoreType, boolean>(state => state.user.authMe);
   const entityStatus = useSelector<AppStoreType, boolean>(state => state.user.entityStatus);
-  const error = useSelector<AppStoreType, string>(state => state.user.errorMessage);
   const [openPassword, setOpenPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const [disabledBtn, setDisabledBtn] = useState(true);
   const value = '';
-  const [open, setOpen] = React.useState<boolean>(false);
   const appStatus = useSelector<AppStoreType, RequestStatusType>(state => state.app.status);
 
   const changeViewPassword = () => {
@@ -57,16 +53,8 @@ export const Login = () => {
     setPassword('');
     setRememberMe(false);
     setDisabledBtn(true);
-    setOpen(true);
   };
 
-  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setOpen(false);
-  };
   if (isLoggedIn) {
     return <Redirect to={PATH.PROFILE} />;
   }
@@ -140,11 +128,6 @@ export const Login = () => {
           </NavLink>
         </div>
       </form>
-      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
-          {error}
-        </Alert>
-      </Snackbar>
     </div>
   );
 };

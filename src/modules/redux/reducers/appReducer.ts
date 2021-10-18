@@ -4,7 +4,7 @@ import { authMe } from './authReducer';
 const initialState = {
   initialized: false as boolean,
   status: 'idle' as RequestStatusType,
-  error: '' as string,
+  error: null as string | null,
 };
 
 export const appReducer = (state = initialState, action: ActionAppType) => {
@@ -28,7 +28,7 @@ export const setAppStatusAC = (status: RequestStatusType) => {
   return { type: 'APP/SET_STATUS', status } as const;
 };
 
-export const setCatchError = (error: string) => {
+export const setCatchErrorAC = (error: string | null) => {
   return { type: 'APP/SET_CATCH_ERROR', error } as const;
 };
 
@@ -44,4 +44,4 @@ export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed';
 export type ActionAppType =
   | ReturnType<typeof setInitializedAC>
   | ReturnType<typeof setAppStatusAC>
-  | ReturnType<typeof setCatchError>;
+  | ReturnType<typeof setCatchErrorAC>;
