@@ -1,24 +1,25 @@
 {
   "files": {
-    "main.css": "/cards-nya/static/css/main.238c5131.chunk.css",
-    "main.js": "/cards-nya/static/js/main.a92971c2.chunk.js",
-    "main.js.map": "/cards-nya/static/js/main.a92971c2.chunk.js.map",
-    "runtime-main.js": "/cards-nya/static/js/runtime-main.f08f9fb3.js",
-    "runtime-main.js.map": "/cards-nya/static/js/runtime-main.f08f9fb3.js.map",
-    "static/js/2.fb40b882.chunk.js": "/cards-nya/static/js/2.fb40b882.chunk.js",
-    "static/js/2.fb40b882.chunk.js.map": "/cards-nya/static/js/2.fb40b882.chunk.js.map",
-    "static/js/3.51e7c5dd.chunk.js": "/cards-nya/static/js/3.51e7c5dd.chunk.js",
-    "static/js/3.51e7c5dd.chunk.js.map": "/cards-nya/static/js/3.51e7c5dd.chunk.js.map",
+    "main.css": "/cards-nya/static/css/main.077c4f64.chunk.css",
+    "main.js": "/cards-nya/static/js/main.7b5d6eae.chunk.js",
+    "main.js.map": "/cards-nya/static/js/main.7b5d6eae.chunk.js.map",
+    "runtime-main.js": "/cards-nya/static/js/runtime-main.6ff1cb5a.js",
+    "runtime-main.js.map": "/cards-nya/static/js/runtime-main.6ff1cb5a.js.map",
+    "static/js/2.86609fb3.chunk.js": "/cards-nya/static/js/2.86609fb3.chunk.js",
+    "static/js/2.86609fb3.chunk.js.map": "/cards-nya/static/js/2.86609fb3.chunk.js.map",
+    "static/js/3.ef8c2674.chunk.js": "/cards-nya/static/js/3.ef8c2674.chunk.js",
+    "static/js/3.ef8c2674.chunk.js.map": "/cards-nya/static/js/3.ef8c2674.chunk.js.map",
     "index.html": "/cards-nya/index.html",
-    "static/css/main.238c5131.chunk.css.map": "/cards-nya/static/css/main.238c5131.chunk.css.map",
-    "static/js/2.fb40b882.chunk.js.LICENSE.txt": "/cards-nya/static/js/2.fb40b882.chunk.js.LICENSE.txt",
+    "static/css/main.077c4f64.chunk.css.map": "/cards-nya/static/css/main.077c4f64.chunk.css.map",
+    "static/js/2.86609fb3.chunk.js.LICENSE.txt": "/cards-nya/static/js/2.86609fb3.chunk.js.LICENSE.txt",
     "static/media/fonts.scss": "/cards-nya/static/media/SFUIDisplay-Semibold.d3f53e85.woff2",
-    "static/media/no-avatar.83aed7d5.png": "/cards-nya/static/media/no-avatar.83aed7d5.png"
+    "static/media/no-avatar.83aed7d5.png": "/cards-nya/static/media/no-avatar.83aed7d5.png",
+    "static/media/pngegg.e61f2dd0.png": "/cards-nya/static/media/pngegg.e61f2dd0.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.f08f9fb3.js",
-    "static/js/2.fb40b882.chunk.js",
-    "static/css/main.238c5131.chunk.css",
-    "static/js/main.a92971c2.chunk.js"
+    "static/js/runtime-main.6ff1cb5a.js",
+    "static/js/2.86609fb3.chunk.js",
+    "static/css/main.077c4f64.chunk.css",
+    "static/js/main.7b5d6eae.chunk.js"
   ]
 }
