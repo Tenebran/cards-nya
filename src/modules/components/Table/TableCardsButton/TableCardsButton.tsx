@@ -13,16 +13,7 @@ export const TableCardsButton = (props: PropsType) => {
             Delete
           </button>
 
-          <button
-            className="table__button"
-            onClick={() =>
-              props.popUpOpenEditHandler(
-                props.CardsPack._id,
-                props.CardsPack.question,
-                props.CardsPack.answer
-              )
-            }
-          >
+          <button className="table__button" onClick={props.popUpOpenEditHandler}>
             Edit
           </button>
         </>
@@ -38,7 +29,7 @@ export const TableCardsButton = (props: PropsType) => {
 
 type PropsType = {
   CardsPack: any;
-  popUpOpenEditHandler: (id: string, question: string, answer: string) => void;
+  popUpOpenEditHandler?: () => void;
   popUpOpenDeleteHandler: (id: string) => void;
   myCardsId: string | undefined;
 };

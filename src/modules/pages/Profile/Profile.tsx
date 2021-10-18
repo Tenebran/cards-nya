@@ -13,7 +13,6 @@ export const Profile = () => {
   const authMe = useSelector<AppStoreType, boolean>(state => state.user.authMe);
   const dispatch = useDispatch();
   const profile = useSelector<AppStoreType, InitialStateProfileType>(state => state.profile);
-  // const myCardsId = useSelector<AppStoreType, string>(state => state.profile._id);
 
   const logOutHandler = useCallback(() => {
     dispatch(logOutTC());

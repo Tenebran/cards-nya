@@ -8,13 +8,13 @@ export const ProfilePopUp = (props: ProfilePopUpPropsType) => {
     <div className="popup" onClick={props.popUpOpenHandler}>
       <div className="popup__wrapper" onClick={e => e.stopPropagation()}>
         <div className="popup_header">
-          <span className="popup__title">Edit Profile</span>
+          <span className="popup__title">{props.popUpNames.PopUpTitle}</span>
           <PopUpCancelIcon className="popup__cancel-icon" onClickHandler={props.popUpOpenHandler} />
         </div>
 
-        <div className="popup__body">
-          <div>
-            Name:
+        <div>
+          <div className="popup__body">
+            <span className="popup__title">{props.popUpNames.PopUpInput1}</span>
             <SuperEditableSpan
               value={props.profileName ? props.profileName : ''}
               onChangeText={props.setProfileName}
@@ -24,8 +24,8 @@ export const ProfilePopUp = (props: ProfilePopUpPropsType) => {
               type={'text'}
             />
           </div>
-          <div>
-            Avatar:
+          <div className="popup__body">
+            <span className="popup__title">{props.popUpNames.PopUpInput1}</span>
             <SuperEditableSpan
               value={props.profileAvatar ? props.profileAvatar : ''}
               onChangeText={props.setProfileAvatar}
@@ -56,4 +56,11 @@ type ProfilePopUpPropsType = {
   setProfileName: (name: string) => void;
   setProfileAvatar: (name: string) => void;
   onUpdateProfileHandler: () => void;
+  popUpNames: popUpNamesType;
+};
+
+export type popUpNamesType = {
+  PopUpTitle: string;
+  PopUpInput1: string;
+  PopUpInput2: string;
 };

@@ -12,7 +12,6 @@ export const CardsPackSearch = (props: CardsPackPropsSearch) => {
   };
 
   const addNewCardsPackValue = () => {
-    console.log('newPacl');
     props.addNewPackHandler(newPackName);
     setPopUp(false);
     setNewPackName('');

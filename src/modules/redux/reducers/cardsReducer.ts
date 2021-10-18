@@ -47,6 +47,7 @@ export const cardsReducer = (
         minGrade: action.minGrade,
         page: action.page,
         pageCount: action.pageCount,
+        packUserId: action.packUserId,
       };
 
     case 'CARDS/GET_CARDS':
@@ -95,7 +96,8 @@ export const updateCardsAc = (
   maxGrade: number,
   minGrade: number,
   page: number,
-  pageCount: number
+  pageCount: number,
+  packUserId: string
 ) => {
   return {
     type: 'CARDS/CARDS__UPDATE',
@@ -105,6 +107,7 @@ export const updateCardsAc = (
     minGrade,
     page,
     pageCount,
+    packUserId,
   } as const;
 };
 
@@ -143,7 +146,8 @@ export const cardsTC = () => (dispatch: Dispatch, getState: () => AppStoreType) 
         res.maxGrade,
         res.minGrade,
         res.page,
-        res.pageCount
+        res.pageCount,
+        res.packUserId
       )
     );
     dispatch(setAppStatusAC('succeeded'));
@@ -180,16 +184,19 @@ export const updateCardGradeTC = (): ThunkType => (dispatch, getState: () => App
 export const addCard =
   (cardsPack_id: string, question: string, answer: string): ThunkType =>
   dispatch => {
+    dispatch(setAppStatusAC('loading'));
     return cardsApi.postCards(cardsPack_id, question, answer).then(res => {
       dispatch(cardsTC());
+      dispatch(setAppStatusAC('succeeded'));
     });
   };
 
 export const deleteCardTC =
   (id: string): ThunkType =>
   dispatch => {
+    dispatch(setAppStatusAC('loading'));
     return cardsApi.deleteCards(id).then(res => {
-      dispatch(cardsTC());
+      dispatch(setAppStatusAC('succeeded'));
     });
   };
 
@@ -203,8 +210,12 @@ export const updateCardsTC =
         answer: answer,
       },
     };
+    dispatch(setAppStatusAC('loading'));
+    return cardsApi.updateCards(card).then(res => {
+      dispatch(cardsTC());
 
-    return cardsApi.updateCards(card).then(res => dispatch(cardsTC()));
+      dispatch(setAppStatusAC('succeeded'));
+    });
   };
 
 export type CardsSettingsType = {

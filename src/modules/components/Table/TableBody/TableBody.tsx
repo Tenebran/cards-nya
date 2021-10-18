@@ -29,7 +29,14 @@ export const TableBody = (props: PropsType) => {
                 <TableCardsButton
                   popUpOpenDeleteHandler={props.popUpOpenDeleteHandler}
                   CardsPack={CardsPack}
-                  popUpOpenEditHandler={props.popUpOpenEditHandler}
+                  popUpOpenEditHandler={() =>
+                    props.popUpOpenEditCardsHandler &&
+                    props.popUpOpenEditCardsHandler(
+                      CardsPack._id,
+                      CardsPack.question,
+                      CardsPack.answer
+                    )
+                  }
                   myCardsId={props.myCardsId}
                 />
               )}
@@ -87,4 +94,5 @@ type PropsType = {
   popUpOpenEditHandler: (id: string, question: string, answer?: string) => void;
   popUpOpenDeleteHandler: (id: string) => void;
   tableTitle: TableTitleType;
+  popUpOpenEditCardsHandler?: (id: string, editQuestion: string, editAnswer: string) => void;
 };

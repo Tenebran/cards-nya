@@ -14,8 +14,20 @@ type PropsType = {
   profie: InitialStateProfileType;
 };
 
+const AddPopUp = {
+  PopUpTitle: 'Add Cards',
+  PopUpInput1: 'Add Question',
+  PopUpInput2: 'Add Answer',
+};
+
+const EditPopUp = {
+  PopUpTitle: 'Edit Cards',
+  PopUpInput1: 'Edit Question',
+  PopUpInput2: 'Edit Answer',
+};
+
 export const ProfileInfo = (props: PropsType) => {
-  const [popUp, setPopUp] = useState<boolean>(false);
+  const [popUpAdd, setPopUpAdd] = useState<boolean>(false);
   const [profileName, setProfileName] = useState<string>(props.profie.name);
   const [profileAvatar, setProfileAvatar] = useState<string>(
     props.profie.avatar ? props.profie.avatar : ''
@@ -31,16 +43,16 @@ export const ProfileInfo = (props: PropsType) => {
   const onUpdateProfileHandler = () => {
     dispatch(thunkUpdateUser(profileName, profileAvatar));
 
-    popUp === false ? setPopUp(true) : setPopUp(false);
+    popUpAdd === false ? setPopUpAdd(true) : setPopUpAdd(false);
   };
 
   const popUpOpenHandler = () => {
-    popUp === false ? setPopUp(true) : setPopUp(false);
+    popUpAdd === false ? setPopUpAdd(true) : setPopUpAdd(false);
   };
 
   return (
     <div className="profileInfo">
-      {popUp ? (
+      {popUpAdd && (
         <ProfilePopUp
           popUpOpenHandler={popUpOpenHandler}
           profileName={profileName}
@@ -48,9 +60,8 @@ export const ProfileInfo = (props: PropsType) => {
           setProfileName={setProfileName}
           setProfileAvatar={setProfileAvatar}
           onUpdateProfileHandler={onUpdateProfileHandler}
+          popUpNames={AddPopUp}
         />
-      ) : (
-        ''
       )}
       <img
         src={profileAvatar ? props.profie.avatar : userNoAvatar}

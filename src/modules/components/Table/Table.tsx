@@ -31,10 +31,9 @@ export const Table = (props: FormPropsType) => {
     popUp === false ? setPopUp(true) : setPopUp(false);
   };
 
-  const popUpOpenEditHandler = (id: string, packEditName: string, subtitleName?: string) => {
+  const popUpOpenEditHandler = (id: string, packEditName: string) => {
     setPackId(id);
     setPackEditName(packEditName);
-    subtitleName && setAnswerEdit(subtitleName);
     popUpEdit === false ? setPopUpEdit(true) : setPopUpEdit(false);
   };
 
@@ -65,7 +64,6 @@ export const Table = (props: FormPropsType) => {
           popUpTitle="Edit pack name"
           popUpTitle2="Edit anweser"
           value={packEditName}
-          value2={answerEdit}
           onChangeText={setPackEditName}
           onChangeText2={setAnswerEdit}
           addNewCardsPackValue={popUpEditHandler}
@@ -82,6 +80,7 @@ export const Table = (props: FormPropsType) => {
           popUpOpenEditHandler={popUpOpenEditHandler}
           myCardsId={props.myCardsId}
           tableTitle={props.tableTitle}
+          popUpOpenEditCardsHandler={props.popUpOpenEdit}
         />
       </table>
 
@@ -111,4 +110,5 @@ type FormPropsType = {
   updatePackHAndler?: (id: string, name: string) => void;
   cards?: boolean;
   updateCardHandler?: (id: string, question: string, anweser: string) => void;
+  popUpOpenEdit?: (id: string, editQuestion: string, editAnswer: string) => void;
 };
