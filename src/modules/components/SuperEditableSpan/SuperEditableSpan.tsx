@@ -8,28 +8,29 @@ import React, {
 import SuperInput from '../SuperInput/SuperInput';
 import './SuperEditableSpan.scss';
 
-// тип пропсов обычного инпута
 type DefaultInputPropsType = DetailedHTMLProps<
   InputHTMLAttributes<HTMLInputElement>,
   HTMLInputElement
 >;
-// тип пропсов обычного спана
+
 type DefaultSpanPropsType = DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
 
-// здесь мы говорим что у нашего инпута будут такие же пропсы как у обычного инпута
-// (чтоб не писать value: string, onChange: ...; они уже все описаны в DefaultInputPropsType)
+export const srtingLenghtCutter = (value: string) => {
+  return value.length > 10 ? value.substring(0, 40) + '...' : value;
+};
+
 type SuperEditableSpanType = DefaultInputPropsType & {
-  // и + ещё пропсы которых нет в стандартном инпуте
   onChangeText?: (value: string) => void;
   onEnter?: () => void;
   error?: string;
   spanClassName?: string;
   inputName?: string;
   type?: string;
-  spanProps?: DefaultSpanPropsType; // пропсы для спана
+  spanProps?: DefaultSpanPropsType;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   valuepass?: string;
   value: string;
+  width?: string;
 };
 
 const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
@@ -43,6 +44,7 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
   onChange,
   valuepass,
   value,
+  width,
 
   ...restProps
 }) => {
@@ -62,6 +64,8 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
     onDoubleClick && onDoubleClick(e);
   };
 
+  const cutValue = srtingLenghtCutter(value);
+
   return (
     <>
       {editMode ? (
@@ -74,17 +78,18 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
           type={type}
           onChange={onChange}
           value={value}
+          width={width}
           {...restProps}
         />
       ) : (
         <div className="wrapper__input">
           <span className="span__group " onClick={onDoubleClickCallBack} {...restSpanProps}>
-            <input className="span__field" name={type} />
+            <input className="span__field" name={type} style={{ width: width }} />
             <label htmlFor="name" className="span__label">
               {type === 'Password' && valuepass && value
                 ? valuepass.replace(/[^\s]/g, '*')
                 : type
-                ? value || children
+                ? cutValue || children
                 : ''}
             </label>
           </span>

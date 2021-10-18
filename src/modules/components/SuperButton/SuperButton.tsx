@@ -1,7 +1,6 @@
 import React, { ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
 import './SuperButton.scss';
 
-// тип пропсов обычной кнопки, children в котором храниться название кнопки там уже описан
 type DefaultButtonPropsType = DetailedHTMLProps<
   ButtonHTMLAttributes<HTMLButtonElement>,
   HTMLButtonElement
@@ -16,6 +15,7 @@ type SuperButtonPropsType = DefaultButtonPropsType & {
   disabledBtn?: boolean;
   entityStatus?: boolean;
   backColor?: string;
+  className: string;
 };
 
 const SuperButton: React.FC<SuperButtonPropsType> = ({
@@ -27,11 +27,9 @@ const SuperButton: React.FC<SuperButtonPropsType> = ({
   disabledBtn,
   entityStatus,
 }) => {
-  const finalClassName = `${color ? `superButton__${color}` : 'superButton__default'} ${className}`;
-
   return (
     <button
-      className={finalClassName}
+      className={className}
       style={{ minWidth: buttonWidth }}
       onClick={onClickHandler}
       disabled={disabledBtn}

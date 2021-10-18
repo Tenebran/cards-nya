@@ -1,0 +1,59 @@
+.popup {
+  z-index: 2000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.541);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+
+  &__wrapper {
+    width: 395px;
+    min-height: 221px;
+    background-color: #fff;
+    padding: 15px 24px 0px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 10px 10px rgba(0, 0, 0, 0.322);
+  }
+
+  &__title {
+    font-family: 'Poppins';
+    font-size: 18px;
+    line-height: 27px;
+  }
+
+  &_header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 42px 0;
+  }
+
+  &__cancel-icon {
+    cursor: pointer;
+  }
+
+  &__info {
+    font-family: 'SF UI Regular';
+    font-size: 15px;
+    line-height: 24px;
+    font-weight: 500;
+    &_pack {
+      font-weight: 900;
+    }
+  }
+  &__body {
+    margin: 0 0 36px 0;
+  }
+
+  &__button-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+}

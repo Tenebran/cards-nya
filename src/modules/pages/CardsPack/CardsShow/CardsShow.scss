@@ -1,0 +1,64 @@
+.cards-pack {
+  &__show {
+    &_title {
+      display: inline-block;
+      margin: 13px 0 20px 0;
+      font-size: 16px;
+      color: #2d2e46;
+      font-family: 'SF UI Semibold';
+    }
+    &_button {
+      &_wrapper {
+        display: inline-block;
+        margin: 0 0 42px 0;
+      }
+      &_purpe {
+        height: 36px;
+        width: 80px;
+        border: none;
+        background-color: #9a91c8;
+        cursor: pointer;
+        align-items: center;
+        transition: 1s;
+        &:hover {
+          background-color: #8279ac;
+        }
+      }
+
+      &_white {
+        height: 36px;
+        width: 80px;
+        border: none;
+        background-color: #ffff;
+        cursor: pointer;
+        transition: 1s;
+        &:hover {
+          background-color: rgb(235, 227, 227);
+        }
+      }
+    }
+  }
+}
+.css-14pt78w-MuiSlider-rail {
+  background-color: #21268f;
+  color: #21268f;
+  border: 1px solid #21268f;
+  height: 5px;
+}
+
+.css-1gv0vcd-MuiSlider-track {
+  background-color: #21268f;
+  color: #21268f;
+  border: 1px solid #21268f;
+  height: 5px;
+}
+
+.css-eg0mwd-MuiSlider-thumb {
+  background-color: #ffff !important;
+  border: 5px solid #21268f;
+}
+
+.css-1kz0hui-MuiSlider-valueLabel {
+  background-color: #21268f !important;
+  color: #fff;
+}

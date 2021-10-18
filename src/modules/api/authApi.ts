@@ -13,7 +13,7 @@ export const authApi = {
     return instance.post<LoginResponseType>('/auth/me');
   },
   updateProfile(name: string, avatar: string) {
-    return instance.put<UpdateUserResponseType>('/auth/me', { name, avatar });
+    return instance.put<UpdateUser>('/auth/me', { name, avatar });
   },
   logOut() {
     return instance.delete<LogOutNewPassUser>('/auth/me');
@@ -37,11 +37,6 @@ type AddUserResponseType = {
   error?: string;
 };
 
-type UpdateUserResponseType = {
-  updatedUser: LoginResponseType;
-  error?: string;
-};
-
 type LogOutNewPassUser = {
   info: string;
   error: string;
@@ -58,4 +53,19 @@ type LoginResponseType = {
   isAdmin: boolean;
   verified: boolean;
   rememberMe: boolean;
+};
+
+type UpdateUser = {
+  updatedUser: {
+    _id: string;
+    email: string;
+    name: string;
+    avatar?: string;
+    publicCardPacksCount: number;
+    created: Date;
+    updated: Date;
+    isAdmin: boolean;
+    verified: boolean;
+    rememberMe: boolean;
+  };
 };

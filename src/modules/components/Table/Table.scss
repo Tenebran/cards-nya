@@ -2,6 +2,14 @@
   &__pagination {
     display: flex;
   }
+  &__empty {
+    font-size: 16px;
+    opacity: 0.6;
+    min-height: 75%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
   &__td {
     font-size: 13px;
@@ -11,14 +19,35 @@
 
   &__button {
     font-family: 'SF UI Semibold';
+    display: inline-block;
     padding: 5px 6px;
     background-color: #d7d8ef;
     text-decoration: none;
     color: #21268f;
     transition: 1s;
     border-radius: 2px;
+    border: none;
+    cursor: pointer;
+    margin: 2px;
     &:hover {
       background-color: #a4a5c4;
+    }
+
+    &_delete {
+      font-family: 'SF UI Semibold';
+      padding: 5px 6px;
+      background-color: #f1453d;
+      text-decoration: none;
+      color: #ffffff;
+      transition: 1s;
+      border-radius: 2px;
+      border: none;
+      cursor: pointer;
+      margin: 5px 2px;
+
+      &:hover {
+        background-color: #af332c;
+      }
     }
   }
 }
@@ -49,4 +78,8 @@
 }
 .table tbody tr {
   background: #ffffff;
+}
+
+.css-7qmtgc-MuiRating-icon {
+  color: #21268f;
 }

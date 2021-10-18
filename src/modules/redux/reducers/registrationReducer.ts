@@ -1,17 +1,21 @@
 import { Dispatch } from 'redux';
 import { authApi } from '../../api/authApi';
-import { entityStatusAC, setInitializedAC } from './authReducer';
+import { setCatchErrorAC } from './appReducer';
+import { entityStatusAC, errorMessagesAC, setInitializedAC } from './authReducer';
 
 const initState: InitStateType = {
-  authoriseMe: false,
-  entityStatus: false,
+  authoriseMe: false as const,
+  entityStatus: false as const,
 };
 type InitStateType = {
   authoriseMe: boolean;
   entityStatus: boolean;
 };
 
-export const registrationReducer = (state: any = initState, action: actionType) => {
+export const registrationReducer = (
+  state: InitStateType = initState,
+  action: ActionRegistrationType
+) => {
   switch (action.type) {
     case 'REGISTRATION_ME':
       return { ...state, authoriseMe: action.authoriseMe };
@@ -40,12 +44,17 @@ export const registrationTC =
       const error = e.response
         ? e.response.data.error
         : e.message + ', more details in the console';
-      alert(error);
+      dispatch(setCatchErrorAC(error));
     }
     dispatch(registrationAC(false));
   };
 
 type registrationAT = ReturnType<typeof registrationAC>;
 export type entityStatusAT = ReturnType<typeof entityStatusAC>;
-type actionType = registrationAT | entityStatusAT | ReturnType<typeof setInitializedAC>;
-type ThunkDispatch = Dispatch<actionType>;
+export type ActionRegistrationType =
+  | registrationAT
+  | entityStatusAT
+  | ReturnType<typeof setInitializedAC>
+  | ReturnType<typeof errorMessagesAC>
+  | ReturnType<typeof setCatchErrorAC>;
+type ThunkDispatch = Dispatch<ActionRegistrationType>;

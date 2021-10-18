@@ -1,10 +1,11 @@
 .login {
-  height: 92vh;
+  height: 91vh;
   display: flex;
   justify-content: center;
   align-items: center;
 
   &__wrapper {
+    position: relative;
     max-width: 413px;
     background-color: #f9f9fe;
     color: #2d2e46;

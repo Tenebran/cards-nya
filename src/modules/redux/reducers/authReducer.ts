@@ -1,38 +1,39 @@
 import { Dispatch } from 'redux';
 import { authApi } from '../../api/authApi';
+import { setAppStatusAC, setCatchErrorAC } from './appReducer';
+import { getProfileAC } from './profileReducer';
+import { AxiosError } from 'axios';
 
 const initialState = {
-  authMe: false,
-  initialized: false,
-  entityStatus: false,
-  statusSend: false,
-  userEmail: '',
-  newPassSuccess: false,
+  authMe: false as boolean,
+  entityStatus: false as boolean,
+  statusSend: false as boolean,
+  userEmail: '' as string,
+  newPassSuccess: false as boolean,
+  errorMessage: '' as string,
+  initialized: false as boolean,
 };
 
 export const authReducer = (
   state: InitialStateType = initialState,
-  action: ActionType
+  action: ActionAuthType
 ): InitialStateType => {
   switch (action.type) {
     case 'AUTH/LOGIN': {
       return { ...state, authMe: action.authMe };
     }
-    case 'AUTH/LOGOUT': {
-      return { ...state };
-    }
-    case 'AUTH/SET_INITIALIZED':
-      return {
-        ...state,
-        initialized: action.initialized,
-      };
+
     case 'AUTH/FORGOT-PASSWORD':
       return { ...state, statusSend: true, userEmail: action.email };
 
     case 'AUTH/NEW-PASSWORD-SUCCESS':
       return { ...state, newPassSuccess: action.success };
-    /* case 'AUTH/UPDATE-USER':
-             return {...state, userData: action.userData};*/
+
+    case 'AUTH/ERROR_MESSAGES':
+      return { ...state, errorMessage: action.messages };
+
+    case 'AUTH/SET_INITIALIZED':
+      return { ...state, initialized: action.initialized };
 
     default:
       return state;
@@ -43,16 +44,8 @@ export const entityStatusAC = () =>
     type: 'ENTITY-STATUS',
   } as const);
 
-export const logOutAC = (authMe: boolean) => {
-  return { type: 'AUTH/LOGOUT', authMe } as const;
-};
-
 export const loginAC = (authMe: boolean) => {
   return { type: 'AUTH/LOGIN', authMe } as const;
-};
-
-export const updatedUserAc = (userData: Usertype) => {
-  return { type: 'AUTH/UPDATE-USER', userData } as const;
 };
 
 export const setInitializedAC = (initialized: boolean) =>
@@ -69,67 +62,128 @@ export const setPassSuccessAC = (success: boolean) => {
   return { type: 'AUTH/NEW-PASSWORD-SUCCESS', success } as const;
 };
 
+export const errorMessagesAC = (messages: string) => {
+  return { type: 'AUTH/ERROR_MESSAGES', messages } as const;
+};
+
 export const loginTC =
   (email: string, password: string, rememberMe: boolean) =>
-  async (dispatch: Dispatch<ActionType>) => {
+  async (dispatch: Dispatch<ActionAuthType>) => {
     dispatch(entityStatusAC());
+    dispatch(setAppStatusAC('loading'));
     try {
-      dispatch(setInitializedAC(true));
-      await authApi.login(email, password, rememberMe);
-      dispatch(setInitializedAC(false));
+      const response = await authApi.login(email, password, rememberMe);
+      dispatch(
+        getProfileAC(
+          response.data._id,
+          response.data.email,
+          response.data.name,
+          response.data.avatar,
+          response.data.publicCardPacksCount
+        )
+      );
       dispatch(loginAC(true));
+      dispatch(setAppStatusAC('succeeded'));
     } catch (e: any) {
       dispatch(setInitializedAC(false));
       const error = e.response
         ? e.response.data.error
         : e.message + ', more details in the console';
-      alert(error);
+      dispatch(setCatchErrorAC(error));
+      dispatch(setAppStatusAC('failed'));
+    } finally {
+      dispatch(setAppStatusAC('succeeded'));
     }
   };
 
-export const logOutTC = () => async (dispatch: Dispatch<ActionType>) => {
+export const logOutTC = () => async (dispatch: Dispatch<ActionAuthType>) => {
+  dispatch(setAppStatusAC('loading'));
   try {
-    dispatch(setInitializedAC(true));
     await authApi.logOut();
     dispatch(setInitializedAC(false));
-    dispatch(logOutAC(false));
+    dispatch(loginAC(false));
+    dispatch(setAppStatusAC('succeeded'));
   } catch (e: any) {
-    const error = e.response ? e.response.data.error : e.message + ', more details in the console';
-    alert(error);
+    dispatch(setCatchErrorAC(e.response.data.error));
+    dispatch(setAppStatusAC('succeeded'));
+  } finally {
+    dispatch(setAppStatusAC('succeeded'));
   }
 };
 
-export const authMe = () => async (dispatch: Dispatch<ActionType>) => {
+export const authMe = () => async (dispatch: Dispatch<ActionAuthType>) => {
   try {
-    await authApi.authMe();
+    const respons = await authApi.authMe();
     dispatch(loginAC(true));
+    dispatch(setAppStatusAC('loading'));
+    dispatch(
+      getProfileAC(
+        respons.data._id,
+        respons.data.email,
+        respons.data.name,
+        respons.data.avatar,
+        respons.data.publicCardPacksCount
+      )
+    );
+    dispatch(setAppStatusAC('succeeded'));
   } catch (e: any) {
-    const error = e.response ? e.response.data.error : e.message + ', more details in the console';
-    alert(error);
+    dispatch(loginAC(false));
+    dispatch(setCatchErrorAC(e.response.data.error));
+    dispatch(setAppStatusAC('succeeded'));
   }
 };
 
 export const thunkUpdateUser =
-  (name: string, avatar: string) => (dispatch: Dispatch<ActionType>) => {
-    authApi.updateProfile(name, avatar).then(resp => {
-      dispatch(updatedUserAc(resp.data.updatedUser));
-    });
+  (name: string, avatar: string) => (dispatch: Dispatch<ActionAuthType>) => {
+    dispatch(setAppStatusAC('loading'));
+    authApi
+      .updateProfile(name, avatar)
+      .then(resp => {
+        dispatch(
+          getProfileAC(
+            resp.data.updatedUser._id,
+            resp.data.updatedUser.email,
+            resp.data.updatedUser.name,
+            resp.data.updatedUser.avatar,
+            resp.data.updatedUser.publicCardPacksCount
+          )
+        );
+        dispatch(setAppStatusAC('succeeded'));
+      })
+      .catch((err: AxiosError) => {
+        dispatch(setCatchErrorAC(err.message));
+        dispatch(setAppStatusAC('succeeded'));
+      });
   };
 
 export const forgotPasswordThunk = (email: string) => (dispatch: Dispatch) => {
-  dispatch(setInitializedAC(true));
-  authApi.forgotPassword(email).then(resp => {
-    dispatch(forgotPasswordAc(email));
-    dispatch(setInitializedAC(false));
-  });
+  dispatch(setAppStatusAC('loading'));
+  authApi
+    .forgotPassword(email)
+    .then(resp => {
+      dispatch(forgotPasswordAc(email));
+      dispatch(setAppStatusAC('succeeded'));
+    })
+    .catch((err: AxiosError) => {
+      dispatch(setCatchErrorAC(err.message));
+      dispatch(setAppStatusAC('succeeded'));
+    });
 };
 
 export const createNewPasswordThunk = (password: string, token: string) => (dispatch: Dispatch) => {
+  dispatch(setAppStatusAC('loading'));
   dispatch(setInitializedAC(true));
-  authApi.newPassword(password, token).then(resp => {
-    dispatch(setPassSuccessAC(true));
-    dispatch(setInitializedAC(false));
-  });
+  authApi
+    .newPassword(password, token)
+    .then(resp => {
+      dispatch(setPassSuccessAC(true));
+      dispatch(setInitializedAC(false));
+      dispatch(setAppStatusAC('succeeded'));
+    })
+    .catch((err: AxiosError) => {
+      dispatch(setCatchErrorAC(err.message));
+      dispatch(setAppStatusAC('succeeded'));
+    });
 };
 
 export type Usertype = {
@@ -145,13 +199,15 @@ export type Usertype = {
   rememberMe: boolean;
 };
 
-export type ActionType =
-  | ReturnType<typeof logOutAC>
+export type ActionAuthType =
   | ReturnType<typeof loginAC>
-  | ReturnType<typeof updatedUserAc>
   | ReturnType<typeof setInitializedAC>
   | ReturnType<typeof entityStatusAC>
   | ReturnType<typeof forgotPasswordAc>
-  | ReturnType<typeof setPassSuccessAC>;
+  | ReturnType<typeof setPassSuccessAC>
+  | ReturnType<typeof errorMessagesAC>
+  | ReturnType<typeof getProfileAC>
+  | ReturnType<typeof setAppStatusAC>
+  | ReturnType<typeof setCatchErrorAC>;
 
 type InitialStateType = typeof initialState;

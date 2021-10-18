@@ -1,0 +1,18 @@
+.cards-pack {
+  &__select {
+    display: flex;
+    align-items: center;
+
+    &-input {
+      margin: 0 2px !important;
+    }
+  }
+  &__select-title {
+    font-family: 'Lato';
+    margin: 0 5px 0 36px;
+    &_end {
+      font-family: 'Lato';
+      margin: 0 0 0 5px;
+    }
+  }
+}

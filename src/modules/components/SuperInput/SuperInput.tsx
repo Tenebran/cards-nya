@@ -19,6 +19,7 @@ type SuperInputTextPropsType = DefaultInputPropsType & {
   type?: string;
   onChangeCall?: (e: ChangeEvent<HTMLInputElement>) => void;
   value: string;
+  width?: string;
 };
 
 const SuperInput: React.FC<SuperInputTextPropsType> = ({
@@ -33,6 +34,7 @@ const SuperInput: React.FC<SuperInputTextPropsType> = ({
   type,
   onChangeCall,
   value,
+  width,
   ...restProps // все остальные пропсы попадут в объект restProps
 }) => {
   const onChangeCallback = (e: ChangeEvent<HTMLInputElement>) => {
@@ -64,6 +66,7 @@ const SuperInput: React.FC<SuperInputTextPropsType> = ({
           onChange={onChangeCallback}
           onKeyPress={onKeyPressCallback}
           value={value}
+          style={{ width: width }}
           {...restProps}
         />
         <label htmlFor="name" className="form__label">
