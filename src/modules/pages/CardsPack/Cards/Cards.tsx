@@ -66,7 +66,7 @@ export const Cards = () => {
   const cards = useSelector<AppStoreType, Array<CardsType>>(state => state.cards.cards);
   const cardsCurrentPage = useSelector<AppStoreType, number>(state => state.cards.cardsTotalCount);
   const cardspage = useSelector<AppStoreType, number>(state => state.cards.pageCount);
-  const [selectPage, setSelectPage] = useState<number>(8);
+  const [selectPage, setSelectPage] = useState<number>(6);
   const { id: userId } = useParams<{ id: string }>();
   const myId2 = useSelector<AppStoreType, string>(state => state.cards.packUserId);
   const currentPageNumber = useSelector<AppStoreType, number>(state => state.cards.page);
@@ -89,6 +89,8 @@ export const Cards = () => {
 
   const handleChange = useCallback(
     (event: object, value: number) => {
+      dispatch(getUsersCards(userId));
+      dispatch(getCardsPageCount(selectPage));
       dispatch(changeCardsPage(value));
       dispatch(cardsTC());
     },
@@ -98,6 +100,8 @@ export const Cards = () => {
   const handleChangePage = useCallback(
     (event: SelectChangeEvent) => {
       setSelectPage(parseInt(event.target.value));
+      dispatch(getUsersCards(userId));
+      dispatch(getCardsPageCount(selectPage));
       dispatch(getCardsPageCount(parseInt(event.target.value)));
       dispatch(cardsTC());
     },
@@ -189,7 +193,7 @@ export const Cards = () => {
           />
         )}
         <div className="cards-pack__wrapper">
-          <div className="cards__wrapper_table">
+          <div className="cards-pack__wrapper_table cards__wrapper_table">
             <Link to={PATH.PACK_LIST} className="card__wrapper">
               <LeftArrowIcon />
               <div className="card__wrapper__title">Pack</div>

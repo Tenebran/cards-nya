@@ -19,3 +19,50 @@
   padding: 24px 48px;
   border-radius: 10px;
 }
+
+.cards__wrapper_table::-webkit-scrollbar {
+  width: 0px;
+  height: 5px;
+}
+
+.cards__wrapper_table::-webkit-scrollbar-track {
+  background: rgb(195, 177, 223);
+  border-radius: 5px;
+}
+
+.cards__wrapper_table::-webkit-scrollbar-thumb {
+  background: rgb(111, 96, 245);
+  border-radius: 5px;
+}
+.cards__wrapper_table::-webkit-scrollbar-thumb:hover {
+  background: rgb(100, 100, 100);
+  border-radius: 5px;
+}
+.cards__wrapper_table::-webkit-scrollbar-thumb:active {
+  background: rgb(68, 68, 68);
+  border-radius: 10px;
+}
+
+.MuiTouchRipple-root {
+  color: #21268f !important;
+}
+
+.MuiButtonBase-root {
+  color: #21268f !important;
+  font-weight: 400 !important;
+  font-size: 18px !important;
+}
+
+.Mui-selected {
+  color: #fff !important;
+}
+
+.MuiPaginationItem-page.Mui-selected {
+  background-color: #21268f !important;
+  color: #fff;
+  border-radius: 5px;
+}
+
+.cards__wrapper_table {
+  position: relative;
+}
