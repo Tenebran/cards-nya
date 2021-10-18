@@ -12,9 +12,11 @@ export const CardsPackSearch = (props: CardsPackPropsSearch) => {
   };
 
   const addNewCardsPackValue = () => {
-    props.addNewPackHandler(newPackName);
-    setPopUp(false);
-    setNewPackName('');
+    if (props.addNewPackHandler) {
+      props.addNewPackHandler(newPackName);
+      setPopUp(false);
+      setNewPackName('');
+    }
   };
 
   return (
@@ -46,12 +48,14 @@ export const CardsPackSearch = (props: CardsPackPropsSearch) => {
             Search
           </button>
         </div>
-        <SuperButton
-          name="Add new pack"
-          buttonWidth="266px"
-          onClickHandler={popUpOpenHandler}
-          className="superButton__default"
-        />
+        {props.addNewPackHandler && (
+          <SuperButton
+            name="Add new pack"
+            buttonWidth="266px"
+            onClickHandler={popUpOpenHandler}
+            className="superButton__default"
+          />
+        )}
       </div>
     </>
   );
@@ -61,6 +65,6 @@ type CardsPackPropsSearch = {
   inputValue: string;
   onChangeCallback: (e: ChangeEvent<HTMLInputElement>) => void;
   onSearchClick: () => void;
-  addNewPackHandler: (name: string) => void;
+  addNewPackHandler?: (name: string) => void;
   deleteHandler?: () => void;
 };

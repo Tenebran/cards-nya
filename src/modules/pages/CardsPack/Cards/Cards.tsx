@@ -1,5 +1,5 @@
 import { SelectChangeEvent } from '@mui/material';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect, useParams } from 'react-router-dom';
 import { LeftArrowIcon } from '../../../common/IconComponents/LeftArrowIcon';
@@ -15,10 +15,12 @@ import {
   deleteCardTC,
   getCardsPageCount,
   getUsersCards,
+  seacrhCardsNameAC,
   updateCardsTC,
 } from '../../../redux/reducers/cardsReducer';
 import { AppStoreType } from '../../../redux/store';
 import { PATH } from '../../../routes/Routes';
+import { CardsPackSearch } from '../CardsPackSearch/CardsPackSearch';
 import './Cards.scss';
 import { CardsPopUp } from './CardsPopUp/CardsPopUp';
 
@@ -62,6 +64,7 @@ const EditPopUp = {
 };
 
 export const Cards = () => {
+  const [inputValue, setInputalue] = useState<string>('');
   const dispatch = useDispatch();
   const cards = useSelector<AppStoreType, Array<CardsType>>(state => state.cards.cards);
   const cardsCurrentPage = useSelector<AppStoreType, number>(state => state.cards.cardsTotalCount);
@@ -163,6 +166,16 @@ export const Cards = () => {
   if (!isLoggedIn) {
     return <Redirect to={PATH.LOGIN} />;
   }
+  const onChangeCallback = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputalue(e.currentTarget.value);
+  };
+
+  const onSearchClick = () => {
+    dispatch(seacrhCardsNameAC(inputValue));
+    dispatch(getUsersCards(userId));
+    dispatch(getCardsPageCount(selectPage));
+    dispatch(cardsTC());
+  };
 
   return (
     <>
@@ -199,8 +212,13 @@ export const Cards = () => {
               <div className="card__wrapper__title">Pack</div>
             </Link>
             <div className="cards-pack__search">
-              <input placeholder="Search..." className="cards-pack__search__input" />
-
+              <div className="card__search-input">
+                <CardsPackSearch
+                  inputValue={inputValue}
+                  onChangeCallback={onChangeCallback}
+                  onSearchClick={onSearchClick}
+                />
+              </div>
               {myId2 === myCardsId ? (
                 <SuperButton
                   name="Add card"

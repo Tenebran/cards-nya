@@ -1,9 +1,9 @@
 import { instance } from './api';
 
 export const cardsApi = {
-  getCards(packId: string, currentPage: number, pageCount: number) {
+  getCards(packId: string, currentPage: number, pageCount: number, searchCards: string) {
     return instance.get<GetCards>(
-      `cards/card?cardsPack_id=${packId}&pageCount=${pageCount}&page=${currentPage}`
+      `cards/card?cardsPack_id=${packId}&pageCount=${pageCount}&page=${currentPage}&cardAnswer=${searchCards}`
     );
   },
   postCards(cardsPack_id: string, question: string, answer: string) {

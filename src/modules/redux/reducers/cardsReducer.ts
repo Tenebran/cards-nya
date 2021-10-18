@@ -3,7 +3,7 @@ import { Dispatch } from 'redux';
 import { cardsApi } from '../../api/cardsApi';
 import { CardsType } from '../../pages/CardsPack/Cards/Cards';
 import { AppStoreType, ThunkType } from '../store';
-import { setAppStatusAC, setCatchErrorAC } from './appReducer';
+import { appReducer, setAppStatusAC, setCatchErrorAC } from './appReducer';
 
 const initialState = {
   cards: [
@@ -32,6 +32,7 @@ const initialState = {
   pageCount: 0,
   cardId: '',
   cardGrade: 0,
+  searchCards: '',
 };
 
 export const cardsReducer = (
@@ -72,6 +73,11 @@ export const cardsReducer = (
         ...state,
         cardGrade: action.cardGrade,
       };
+    case 'CARDS/SEARCH_CARDS':
+      return {
+        ...state,
+        searchCards: action.CardsName,
+      };
     default:
       return state;
   }
@@ -89,6 +95,10 @@ export const setCurrentCardIdAC = (cardId: string) => {
     type: 'CARDS/SET_CURRENT_CARD_ID',
     cardId,
   } as const;
+};
+
+export const seacrhCardsNameAC = (CardsName: string) => {
+  return { type: 'CARDS/SEARCH_CARDS', CardsName } as const;
 };
 
 export const updateCardsAc = (
@@ -139,7 +149,7 @@ export const cardsTC = () => (dispatch: Dispatch, getState: () => AppStoreType) 
   dispatch(setAppStatusAC('loading'));
   const appstate = getState().cards;
   cardsApi
-    .getCards(appstate.packUserId, appstate.page, appstate.pageCount)
+    .getCards(appstate.packUserId, appstate.page, appstate.pageCount, appstate.searchCards)
     .then(resolve => {
       let res = resolve.data;
       dispatch(
@@ -170,7 +180,7 @@ export const getCardsTC =
     const pageCount = cards.pageCount;
 
     cardsApi
-      .getCards(packId, currentPage, pageCount)
+      .getCards(packId, currentPage, pageCount, cards.searchCards)
       .then(res => {
         dispatch(getCardsAC(res.data.cards));
         dispatch(getUsersCards(res.data.packUserId));
@@ -270,6 +280,7 @@ export type ActionCardsType =
   | ReturnType<typeof updateCardsAc>
   | ReturnType<typeof setCurrentCardIdAC>
   | ReturnType<typeof setCurrentCardGradeAC>
-  | ReturnType<typeof setCatchErrorAC>;
+  | ReturnType<typeof setCatchErrorAC>
+  | ReturnType<typeof seacrhCardsNameAC>;
 
 export type InitialStateType = typeof initialState;
