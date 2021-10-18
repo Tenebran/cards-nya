@@ -3,7 +3,7 @@ import { Dispatch } from 'redux';
 import { cardsApi } from '../../api/cardsApi';
 import { CardsType } from '../../pages/CardsPack/Cards/Cards';
 import { AppStoreType, ThunkType } from '../store';
-import { appReducer, setAppStatusAC, setCatchErrorAC } from './appReducer';
+import { setAppStatusAC, setCatchErrorAC } from './appReducer';
 
 const initialState = {
   cards: [

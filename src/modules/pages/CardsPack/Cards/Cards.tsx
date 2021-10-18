@@ -97,7 +97,7 @@ export const Cards = () => {
       dispatch(changeCardsPage(value));
       dispatch(cardsTC());
     },
-    [dispatch]
+    [dispatch, selectPage, userId]
   );
 
   const handleChangePage = useCallback(
@@ -108,7 +108,7 @@ export const Cards = () => {
       dispatch(getCardsPageCount(parseInt(event.target.value)));
       dispatch(cardsTC());
     },
-    [dispatch]
+    [dispatch, userId, selectPage]
   );
 
   const deletePackHandler = useCallback(
@@ -131,19 +131,18 @@ export const Cards = () => {
     [dispatch, userId, selectPage]
   );
 
-  const popUpOpenAdd = () => {
+  const popUpOpenAdd = useCallback(() => {
     popUpAdd === false ? setPopUpAdd(true) : setPopUpAdd(false);
-  };
+  }, [popUpAdd]);
 
-  const popUpOpenEd = () => {
+  const popUpOpenEd = useCallback(() => {
     popUpEdit === false ? setPopUpEdit(true) : setPopUpEdit(false);
-  };
+  }, [popUpEdit]);
 
   const popUpOpenEdit = (id: string, editQuestiond: string, editAnswer: string) => {
     setEditID(id);
     seteditQuestion(editQuestiond);
     setEditAnswer(editAnswer);
-    console.log(editQuestion);
     popUpEdit === false ? setPopUpEdit(true) : setPopUpEdit(false);
   };
 
@@ -154,14 +153,14 @@ export const Cards = () => {
     popUpOpenAdd();
     setQuestion('');
     setAnswer('');
-  }, [dispatch, userId, question, answer, popUpOpenAdd]);
+  }, [dispatch, userId, question, answer, selectPage, popUpOpenAdd]);
 
   const editCardsPackValue = useCallback(() => {
     dispatch(getUsersCards(userId));
     dispatch(getCardsPageCount(selectPage));
     dispatch(updateCardsTC(editID, editQuestion, editAnswer));
     popUpOpenEd();
-  }, [dispatch, userId, question, answer, popUpOpenEd]);
+  }, [dispatch, popUpOpenEd, editAnswer, editQuestion, editID, selectPage, userId]);
 
   if (!isLoggedIn) {
     return <Redirect to={PATH.LOGIN} />;
@@ -221,7 +220,7 @@ export const Cards = () => {
               </div>
               {myId2 === myCardsId ? (
                 <SuperButton
-                  name="Add card"
+                  name="Add new card"
                   buttonWidth="266px"
                   className="superButton__default"
                   onClickHandler={popUpOpenAdd}

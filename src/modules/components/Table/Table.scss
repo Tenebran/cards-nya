@@ -2,6 +2,14 @@
   &__pagination {
     display: flex;
   }
+  &__empty {
+    font-size: 16px;
+    opacity: 0.6;
+    min-height: 75%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
   &__td {
     font-size: 13px;

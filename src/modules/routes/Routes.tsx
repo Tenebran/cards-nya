@@ -38,7 +38,7 @@ export const Routes = () => {
       <Route path={PATH.PACK_LIST} component={CardsPack} />
       <Route path={PATH.CARDS} component={Cards} />
       <Route path={PATH.CARDS_LEARN} component={CardsLearn} />
-      <Route component={PageNotFound} />
+      <Route exact path={'*'} component={PageNotFound} />
     </Switch>
   );
 };

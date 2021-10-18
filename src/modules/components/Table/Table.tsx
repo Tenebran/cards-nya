@@ -71,27 +71,32 @@ export const Table = (props: FormPropsType) => {
       ) : (
         ''
       )}
-
-      <table className="table" style={{ borderCollapse: 'collapse' }}>
-        <TableHead tableTitle={props.tableTitle} />
-        <TableBody
-          CardsPack={props.CardsPack}
-          popUpOpenDeleteHandler={popUpOpenDeleteHandler}
-          popUpOpenEditHandler={popUpOpenEditHandler}
-          myCardsId={props.myCardsId}
-          tableTitle={props.tableTitle}
-          popUpOpenEditCardsHandler={props.popUpOpenEdit}
-        />
-      </table>
-
-      <TablePagination
-        currentPage={props.currentPage}
-        page={props.page}
-        handleChange={props.handleChange}
-        selectPage={props.selectPage}
-        handleChangePage={props.handleChangePage}
-        currentPageNumber={props.currentPageNumber}
-      />
+      {props.CardsPack.length !== 0 ? (
+        <>
+          {' '}
+          <table className="table" style={{ borderCollapse: 'collapse' }}>
+            <TableHead tableTitle={props.tableTitle} />
+            <TableBody
+              CardsPack={props.CardsPack}
+              popUpOpenDeleteHandler={popUpOpenDeleteHandler}
+              popUpOpenEditHandler={popUpOpenEditHandler}
+              myCardsId={props.myCardsId}
+              tableTitle={props.tableTitle}
+              popUpOpenEditCardsHandler={props.popUpOpenEdit}
+            />
+          </table>
+          <TablePagination
+            currentPage={props.currentPage}
+            page={props.page}
+            handleChange={props.handleChange}
+            selectPage={props.selectPage}
+            handleChangePage={props.handleChangePage}
+            currentPageNumber={props.currentPageNumber}
+          />{' '}
+        </>
+      ) : (
+        <div className="table__empty">This pack is empty. Click add new card to fill this pack</div>
+      )}
     </>
   );
 };

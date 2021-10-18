@@ -20,12 +20,6 @@ const AddPopUp = {
   PopUpInput2: 'Add Answer',
 };
 
-const EditPopUp = {
-  PopUpTitle: 'Edit Cards',
-  PopUpInput1: 'Edit Question',
-  PopUpInput2: 'Edit Answer',
-};
-
 export const ProfileInfo = (props: PropsType) => {
   const [popUpAdd, setPopUpAdd] = useState<boolean>(false);
   const [profileName, setProfileName] = useState<string>(props.profie.name);
