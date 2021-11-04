@@ -128,7 +128,6 @@ export const authMe = () => async (dispatch: Dispatch<ActionAuthType>) => {
     dispatch(setAppStatusAC('succeeded'));
   } catch (e: any) {
     dispatch(loginAC(false));
-    dispatch(setCatchErrorAC(e.response.data.error));
     dispatch(setAppStatusAC('succeeded'));
   }
 };

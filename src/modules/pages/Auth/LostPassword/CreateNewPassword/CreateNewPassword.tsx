@@ -48,44 +48,40 @@ export const CreateNewPassword = () => {
 
   return (
     <form className="create">
-      {!initialized ? (
-        <Loader />
-      ) : (
-        <div className="create__wrapper">
-          <h2 className="create__title">It-Incubator</h2>
-          <span className="create__subtitle">Create new password</span>
-          <div style={validatePasswordStyles(pass)} className="login__password">
-            <img
-              onClick={changeViewPassword}
-              alt="password"
-              src={openPassword ? eye : closedEye}
-              className="login__password__eye"
-            />
-            <SuperEditableSpan
-              value={pass}
-              onChangeText={setPass}
-              spanProps={{ children: pass ? undefined : 'Password' }}
-              inputName="Password"
-              type={openPassword ? 'passwordText' : 'Password'}
-              valuepass={'Password'}
-              onChange={passwordTarget}
-            />
-            {passwordErrorMessage(pass)}
-          </div>
-          <div className="create__info">
-            Create new password and we will send you further instructions to email
-          </div>
-
-          <SuperButton
-            name="Create new password"
-            buttonWidth="266px"
-            onClickHandler={onClickHandler}
-            entityStatus={entityStatus}
-            disabledBtn={disabledBtn}
-            className="superButton__default"
+      <div className="create__wrapper">
+        <h2 className="create__title">It-Incubator</h2>
+        <span className="create__subtitle">Create new password</span>
+        <div style={validatePasswordStyles(pass)} className="login__password">
+          <img
+            onClick={changeViewPassword}
+            alt="password"
+            src={openPassword ? eye : closedEye}
+            className="login__password__eye"
           />
+          <SuperEditableSpan
+            value={pass}
+            onChangeText={setPass}
+            spanProps={{ children: pass ? undefined : 'Password' }}
+            inputName="Password"
+            type={openPassword ? 'passwordText' : 'Password'}
+            valuepass={'Password'}
+            onChange={passwordTarget}
+          />
+          {passwordErrorMessage(pass)}
         </div>
-      )}
+        <div className="create__info">
+          Create new password and we will send you further instructions to email
+        </div>
+
+        <SuperButton
+          name="Create new password"
+          buttonWidth="266px"
+          onClickHandler={onClickHandler}
+          entityStatus={entityStatus}
+          disabledBtn={disabledBtn}
+          className="superButton__default"
+        />
+      </div>
     </form>
   );
 };
