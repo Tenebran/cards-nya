@@ -16,9 +16,9 @@ function App() {
     dispatch(initializeAppThunk());
   }, [dispatch, initialized]);
 
-  // if (!initialized) {
-  //   return <InitializedLoader />;
-  // }
+  if (!initialized) {
+    return <InitializedLoader />;
+  }
 
   return (
     <HashRouter>

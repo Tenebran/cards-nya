@@ -23,15 +23,15 @@ import { RequestStatusType } from '../../../redux/reducers/appReducer';
 
 export const Login = () => {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector<AppStoreType, boolean>(state => state.user.authMe);
-  const entityStatus = useSelector<AppStoreType, boolean>(state => state.user.entityStatus);
+  const isLoggedIn = useSelector<AppStoreType, boolean>((state) => state.user.authMe);
+  const entityStatus = useSelector<AppStoreType, boolean>((state) => state.user.entityStatus);
   const [openPassword, setOpenPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const [disabledBtn, setDisabledBtn] = useState(true);
   const value = '';
-  const appStatus = useSelector<AppStoreType, RequestStatusType>(state => state.app.status);
+  const appStatus = useSelector<AppStoreType, RequestStatusType>((state) => state.app.status);
 
   const changeViewPassword = () => {
     setOpenPassword(!openPassword);
@@ -64,7 +64,7 @@ export const Login = () => {
       <form>
         <div className="login__wrapper">
           {appStatus === 'loading' ? <Preloader /> : ''}
-          <h2 className="forgot__title">It-Incubator</h2>
+          <h2 className="forgot__title">Cards-nya</h2>
           <span className="forgot__subtitle">Sing In</span>
           <div>
             <div style={validateEmailStyles(email)}>

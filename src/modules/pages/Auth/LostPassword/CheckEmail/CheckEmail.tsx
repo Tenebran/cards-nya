@@ -7,8 +7,8 @@ import { PATH } from '../../../../routes/Routes';
 import './CheckEmail.scss';
 
 export const CheckEmail = () => {
-  const email = useSelector<AppStoreType, string>(state => state.user.userEmail);
-  const isLoggedIn = useSelector<AppStoreType, boolean>(state => state.user.authMe);
+  const email = useSelector<AppStoreType, string>((state) => state.user.userEmail);
+  const isLoggedIn = useSelector<AppStoreType, boolean>((state) => state.user.authMe);
 
   if (email === '') {
     return <Redirect to={PATH.LOGIN} />;
@@ -21,7 +21,7 @@ export const CheckEmail = () => {
   return (
     <div className="Check">
       <div className="Check__wrapper">
-        <h2 className="Check__title">It-Incubator</h2>
+        <h2 className="Check__title">Cards-nya</h2>
         <MessageIcon />
         <span className="Check__subtitle">Check Email?</span>
         <div className="Check__info">

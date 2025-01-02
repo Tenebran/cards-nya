@@ -23,8 +23,10 @@ import { RequestStatusType } from '../../../redux/reducers/appReducer';
 
 export const Registration = () => {
   const dispatch = useDispatch();
-  const authoriseMe = useSelector<AppStoreType, boolean>(state => state.registration.authoriseMe);
-  const entityStatus = useSelector<AppStoreType, boolean>(state => state.registration.entityStatus);
+  const authoriseMe = useSelector<AppStoreType, boolean>((state) => state.registration.authoriseMe);
+  const entityStatus = useSelector<AppStoreType, boolean>(
+    (state) => state.registration.entityStatus
+  );
   const [openPassword, setOpenPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -32,8 +34,8 @@ export const Registration = () => {
   const [disabledBtn, setDisabledBtn] = useState(true);
   const [returnToLogin, setReturnToLogin] = useState(false);
   const value = '';
-  const isLoggedIn = useSelector<AppStoreType, boolean>(state => state.user.authMe);
-  const appStatus = useSelector<AppStoreType, RequestStatusType>(state => state.app.status);
+  const isLoggedIn = useSelector<AppStoreType, boolean>((state) => state.user.authMe);
+  const appStatus = useSelector<AppStoreType, RequestStatusType>((state) => state.app.status);
 
   const emailTarget = (e: ChangeEvent<HTMLInputElement>) => {
     setDisabledBtn(
@@ -87,7 +89,7 @@ export const Registration = () => {
       <form>
         <div className="login__wrapper">
           {appStatus === 'loading' ? <Preloader /> : ''}
-          <h2 className="forgot__title">It-Incubator</h2>
+          <h2 className="forgot__title">Cards-nya</h2>
           <span className="forgot__subtitle">Sign Up</span>
           <div>
             <div style={validateEmailStyles(email)}>

@@ -11,10 +11,10 @@ import { PATH } from '../../../routes/Routes';
 import './LostPassword.scss';
 
 export const LostPassword = () => {
-  const statusSend = useSelector<AppStoreType, boolean>(state => state.user.statusSend);
+  const statusSend = useSelector<AppStoreType, boolean>((state) => state.user.statusSend);
   const [email, setEmail] = useState<string>('');
-  const isLoggedIn = useSelector<AppStoreType, boolean>(state => state.user.authMe);
-  const appStatus = useSelector<AppStoreType, RequestStatusType>(state => state.app.status);
+  const isLoggedIn = useSelector<AppStoreType, boolean>((state) => state.user.authMe);
+  const appStatus = useSelector<AppStoreType, RequestStatusType>((state) => state.app.status);
   const dispatch = useDispatch();
 
   if (statusSend) {
@@ -27,7 +27,6 @@ export const LostPassword = () => {
 
   const resetPasswordHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    console.log(email);
     dispatch(forgotPasswordThunk(email));
   };
 
@@ -35,7 +34,7 @@ export const LostPassword = () => {
     <form className="forgot">
       <div className="forgot__wrapper">
         {appStatus === 'loading' ? <Preloader /> : ''}
-        <h2 className="forgot__title">It-Incubator</h2>
+        <h2 className="forgot__title">Cards-nya</h2>
         <span className="forgot__subtitle">Forgot your password?</span>
         <div>
           <SuperEditableSpan

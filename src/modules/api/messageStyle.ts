@@ -133,7 +133,7 @@ export const resetEmailApi = `<html>
                     border: none;
                   "
                 >
-                  IT-Incubator
+                   Cards-nya
                 </h1>
               </a>
             </td>

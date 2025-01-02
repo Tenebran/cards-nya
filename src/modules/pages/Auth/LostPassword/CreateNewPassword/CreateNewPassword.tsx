@@ -13,17 +13,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createNewPasswordThunk } from '../../../../redux/reducers/authReducer';
 import { AppStoreType } from '../../../../redux/store';
 import { PATH } from '../../../../routes/Routes';
-import { Loader } from '../../../../components/Loader/Loader';
 
 export const CreateNewPassword = () => {
-  const initialized = useSelector<AppStoreType, boolean>(state => state.user.authMe);
   const [pass, setPass] = useState<string>('');
   const { token } = useParams<{ token: string }>();
   const [openPassword, setOpenPassword] = useState(false);
   const dispatch = useDispatch();
 
-  const newPassSuccess = useSelector<AppStoreType, boolean>(state => state.user.newPassSuccess);
-  const entityStatus = useSelector<AppStoreType, boolean>(state => state.user.entityStatus);
+  const newPassSuccess = useSelector<AppStoreType, boolean>((state) => state.user.newPassSuccess);
+  const entityStatus = useSelector<AppStoreType, boolean>((state) => state.user.entityStatus);
   const [disabledBtn, setDisabledBtn] = useState(true);
 
   const changeViewPassword = () => {
@@ -40,6 +38,7 @@ export const CreateNewPassword = () => {
     dispatch(createNewPasswordThunk(pass, token));
     setPass('');
     setDisabledBtn(true);
+    console.log(token);
   };
 
   if (newPassSuccess) {
@@ -49,7 +48,7 @@ export const CreateNewPassword = () => {
   return (
     <form className="create">
       <div className="create__wrapper">
-        <h2 className="create__title">It-Incubator</h2>
+        <h2 className="create__title">Cards-nya</h2>
         <span className="create__subtitle">Create new password</span>
         <div style={validatePasswordStyles(pass)} className="login__password">
           <img
